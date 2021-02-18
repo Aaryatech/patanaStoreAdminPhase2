@@ -1495,6 +1495,7 @@ List<GetPODetail> poDetailForEditMrn=new ArrayList<GetPODetail>();
 				//----------------------------Inv No---------------------------------
 				List<OfficeMrnDetail> mrnDetailList = new ArrayList<OfficeMrnDetail>();
 
+				mrnHeader.setMrnNo(grnNo);
 				mrnHeader.setBillDate(DateConvertor.convertToYMD(billDate));
 				mrnHeader.setBillNo(billNo);
 				mrnHeader.setDelStatus(Constants.delStatus);
@@ -1547,7 +1548,7 @@ List<GetPODetail> poDetailForEditMrn=new ArrayList<GetPODetail>();
 
 						mrnDetail.setMrnQtyBeforeEdit(-1);
 						mrnDetail.setRemainingQty(mrnDetail.getMrnQty());
-						mrnDetail.setApproveQty(mrnDetail.getMrnQty());
+						mrnDetail.setApproveQty(0);
 						mrnDetail.setExInt1(0);
 						mrnDetail.setExInt2(0);
 						mrnDetail.setExVar1("NA");
@@ -1992,7 +1993,7 @@ List<GetPODetail> poDetailForEditMrn=new ArrayList<GetPODetail>();
 		
 		
 		@RequestMapping(value = { "/saveOfficeMrnToMrnProcess" }, method = RequestMethod.POST)
-		public ModelAndView saveOfficeMrnToMrnProcess (HttpServletRequest request, HttpServletResponse response) {
+		public String saveOfficeMrnToMrnProcess (HttpServletRequest request, HttpServletResponse response) {
 
 			OfficeMrnHeader mrnHeaderRes = null; 
 			ModelAndView model = new ModelAndView("mrn/viewofficemrn");
@@ -2057,7 +2058,7 @@ List<GetPODetail> poDetailForEditMrn=new ArrayList<GetPODetail>();
 
 						OfficeMrnDetail mrnDetail = new OfficeMrnDetail();
 
-						mrnDetail.setMrnDetailId(0);
+						mrnDetail.setMrnDetailId(detail.getMrnDetailId());
 						mrnDetail.setMrnId(0);
 
 						mrnDetail.setMrnQty(detail.getMrnQty());
@@ -2076,7 +2077,7 @@ List<GetPODetail> poDetailForEditMrn=new ArrayList<GetPODetail>();
 						mrnDetail.setRejectQty(detail.getRejectQty());
 						mrnDetail.setRejectRemark(detail.getRejectRemark());
 						mrnDetail.setIssueQty(detail.getIssueQty());
-						mrnDetail.setRemainingQty(detail.getMrnQty()-Float.parseFloat(ofcRecQty)); 
+						mrnDetail.setRemainingQty(Float.parseFloat(ofcRecQty)); 
 						mrnDetail.setMrnQtyBeforeEdit(detail.getMrnQtyBeforeEdit());
 						
 						mrnDetail.setExInt1(0);
@@ -2091,23 +2092,43 @@ List<GetPODetail> poDetailForEditMrn=new ArrayList<GetPODetail>();
 				}
 
 				mrnHeader.setMrnDetailList(editMrnDetailList);
-
-				System.err.println("Mrn Header  bean generated  " + mrnHeader.toString());
-
+			
 				RestTemplate restTemp = new RestTemplate();
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 
-				 mrnHeaderRes = restTemp.postForObject(Constants.url + "/saveMrnHeadAndDetail", mrnHeader,
+				 mrnHeaderRes = restTemp.postForObject(Constants.url + "/saveOffictMrnToMrnHeadAndDetail", mrnHeader,
 						 OfficeMrnHeader.class);
 
-				System.err.println("mrnHeaderRes " + mrnHeaderRes.toString());
-
+				 map = new LinkedMultiValueMap<String, Object>();
+				 map.add("ofcMrnHeadId", Integer.parseInt(request.getParameter("mrnId")));
+				 OfficeMrnDetail[] officeMrnArr = restTemp.postForObject(Constants.url + "/getOfficeMrnDtlByHeadId", map,
+						 OfficeMrnDetail[].class);
+				 
+				 List<OfficeMrnDetail> officeMrnList = new ArrayList<>(Arrays.asList(officeMrnArr));
+				
+				int mrnHeadStatus = 0;
+				 for (int i = 0; i < officeMrnList.size(); i++) {
+					 
+					if(officeMrnList.get(i).getMrnDetailStatus()==2) {
+						
+						mrnHeadStatus = 2;	
+					}else {
+						mrnHeadStatus = 1;	
+					}
+				}
+				 
+				 map = new LinkedMultiValueMap<String, Object>();
+				 map.add("mrnId", Integer.parseInt(request.getParameter("mrnId")));
+				 map.add("status", mrnHeadStatus);
+				 ErrorMessage approved = rest.postForObject(Constants.url + "/updateMrnHeadStatus", map, ErrorMessage.class);
+				 
 			} catch (Exception e) {
 
 				System.err.println("Exception in insertMrnProcess " + e.getMessage());
 				e.printStackTrace();
 
 			}
-			return model;
+			return "redirect:/getOfficeMrnHeaders";
 			
 		}
 }

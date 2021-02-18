@@ -204,6 +204,8 @@ body {
 						<div class="box-content">
 							<form action="${pageContext.request.contextPath}/saveOfficeMrnToMrnProcess" method="post"
 								class="form-horizontal" id="validation-form">
+								
+								<input type="hidden" value="${mrnHeader.mrnId}" name="mrnId" id="mrnId">
 
 								<div class="form-group">
 									<label class="col-md-2">MRN Type </label>
@@ -242,7 +244,7 @@ body {
 									<label class="col-md-2">MRN No </label>
 									<div class="col-md-3">
 										<input type="text" name="grn_no" id="grn_no"
-										 class="form-control"
+										 class="form-control" value="${mrnHeader.mrnNo}"
 											placeholder="GRN No" data-rule-required="true"
 											readonly="readonly" />
 									</div>
@@ -407,7 +409,7 @@ body {
 																id="ofcRecQty${mrnDetail.mrnDetailId}"
 																onchange="validateMrnQty(this.value,${mrnDetail.mrnQty})"
 																name="ofcRecQty${mrnDetail.mrnDetailId}"
-																value="${mrnDetail.mrnQty}"></td>
+																value="${mrnDetail.remainingQty}"></td>
 
 															<td class="col-md-1"><c:out
 																	value="${mrnDetail.poNo}" /></td>
@@ -532,7 +534,7 @@ body {
 		src="${pageContext.request.contextPath}/resources/assets/jquery-validation/dist/additional-methods.min.js"></script>
 
 	<script type="text/javascript">
-			function getInvoiceNo() {
+			/* function getInvoiceNo() {
 
 				var date = $("#grn_date").val();
 				var catId = $("#grn_type").val();
@@ -551,7 +553,7 @@ body {
 
 				});
 
-			}
+			} */
 		
 	
 	function validateMrnQty(currQty, remQty){
