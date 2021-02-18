@@ -2,10 +2,10 @@
 	pageEncoding="UTF-8"%><%@ taglib
 	uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-	 
- <link rel="stylesheet" type="text/css"
+
+<link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/resources/assets/bootstrap-datepicker/css/datepicker.css" />
-	<body onload="disabledDate()">
+<body onload="disabledDate()">
 	<script type="text/javascript">
 	 function disabledDate () {
 		 var c = document.getElementById("stockDateDDMMYYYY").value; 
@@ -25,14 +25,17 @@
 	 }
  
  </script>
-	<c:url var="qtyValidationFromBatchInEdit" value="/qtyValidationFromBatchInEdit"></c:url>
-	  <c:url var="getBatchByItemIdInIssueEdit" value="/getBatchByItemIdInIssueEdit"></c:url>
-	 <c:url var="getItemIdByGroupId" value="/getItemIdByGroupId"></c:url>
-	  <c:url var="getSubDeptList" value="/getSubDeptList"></c:url>
-	  <c:url var="getItemIdByCatIdInIssue" value="/getItemIdByCatIdInIssue"></c:url>
-<c:url var="addItmeInEditIssueList" value="/addItmeInEditIssueList"></c:url>
+	<c:url var="qtyValidationFromBatchInEdit"
+		value="/qtyValidationFromBatchInEdit"></c:url>
+	<c:url var="getBatchByItemIdInIssueEdit"
+		value="/getBatchByItemIdInIssueEdit"></c:url>
+	<c:url var="getItemIdByGroupId" value="/getItemIdByGroupId"></c:url>
+	<c:url var="getSubDeptList" value="/getSubDeptList"></c:url>
+	<c:url var="getItemIdByCatIdInIssue" value="/getItemIdByCatIdInIssue"></c:url>
+	<c:url var="addItmeInEditIssueList" value="/addItmeInEditIssueList"></c:url>
 	<c:url var="editItemInEditIssueList" value="/editItemInEditIssueList"></c:url>
-	<c:url var="deleteItemFromEditIssueList" value="/deleteItemFromEditIssueList"></c:url>
+	<c:url var="deleteItemFromEditIssueList"
+		value="/deleteItemFromEditIssueList"></c:url>
 
 	<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 
@@ -60,7 +63,8 @@
 						<i class="fa fa-file-o"></i>Add Issue  
 					</h1>
 				</div>
-			</div> --><br>
+			</div> -->
+			<br>
 			<!-- END Page Title -->
 
 			<div class="row">
@@ -69,33 +73,38 @@
 					<div class="box">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-table"></i>Edit Issue  
+								<i class="fa fa-table"></i>Edit Issue
 							</h3>
-							
+
 							<div class="box-tool">
-								  <a href="${pageContext.request.contextPath}/issueList">Issue List</a> <a data-action="collapse" href="#"><i
-									class="fa fa-chevron-up"></i></a>  
+								<a href="${pageContext.request.contextPath}/issueList">Issue
+									List</a> <a data-action="collapse" href="#"><i
+									class="fa fa-chevron-up"></i></a>
 							</div>
-							
+
 						</div>
-						
-						
+
+
 						<div class="box-content">
 
-							<form id="submitMaterialStore" action="${pageContext.request.contextPath}/submitEditIssueReciept" 
-							onsubmit="return confirm('Do you really want to Apply Changes In Issue ?');" method="post" >
-							 
-							
-							<div class="box-content">
-							
-								<div class="col-md-2">Issue No*</div>
+							<form id="submitMaterialStore"
+								action="${pageContext.request.contextPath}/submitEditIssueReciept"
+								onsubmit="return confirm('Do you really want to Apply Changes In Issue ?');"
+								method="post">
+
+
+								<div class="box-content">
+
+									<div class="col-md-2">Issue No*</div>
 									<div class="col-md-3">
-									
-									<input id="issueNo" class="form-control"
-								 placeholder="Issue No" value="${getIssueHeader.issueNo}" name="issueNo" type="text" readonly>
-									<input type="hidden" id="type" name="type" value="${getIssueHeader.itemCategory}">
+
+										<input id="issueNo" class="form-control"
+											placeholder="Issue No" value="${getIssueHeader.issueNo}"
+											name="issueNo" type="text" readonly> <input
+											type="hidden" id="type" name="type"
+											value="${getIssueHeader.itemCategory}">
 									</div>
-									
+
 									<%-- <div class="col-md-2" > Type</div>
 									<div class="col-md-3">
 									
@@ -110,72 +119,89 @@
 										
 										 
 									</div> --%>
-								 
-							</div><br>
-							
-							<div class="box-content">
-							 
-								<div class="col-md-2">Issue Date*</div>
+
+								</div>
+								<br>
+
+								<div class="box-content">
+
+									<div class="col-md-2">Issue Date*</div>
 									<div class="col-md-3">
 										<input id="issueDate" class="form-control"
-								 placeholder="Issue Date" value="${date}"  name="issueDate" type="date" readonly>
-								 
-						<input id="stockDateDDMMYYYY" value="${stockDateDDMMYYYY}" name="stockDateDDMMYYYY" type="hidden"  >
+											placeholder="Issue Date" value="${date}" name="issueDate"
+											type="date" readonly> <input id="stockDateDDMMYYYY"
+											value="${stockDateDDMMYYYY}" name="stockDateDDMMYYYY"
+											type="hidden">
 
 									</div>
-								<div class="col-md-2" >Select Account Head</div>
+									<div class="col-md-2">Select Account Head</div>
 									<div class="col-md-3">
-										<select   class="form-control chosen" name="acc"  id="acc"  required>
-											  
-											<c:forEach items="${accountHeadList}" var="accountHeadList"> 
+										<select class="form-control chosen" name="acc" id="acc"
+											required>
+
+											<c:forEach items="${accountHeadList}" var="accountHeadList">
 												<c:choose>
-													<c:when test="${getIssueHeader.accHead==accountHeadList.accHeadId}">
-													
-													<option value="${accountHeadList.accHeadId}" selected><c:out value="${accountHeadList.accHeadDesc}"></c:out> </option>
+													<c:when
+														test="${getIssueHeader.accHead==accountHeadList.accHeadId}">
+
+														<option value="${accountHeadList.accHeadId}" selected><c:out
+																value="${accountHeadList.accHeadDesc}"></c:out>
+														</option>
 													</c:when>
 													<c:otherwise>
-													<option value="${accountHeadList.accHeadId}"><c:out value="${accountHeadList.accHeadDesc}"></c:out> </option>
+														<option value="${accountHeadList.accHeadId}"><c:out
+																value="${accountHeadList.accHeadDesc}"></c:out>
+														</option>
 													</c:otherwise>
 												</c:choose>
-														 
-											 </c:forEach>
-											</select>
+
+											</c:forEach>
+										</select>
 									</div>
-				 
-							</div><br>
-							
-							<div class="box-content">
-								 
-								 <div class="col-md-2" >Select Department</div>
+
+								</div>
+								<br>
+
+								<div class="box-content">
+
+									<div class="col-md-2">Select Department</div>
 									<div class="col-md-3">
-										<select   class="form-control chosen" name="deptId" onchange="getSubDeptListByDeptId()" id="deptId"  required>
-											<c:forEach items="${deparmentList}" var="deparmentList">  
-											<c:choose>
-												<c:when test="${getIssueHeader.deptId==deparmentList.deptId}">
-												<option value="${deparmentList.deptId}" selected>${deparmentList.deptCode} &nbsp;&nbsp;&nbsp; ${deparmentList.deptDesc} </option>
-												
-												</c:when>
-												<c:otherwise>
-												<option value="${deparmentList.deptId}">${deparmentList.deptCode} &nbsp;&nbsp;&nbsp; ${deparmentList.deptDesc}</option>
-												</c:otherwise>
-											
-											</c:choose>
-											
-														
-											 </c:forEach>
-											</select>
+										<select class="form-control chosen" name="deptId"
+											onchange="getSubDeptListByDeptId()" id="deptId" required>
+											<c:forEach items="${deparmentList}" var="deparmentList">
+												<c:choose>
+													<c:when
+														test="${getIssueHeader.deptId==deparmentList.deptId}">
+														<option value="${deparmentList.deptId}" selected>${deparmentList.deptCode}
+															&nbsp;&nbsp;&nbsp; ${deparmentList.deptDesc}</option>
+
+													</c:when>
+													<c:otherwise>
+														<option value="${deparmentList.deptId}">${deparmentList.deptCode}
+															&nbsp;&nbsp;&nbsp; ${deparmentList.deptDesc}</option>
+													</c:otherwise>
+
+												</c:choose>
+
+
+											</c:forEach>
+										</select>
 									</div>
-									<input id="tempSubDeptId"  value="${getIssueHeader.subDeptId}"  name="tempSubDeptId" type="hidden" required>
-									<div class="col-md-2" >Select Sub Department</div>
+									<input id="tempSubDeptId" value="${getIssueHeader.subDeptId}"
+										name="tempSubDeptId" type="hidden" required>
+									<div class="col-md-2">Select Sub Department</div>
 									<div class="col-md-3">
-										<select   class="form-control chosen" name="subDeptId"  id="subDeptId"  required>
-											 
-											</select>
+										<select class="form-control chosen" name="subDeptId"
+											id="subDeptId" required>
+
+										</select>
 									</div>
-									 
-								</div><br> 
-							<input id="issueSlipNo" value="${getIssueHeader.issueSlipNo}" name="issueSlipNo" type="hidden"  required> 
-							<%-- <div class="box-content">
+
+								</div>
+								<br> <input id="issueSlipNo"
+									value="${getIssueHeader.issueSlipNo}" name="issueSlipNo"
+									type="hidden" required>
+								<%-- <div class="box-content">
 							
 								<div class="col-md-2">Issue Slip No *</div>
 									<div class="col-md-3">
@@ -184,116 +210,124 @@
 								 
 								 </div>
 								 </div><br> --%>
-							  
-							<hr/>
-							
-							<div class="box-content">
-								
-									<div class="col-md-2" >Select Category</div>
-									<div class="col-md-3">
-										<select   class="form-control chosen" name="groupId" onchange="getItemIdByGroupId()"  id="groupId"  >
-											<option   value="">Select Category</option>
-											
-											<c:forEach items="${categoryList}" var="categoryList"> 
-														<option value="${categoryList.catId}"> ${categoryList.catDesc} </option>
-											 </c:forEach>
-											</select>
-									</div>
-									<input type="hidden" name=editIndex id="editIndex"   />
-									 
-								</div><br> 
-								
+
+								<hr />
+
 								<div class="box-content">
-								 
-									<div class="col-md-2" >Select Item</div>
+
+									<div class="col-md-2">Select Category</div>
+									<div class="col-md-3">
+										<select class="form-control chosen" name="groupId"
+											onchange="getItemIdByGroupId()" id="groupId">
+											<option value="">Select Category</option>
+
+											<c:forEach items="${categoryList}" var="categoryList">
+												<option value="${categoryList.catId}">
+													${categoryList.catDesc}</option>
+											</c:forEach>
+										</select>
+									</div>
+									<input type="hidden" name=editIndex id="editIndex" />
+
+								</div>
+								<br>
+
+								<div class="box-content">
+
+									<div class="col-md-2">Select Item</div>
 									<div class="col-md-10">
-										<select   class="form-control chosen" onchange="getBatchByItemId()" name="itemId"  id="itemId"  >
-										 
-											</select>
+										<select class="form-control chosen"
+											onchange="getBatchByItemId()" name="itemId" id="itemId">
+
+										</select>
 									</div>
-									
-								  
-								</div><br> 
-								
+
+
+								</div>
+								<br>
+
 								<div class="box-content">
-								 <input type="hidden" name="batchQty" id="batchQty" />
-									<div class="col-md-2" >Select Batch </div>
+									<input type="hidden" name="batchQty" id="batchQty" />
+									<div class="col-md-2">Select Batch</div>
 									<div class="col-md-3">
-										<select   class="form-control chosen" onchange="qtyValidation()" name="batchNo"  id="batchNo"  >
-										 
-											</select>
+										<select class="form-control chosen" onchange="qtyValidation()"
+											name="batchNo" id="batchNo">
+
+										</select>
 									</div>
 									<div class="col-md-2">QTY</div>
 									<div class="col-md-3">
-										<input type="text" name="qty" id="qty"
-											placeholder="Qty" class="form-control"
-											 pattern="\d+"  />
-												 
+										<input type="text" name="qty" id="qty" placeholder="Qty"
+											class="form-control" pattern="\d+" />
+
 									</div>
-									 
-								</div><br>
-							 
-								 
-							<div class="form-group">
+
+								</div>
+								<br>
+
+
+								<div class="form-group">
 									<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-5">
-										<input type="button" class="btn btn-primary" value="Add Item" onclick="addItem()">  
+										<input type="button" class="btn btn-primary" value="Add Item"
+											onclick="addItem()">
 									</div>
-								</div><br><br>
-							
+								</div>
+								<br> <br>
+
 								<div align="center" id="loader" style="display: none">
 
-							<span>
-								<h4>
-									<font color="#343690">Loading</font>
-								</h4>
-							</span> <span class="l-1"></span> <span class="l-2"></span> <span
-						class="l-3"></span> <span class="l-4"></span> <span class="l-5"></span>
-					<span class="l-6"></span>
-				</div>
-											
-							
-							
-							<div class=" box-content">
-					<div class="row">
-						<div class="col-md-12 table-responsive">
-							<table class="table table-bordered table-striped fill-head "
-								style="width: 100%;font-size:14px;" id="table_grid">
-								<thead>
-									<tr>
-										<th style="width: 2%">Sr.No.</th>
-										<!-- <th>Group Name</th> -->
-										<th>Item Name</th> 
-										 
-										<th class="col-md-1">QTY</th> 
-										<th class="col-md-1">Action</th> 
-									</tr>
-								</thead>
-								<tbody>
-								
-								<c:forEach items="${getIssueHeader.issueDetailList}"
+									<span>
+										<h4>
+											<font color="#343690">Loading</font>
+										</h4>
+									</span> <span class="l-1"></span> <span class="l-2"></span> <span
+										class="l-3"></span> <span class="l-4"></span> <span
+										class="l-5"></span> <span class="l-6"></span>
+								</div>
+
+
+
+								<div class=" box-content">
+									<div class="row">
+										<div class="col-md-12 table-responsive">
+											<table class="table table-bordered table-striped fill-head "
+												style="width: 100%; font-size: 14px;" id="table_grid">
+												<thead>
+													<tr>
+														<th style="width: 2%">Sr.No.</th>
+														<!-- <th>Group Name</th> -->
+														<th>Item Name</th>
+
+														<th class="col-md-1">QTY</th>
+														<th class="col-md-1">Action</th>
+													</tr>
+												</thead>
+												<tbody>
+
+													<c:forEach items="${getIssueHeader.issueDetailList}"
 														var="getIssueDetailList" varStatus="count">
 														<tr>
 															<td><c:out value="${count.index+1}" /></td>
-<%-- 
+															<%-- 
 															<td><c:out
 																	value="${getIssueDetailList.grpCode}" /></td>
  --%>
-															<td><c:out
-																	value="${getIssueDetailList.itemCode}" /></td>
+															<td><c:out value="${getIssueDetailList.itemCode}" /></td>
 
-															 
-																	
+
+
 															<td align="right"><c:out
-																	value="${getIssueDetailList.itemIssueQty}" /></td>
+																	value="${getIssueDetailList.itemRequestQty}" /></td>
 
-															<td><%-- <a href="#"><span
+															<td>
+																<%-- <a href="#"><span
 																	class='glyphicon glyphicon-edit'
 																	onclick="edit(${count.index})" id="edit${count.index}"></span></a> --%>
-																	<%-- <c:choose>
+																<%-- <c:choose>
 															<c:when test="${(getIssueDetailList.status==0 or getIssueDetailList.status==1) && (getIssueHeader.status==0 or getIssueHeader.status==1)}"> --%>
 																<a href="#"><span class="glyphicon glyphicon-remove"
 																	onclick="del(${count.index})" id="del${count.index}"></span></a>
-																	<%-- </c:when>
+																<%-- </c:when>
 																	<c:when test="${(getIssueDetailList.status==0 or getIssueDetailList.status==1) }">
 																 Disapprove
 																	</c:when>
@@ -306,43 +340,46 @@
 														</tr>
 													</c:forEach>
 
-								</tbody>
-							</table>
-						</div>
-					</div>
+												</tbody>
+											</table>
+										</div>
+									</div>
 								</div>
-								
-							<div class="form-group">
+
+								<div class="form-group">
 									<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-5">
-									<%-- <c:choose>
+										<%-- <c:choose>
 															<c:when test="${getIssueHeader.status==0 or getIssueHeader.status==1}"> --%>
-										<input type="submit" class="btn btn-primary" value="Submit" onclick="check();">
+										<input type="submit" class="btn btn-primary" value="Submit"
+											onclick="check();">
 										<%-- </c:when>
 										</c:choose> --%>
-<!-- 										<button type="button" class="btn">Cancel</button>
- -->									</div>
-								</div><br><br>
-						
-							
-							
+										<!-- 										<button type="button" class="btn">Cancel</button>
+ -->
+									</div>
+								</div>
+								<br> <br>
 
-						</form>
-						</div>	
+
+
+
+							</form>
 						</div>
 					</div>
 				</div>
-				
-				<footer>
+			</div>
+
+			<footer>
 				<p>2019 © MONGINIS</p>
 			</footer>
-			</div>
-			
-			<!-- END Main Content -->
-			
+		</div>
 
-			<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i
-				class="fa fa-chevron-up"></i></a>
-		
+		<!-- END Main Content -->
+
+
+		<a id="btn-scrollup" class="btn btn-circle btn-lg" href="#"><i
+			class="fa fa-chevron-up"></i></a>
+
 		<!-- END Content -->
 	</div>
 	<!-- END Container -->
@@ -410,7 +447,7 @@
 		src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/date.js"></script>
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/daterangepicker.js"></script>
-		<script type="text/javascript">
+	<script type="text/javascript">
 		function qtyValidation() {
 
 			var batchNo = document.getElementById("batchNo").value;
@@ -562,7 +599,7 @@
 						 
 						if(qty>batchQty){
 							 
-							valid = false;
+							valid = true;
 					}
 					}
 					else{
@@ -624,7 +661,7 @@
 												  	tr.append($('<td></td>').html(key+1)); 
 												  	/* tr.append($('<td></td>').html(itemList.grpCode));  */
 												  	tr.append($('<td></td>').html(itemList.itemCode)); 
-												  	tr.append($('<td align="right"></td>').html(itemList.itemIssueQty));
+												  	tr.append($('<td align="right"></td>').html(itemList.itemRequestQty));
 												  	tr.append($('<td></td>').html('<a href="#"><span class="glyphicon glyphicon-remove"  onclick="del('+key+')" id="del'+key+'"></span></a>'));
 												  	/* tr.append($('<td></td>').html('<a href="#"><span class="glyphicon glyphicon-edit" id="edit'+key+'" onclick="edit('+key+');"> </span></a><a href="#"><span class="glyphicon glyphicon-remove"  onclick="del('+key+')" id="del'+key+'"></span></a>'));
 												     */
@@ -811,7 +848,7 @@
 									  	tr.append($('<td></td>').html(key+1)); 
 									  	/* tr.append($('<td></td>').html(itemList.grpCode)); */ 
 									  	tr.append($('<td></td>').html(itemList.itemCode)); 
-									  	tr.append($('<td align="right"></td>').html(itemList.itemIssueQty));
+									  	tr.append($('<td align="right"></td>').html(itemList.itemRequestQty));
 									  	tr.append($('<td></td>').html('<a href="#"><span class="glyphicon glyphicon-remove"  onclick="del('+key+')" id="del'+key+'"></span></a>'));
 									  	/* tr.append($('<td></td>').html('<a href="#"><span class="glyphicon glyphicon-edit" id="edit'+key+'" onclick="edit('+key+');"> </span></a><a href="#"><span class="glyphicon glyphicon-remove"  onclick="del('+key+')" id="del'+key+'"></span></a>'));
 									     */
@@ -840,7 +877,7 @@
 			
 		}
 	</script>
-<script type="text/javascript">
+	<script type="text/javascript">
 function validation()
 {
 	var itemId = $("#itemId").val();
@@ -929,9 +966,9 @@ function check()
 	
 }
 </script>
-	
-								
-							
-	
+
+
+
+
 </body>
 </html>

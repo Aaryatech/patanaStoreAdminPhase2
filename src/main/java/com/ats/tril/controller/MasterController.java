@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
- 
+
 import com.ats.tril.common.Constants;
 import com.ats.tril.common.DateConvertor;
 import com.ats.tril.common.VpsImageUpload;
@@ -53,7 +53,7 @@ public class MasterController {
 	List<GetSubDept> getSubDeptList = new ArrayList<>();
 	List<GetItem> itemList = new ArrayList<>();
 	List<Uom> uomList = new ArrayList<Uom>();
-	
+
 	@RequestMapping(value = "/getAllType", method = RequestMethod.GET)
 	@ResponseBody
 	public List<Type> getAllType(HttpServletRequest request, HttpServletResponse response) {
@@ -63,7 +63,6 @@ public class MasterController {
 
 			Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
 			typeList = new ArrayList<Type>(Arrays.asList(type));
- 
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -71,7 +70,7 @@ public class MasterController {
 
 		return typeList;
 	}
-	
+
 	@RequestMapping(value = "/addCategory", method = RequestMethod.GET)
 	public ModelAndView addCategory(HttpServletRequest request, HttpServletResponse response) {
 
@@ -189,25 +188,23 @@ public class MasterController {
 
 		return model;
 	}
-	
+
 	@RequestMapping(value = "/checkDeptCodeExist", method = RequestMethod.GET)
 	@ResponseBody
 	public int checkDeptCodeExist(HttpServletRequest request, HttpServletResponse response) {
- 
-		 int exist = 0 ;
-		 
+
+		int exist = 0;
+
 		try {
 
 			String deptCode = request.getParameter("deptCode");
-			 
-			 for(int i = 0 ; i < deparmentList.size() ; i++)
-			 {
-				 if(deparmentList.get(i).getDeptCode().equals(deptCode.trim()))
-				 {
-					 exist = 1;
-					 break;
-				 }
-			 }
+
+			for (int i = 0; i < deparmentList.size(); i++) {
+				if (deparmentList.get(i).getDeptCode().equals(deptCode.trim())) {
+					exist = 1;
+					break;
+				}
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -513,25 +510,23 @@ public class MasterController {
 
 		return model;
 	}
-	
+
 	@RequestMapping(value = "/checkSubDeptCodeExist", method = RequestMethod.GET)
 	@ResponseBody
 	public int checkSubDeptCodeExist(HttpServletRequest request, HttpServletResponse response) {
- 
-		 int exist = 0 ;
-		 
+
+		int exist = 0;
+
 		try {
 
 			String subGroupCode = request.getParameter("subGroupCode");
-			 
-			 for(int i = 0 ; i < getSubDeptList.size() ; i++)
-			 {
-				 if(getSubDeptList.get(i).getSubDeptCode().equals(subGroupCode.trim()))
-				 {
-					 exist = 1;
-					 break;
-				 }
-			 }
+
+			for (int i = 0; i < getSubDeptList.size(); i++) {
+				if (getSubDeptList.get(i).getSubDeptCode().equals(subGroupCode.trim())) {
+					exist = 1;
+					break;
+				}
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -623,15 +618,15 @@ public class MasterController {
 
 		return "redirect:/addSubDepartment";
 	}
-	
+
 	@RequestMapping(value = "/addAccountHead", method = RequestMethod.GET)
 	public ModelAndView addAccountHead(HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView model = new ModelAndView("masters/addAccountHead");
 		try {
 
-			 
-			AccountHead[] accountHead = rest.getForObject(Constants.url + "/getAllAccountHeadByIsUsed", AccountHead[].class);
+			AccountHead[] accountHead = rest.getForObject(Constants.url + "/getAllAccountHeadByIsUsed",
+					AccountHead[].class);
 			List<AccountHead> accountHeadList = new ArrayList<AccountHead>(Arrays.asList(accountHead));
 
 			model.addObject("accountHeadList", accountHeadList);
@@ -642,14 +637,14 @@ public class MasterController {
 
 		return model;
 	}
-	
+
 	@RequestMapping(value = "/insertAccountHead", method = RequestMethod.POST)
 	public String insertAccountHead(HttpServletRequest request, HttpServletResponse response) {
 
 		// ModelAndView model = new ModelAndView("masters/addEmployee");
 		try {
-			String accHeadId = request.getParameter("accHeadId"); 
-			String accHeadDesc = request.getParameter("accHeadDesc"); 
+			String accHeadId = request.getParameter("accHeadId");
+			String accHeadDesc = request.getParameter("accHeadDesc");
 
 			AccountHead insert = new AccountHead();
 
@@ -657,7 +652,7 @@ public class MasterController {
 				insert.setAccHeadId(0);
 			else
 				insert.setAccHeadId(Integer.parseInt(accHeadId));
-			insert.setAccHeadDesc(accHeadDesc); 
+			insert.setAccHeadDesc(accHeadDesc);
 			insert.setIsUsed(1);
 			insert.setCreatedIn(1);
 
@@ -687,7 +682,8 @@ public class MasterController {
 			AccountHead res = rest.postForObject(Constants.url + "/getAccontHeadByAccHeadId", map, AccountHead.class);
 			model.addObject("editAccountHead", res);
 
-			AccountHead[] accountHead = rest.getForObject(Constants.url + "/getAllAccountHeadByIsUsed", AccountHead[].class);
+			AccountHead[] accountHead = rest.getForObject(Constants.url + "/getAllAccountHeadByIsUsed",
+					AccountHead[].class);
 			List<AccountHead> accountHeadList = new ArrayList<AccountHead>(Arrays.asList(accountHead));
 
 			model.addObject("accountHeadList", accountHeadList);
@@ -700,7 +696,8 @@ public class MasterController {
 	}
 
 	@RequestMapping(value = "/deleteAccountHead/{accHeadId}", method = RequestMethod.GET)
-	public String deleteAccountHead(@PathVariable int accHeadId, HttpServletRequest request, HttpServletResponse response) {
+	public String deleteAccountHead(@PathVariable int accHeadId, HttpServletRequest request,
+			HttpServletResponse response) {
 
 		// ModelAndView model = new ModelAndView("masters/empDetail");
 		try {
@@ -717,14 +714,13 @@ public class MasterController {
 
 		return "redirect:/addAccountHead";
 	}
-	
-	
+
 	@RequestMapping(value = "/addItem", method = RequestMethod.GET)
 	public ModelAndView addItem(HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView model = new ModelAndView("masters/addItem");
 		try {
-			
+
 			Date date = new Date();
 			SimpleDateFormat sf = new SimpleDateFormat("dd-MM-yyyy");
 			model.addObject("date", sf.format(date));
@@ -732,17 +728,17 @@ public class MasterController {
 			Category[] category = rest.getForObject(Constants.url + "/getAllCategoryByIsUsed", Category[].class);
 			List<Category> categoryList = new ArrayList<Category>(Arrays.asList(category));
 			model.addObject("categoryList", categoryList);
-			
+
 			Uom[] uom = rest.getForObject(Constants.url + "/getAllUoms", Uom[].class);
 			uomList = new ArrayList<Uom>(Arrays.asList(uom));
 			model.addObject("uomList", uomList);
-			
-			GetItem[] item = rest.getForObject(Constants.url + "/getAllItems",  GetItem[].class); 
+
+			GetItem[] item = rest.getForObject(Constants.url + "/getAllItems", GetItem[].class);
 			itemList = new ArrayList<GetItem>(Arrays.asList(item));
-			
+
 			TaxForm[] taxFormList = rest.getForObject(Constants.url + "/getAllTaxForms", TaxForm[].class);
 			model.addObject("taxFormList", taxFormList);
-			
+
 			GetItem intialValueItem = new GetItem();
 			intialValueItem.setItemOpRate((float) 0);
 			intialValueItem.setItemClRate((float) 0);
@@ -759,48 +755,41 @@ public class MasterController {
 
 		return model;
 	}
-	
-	/*@RequestMapping(value = "/checkItemCodeExist", method = RequestMethod.GET)
-	@ResponseBody
-	public int checkItemCodeExist(HttpServletRequest request, HttpServletResponse response) {
- 
-		 int exist = 0 ;
-		 
-		try {
 
-			String itemCode = request.getParameter("itemCode");
-			 
-			 for(int i = 0 ; i < itemList.size() ; i++)
-			 {
-				 if(itemList.get(i).getItemCode().equals(itemCode.trim()))
-				 {
-					 exist = 1;
-					 break;
-				 }
-			 }
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	/*
+	 * @RequestMapping(value = "/checkItemCodeExist", method = RequestMethod.GET)
+	 * 
+	 * @ResponseBody public int checkItemCodeExist(HttpServletRequest request,
+	 * HttpServletResponse response) {
+	 * 
+	 * int exist = 0 ;
+	 * 
+	 * try {
+	 * 
+	 * String itemCode = request.getParameter("itemCode");
+	 * 
+	 * for(int i = 0 ; i < itemList.size() ; i++) {
+	 * if(itemList.get(i).getItemCode().equals(itemCode.trim())) { exist = 1; break;
+	 * } } } catch (Exception e) { e.printStackTrace(); }
+	 * 
+	 * return exist; }
+	 */
 
-		return exist;
-	}*/
-	
 	@RequestMapping(value = "/getgroupIdByCatId", method = RequestMethod.GET)
 	@ResponseBody
 	public List<GetItemGroup> getgroupIdByCatId(HttpServletRequest request, HttpServletResponse response) {
- 
+
 		List<GetItemGroup> getItemGroupList = new ArrayList<GetItemGroup>();
 		try {
 
 			int catId = Integer.parseInt(request.getParameter("catId"));
 			System.out.println(catId);
-			MultiValueMap<String, Object>	map = new LinkedMultiValueMap<String,Object>();
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			map.add("catId", catId);
-			GetItemGroup[] itemGroupList = rest.postForObject(Constants.url + "/getgroupListByCatId",map,
+			GetItemGroup[] itemGroupList = rest.postForObject(Constants.url + "/getgroupListByCatId", map,
 					GetItemGroup[].class);
 			getItemGroupList = new ArrayList<>(Arrays.asList(itemGroupList));
 			System.out.println(getItemGroupList);
-			 
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -808,67 +797,70 @@ public class MasterController {
 
 		return getItemGroupList;
 	}
-	
+
 	@RequestMapping(value = "/getSubGroupIdByGroupId", method = RequestMethod.GET)
 	@ResponseBody
 	public List<GetItemSubGrp> getSubGroupIdByGroupId(HttpServletRequest request, HttpServletResponse response) {
- 
+
 		List<GetItemSubGrp> getItemSubGrpList = new ArrayList<GetItemSubGrp>();
 		try {
 			int grpId = Integer.parseInt(request.getParameter("grpId"));
-			
-			MultiValueMap<String, Object>	map = new LinkedMultiValueMap<String,Object>();
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			map.add("grpId", grpId);
-			GetItemSubGrp[] itemSubGroupList = rest.postForObject(Constants.url + "/getSubGroupByGroupId",map,
+			GetItemSubGrp[] itemSubGroupList = rest.postForObject(Constants.url + "/getSubGroupByGroupId", map,
 					GetItemSubGrp[].class);
 			getItemSubGrpList = new ArrayList<>(Arrays.asList(itemSubGroupList));
-			 
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		return getItemSubGrpList;
 	}
-	
+
 	@RequestMapping(value = "/insertItem", method = RequestMethod.POST)
-	public String insertItem(@RequestParam("documentFile") List<MultipartFile> documentFile,HttpServletRequest request, HttpServletResponse response) {
+	public String insertItem(@RequestParam("documentFile") List<MultipartFile> documentFile, HttpServletRequest request,
+			HttpServletResponse response) {
 
 		// ModelAndView model = new ModelAndView("masters/addEmployee");
 		try {
-			String itemId = request.getParameter("itemId"); 
-			String itemCode = request.getParameter("itemCode"); 
-			String itemDesc = request.getParameter("itemDesc"); 
-			String uom = request.getParameter("uom"); 
+			String itemId = request.getParameter("itemId");
+			String itemCode = request.getParameter("itemCode");
+			String itemDesc = request.getParameter("itemDesc");
+			String uom = request.getParameter("uom");
+			String uom2 = request.getParameter("uom2");
+			float uomratio = Float.parseFloat(request.getParameter("uomratio"));
+			float uom2ratio = Float.parseFloat(request.getParameter("uom2ratio"));
+
 			String itemDate = request.getParameter("itemDate");
-			float opQty = Float.parseFloat(request.getParameter("opQty")); 
+			float opQty = Float.parseFloat(request.getParameter("opQty"));
 			float opRate = Float.parseFloat(request.getParameter("opRate"));
-			float clQty = Float.parseFloat(request.getParameter("clQty")); 
+			float clQty = Float.parseFloat(request.getParameter("clQty"));
 			float clRate = Float.parseFloat(request.getParameter("clRate"));
-			float minLevel = Float.parseFloat(request.getParameter("minLevel")); 
-			float maxLevel = Float.parseFloat(request.getParameter("maxLevel")); 
-			float rodLevel = Float.parseFloat(request.getParameter("rodLevel")); 
-			float itemWeight = Float.parseFloat(request.getParameter("itemWeight")); 
-			String itemLocation = request.getParameter("itemLocation"); 
-			String itemAbc = request.getParameter("itemAbc"); 
-			String itemLife = request.getParameter("itemLife"); 
-			String itemSchd = request.getParameter("itemSchd"); 
-			int isCritical = Integer.parseInt(request.getParameter("isCritical")); 
-			int isCapital = Integer.parseInt(request.getParameter("isCapital")); 
-			int itemCon = Integer.parseInt(request.getParameter("itemCon")); 
-			
-			int catId = Integer.parseInt(request.getParameter("catId")); 
-			int grpId = Integer.parseInt(request.getParameter("grpId"));  
-			int subGrpId = Integer.parseInt(request.getParameter("subGrpId")); 
-			String imageName = request.getParameter("imageName"); 
-			
-			
+			float minLevel = Float.parseFloat(request.getParameter("minLevel"));
+			float maxLevel = Float.parseFloat(request.getParameter("maxLevel"));
+			float rodLevel = Float.parseFloat(request.getParameter("rodLevel"));
+			float itemWeight = Float.parseFloat(request.getParameter("itemWeight"));
+			String itemLocation = request.getParameter("itemLocation");
+			String itemAbc = request.getParameter("itemAbc");
+			String itemLife = request.getParameter("itemLife");
+			String itemSchd = request.getParameter("itemSchd");
+			int isCritical = Integer.parseInt(request.getParameter("isCritical"));
+			int isCapital = Integer.parseInt(request.getParameter("isCapital"));
+			int itemCon = Integer.parseInt(request.getParameter("itemCon"));
+
+			int catId = Integer.parseInt(request.getParameter("catId"));
+			int grpId = Integer.parseInt(request.getParameter("grpId"));
+			int subGrpId = Integer.parseInt(request.getParameter("subGrpId"));
+			String imageName = request.getParameter("imageName");
+
 			VpsImageUpload upload = new VpsImageUpload();
 			String docFile = null;
 			try {
 				docFile = documentFile.get(0).getOriginalFilename();
 
-				upload.saveUploadedFiles(documentFile, Constants.ItemImage,
-						documentFile.get(0).getOriginalFilename());
+				upload.saveUploadedFiles(documentFile, Constants.ItemImage, documentFile.get(0).getOriginalFilename());
 
 				System.out.println("upload method called for image Upload " + documentFile.toString());
 
@@ -880,23 +872,21 @@ public class MasterController {
 
 			Item insert = new Item();
 
-			if(itemId.equalsIgnoreCase("") || itemId.equalsIgnoreCase(null) || itemId.equalsIgnoreCase("0"))
+			if (itemId.equalsIgnoreCase("") || itemId.equalsIgnoreCase(null) || itemId.equalsIgnoreCase("0"))
 				insert.setItemId(0);
 			else
 				insert.setItemId(Integer.parseInt(itemId));
 			insert.setItemCode(itemCode);
 			insert.setItemDesc(itemDesc);
 			insert.setItemDate(DateConvertor.convertToYMD(itemDate));
-			 
-			for(int i = 0 ; i<uomList.size() ; i++)
-			{
-				if(Integer.parseInt(uom)==uomList.get(i).getUomId())
-				{
+
+			for (int i = 0; i < uomList.size(); i++) {
+				if (Integer.parseInt(uom) == uomList.get(i).getUomId()) {
 					insert.setItemUom(uomList.get(i).getUom());
 					break;
 				}
 			}
-			 
+
 			insert.setItemUom2(uom);
 			insert.setItemOpQty(opQty);
 			insert.setItemOpRate(opRate);
@@ -918,13 +908,15 @@ public class MasterController {
 			insert.setCatId(catId);
 			insert.setGrpId(grpId);
 			insert.setSubGrpId(subGrpId);
-			if(docFile.equalsIgnoreCase("")||docFile.equalsIgnoreCase(null)) {
+			insert.setUom2(Integer.parseInt(uom2));
+			insert.setUomRatio(uomratio);
+			insert.setUomRatio2(uom2ratio);
+			if (docFile.equalsIgnoreCase("") || docFile.equalsIgnoreCase(null)) {
 				insert.setItemDesc3(imageName);
-			}
-			else {
+			} else {
 				insert.setItemDesc3(docFile);
 			}
-			
+
 			System.out.println("insert" + insert);
 
 			Item res = rest.postForObject(Constants.url + "/saveItem", insert, Item.class);
@@ -937,43 +929,40 @@ public class MasterController {
 
 		return "redirect:/getItemList";
 	}
-	 
+
 	@RequestMapping(value = "/getItemList", method = RequestMethod.GET)
 	public ModelAndView getItemList(HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView model = new ModelAndView("masters/getItemList");
 		try {
 
-			
-			
 			Category[] category = rest.getForObject(Constants.url + "/getAllCategoryByIsUsed", Category[].class);
-			List<Category> categoryList = new ArrayList<Category>(Arrays.asList(category)); 
+			List<Category> categoryList = new ArrayList<Category>(Arrays.asList(category));
 			model.addObject("categoryList", categoryList);
-			
-			if(request.getParameter("catId")==null) {
-				
-				GetItem[] item = rest.getForObject(Constants.url + "/getAllItems",  GetItem[].class); 
+
+			if (request.getParameter("catId") == null) {
+
+				GetItem[] item = rest.getForObject(Constants.url + "/getAllItems", GetItem[].class);
 				List<GetItem> itemList = new ArrayList<GetItem>(Arrays.asList(item));
 				model.addObject("itemList", itemList);
-			}else {
-				
-				int catId = Integer.parseInt(request.getParameter("catId")); 
-				 if(catId==0) {
-					 GetItem[] item = rest.getForObject(Constants.url + "/getAllItems",  GetItem[].class); 
-						List<GetItem> itemList = new ArrayList<GetItem>(Arrays.asList(item));
-						model.addObject("itemList", itemList);
-				 }else {
-					 
-					 MultiValueMap<String, Object> map = new LinkedMultiValueMap<String,Object>();
-						map.add("catId", catId); 
-						GetItem[] GetItem = rest.postForObject(Constants.url + "itemListByCatId", map, GetItem[].class);
-						List<GetItem> itemList = new ArrayList<>(Arrays.asList(GetItem));
-						model.addObject("itemList", itemList);
-				 }
-				 model.addObject("catId", catId);
-				
+			} else {
+
+				int catId = Integer.parseInt(request.getParameter("catId"));
+				if (catId == 0) {
+					GetItem[] item = rest.getForObject(Constants.url + "/getAllItems", GetItem[].class);
+					List<GetItem> itemList = new ArrayList<GetItem>(Arrays.asList(item));
+					model.addObject("itemList", itemList);
+				} else {
+
+					MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+					map.add("catId", catId);
+					GetItem[] GetItem = rest.postForObject(Constants.url + "itemListByCatId", map, GetItem[].class);
+					List<GetItem> itemList = new ArrayList<>(Arrays.asList(GetItem));
+					model.addObject("itemList", itemList);
+				}
+				model.addObject("catId", catId);
+
 			}
-			 
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -981,7 +970,7 @@ public class MasterController {
 
 		return model;
 	}
-	
+
 	@RequestMapping(value = "/editItem/{itemId}", method = RequestMethod.GET)
 	public ModelAndView editItem(@PathVariable int itemId, HttpServletRequest request, HttpServletResponse response) {
 
@@ -990,40 +979,40 @@ public class MasterController {
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("itemId", itemId);
-			GetItem  item = rest.postForObject(Constants.url + "/getItemByItemId",map, GetItem .class);
-			 model.addObject("editItem", item);
-			 
-			 System.out.println(item);
-			 
-			 Category[] category = rest.getForObject(Constants.url + "/getAllCategoryByIsUsed", Category[].class);
-				List<Category> categoryList = new ArrayList<Category>(Arrays.asList(category));
-				model.addObject("categoryList", categoryList);
-				
-				 map = new LinkedMultiValueMap<String,Object>();
-				map.add("catId", item.getCatId());
-				GetItemGroup[] itemGroupList = rest.postForObject(Constants.url + "/getgroupListByCatId",map,
-						GetItemGroup[].class);
-				List<GetItemGroup> getItemGroupList = new ArrayList<>(Arrays.asList(itemGroupList));
-				model.addObject("getItemGroupList", getItemGroupList);
-				
-				map = new LinkedMultiValueMap<String,Object>();
-				map.add("grpId", item.getGrpId());
-				GetItemSubGrp[] itemSubGroupList = rest.postForObject(Constants.url + "/getSubGroupByGroupId",map,
-						GetItemSubGrp[].class);
-				List<GetItemSubGrp> getItemSubGrpList = new ArrayList<>(Arrays.asList(itemSubGroupList));
-				model.addObject("getItemSubGrpList", getItemSubGrpList);
-				
-				Uom[] uom = rest.getForObject(Constants.url + "/getAllUoms", Uom[].class);
-				uomList = new ArrayList<Uom>(Arrays.asList(uom));
-				model.addObject("uomList", uomList);
-				
-				model.addObject("isEdit", 1);
-				
-				model.addObject("date",item.getItemDate());
-				model.addObject("imageUrl", Constants.Item_Image_URL);
-				
-				TaxForm[] taxFormList = rest.getForObject(Constants.url + "/getAllTaxForms", TaxForm[].class);
-				model.addObject("taxFormList", taxFormList);
+			GetItem item = rest.postForObject(Constants.url + "/getItemByItemId", map, GetItem.class);
+			model.addObject("editItem", item);
+
+			System.out.println(item);
+
+			Category[] category = rest.getForObject(Constants.url + "/getAllCategoryByIsUsed", Category[].class);
+			List<Category> categoryList = new ArrayList<Category>(Arrays.asList(category));
+			model.addObject("categoryList", categoryList);
+
+			map = new LinkedMultiValueMap<String, Object>();
+			map.add("catId", item.getCatId());
+			GetItemGroup[] itemGroupList = rest.postForObject(Constants.url + "/getgroupListByCatId", map,
+					GetItemGroup[].class);
+			List<GetItemGroup> getItemGroupList = new ArrayList<>(Arrays.asList(itemGroupList));
+			model.addObject("getItemGroupList", getItemGroupList);
+
+			map = new LinkedMultiValueMap<String, Object>();
+			map.add("grpId", item.getGrpId());
+			GetItemSubGrp[] itemSubGroupList = rest.postForObject(Constants.url + "/getSubGroupByGroupId", map,
+					GetItemSubGrp[].class);
+			List<GetItemSubGrp> getItemSubGrpList = new ArrayList<>(Arrays.asList(itemSubGroupList));
+			model.addObject("getItemSubGrpList", getItemSubGrpList);
+
+			Uom[] uom = rest.getForObject(Constants.url + "/getAllUoms", Uom[].class);
+			uomList = new ArrayList<Uom>(Arrays.asList(uom));
+			model.addObject("uomList", uomList);
+
+			model.addObject("isEdit", 1);
+
+			model.addObject("date", item.getItemDate());
+			model.addObject("imageUrl", Constants.Item_Image_URL);
+
+			TaxForm[] taxFormList = rest.getForObject(Constants.url + "/getAllTaxForms", TaxForm[].class);
+			model.addObject("taxFormList", taxFormList);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1031,19 +1020,17 @@ public class MasterController {
 
 		return model;
 	}
-	
+
 	@RequestMapping(value = "/deleteItem/{itemId}", method = RequestMethod.GET)
 	public String deleteItem(@PathVariable int itemId, HttpServletRequest request, HttpServletResponse response) {
 
-		 
 		try {
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("itemId", itemId);
 			map.add("deletedIn", 0);
-			ErrorMessage  errorMessage = rest.postForObject(Constants.url + "/deleteItem",map, ErrorMessage .class);
+			ErrorMessage errorMessage = rest.postForObject(Constants.url + "/deleteItem", map, ErrorMessage.class);
 			System.out.println(errorMessage);
-			 
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1051,89 +1038,76 @@ public class MasterController {
 
 		return "redirect:/getItemList";
 	}
-	
-	
+
 	@RequestMapping(value = "/getNextItemCode", method = RequestMethod.GET)
 	@ResponseBody
 	public ErrorMessage getNextItemCode(HttpServletRequest request, HttpServletResponse response) {
- 
-		  
-		 ErrorMessage errorMessage = new ErrorMessage();
+
+		ErrorMessage errorMessage = new ErrorMessage();
 		try {
 
 			int grpId = Integer.parseInt(request.getParameter("grpId"));
-			 
+
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			map.add("grpId", grpId);
 			ItemGroup itemGroup = rest.postForObject(Constants.url + "/getItemGroupByGrpId", map, ItemGroup.class);
-			 
-			map = new LinkedMultiValueMap<String,Object>();
+
+			map = new LinkedMultiValueMap<String, Object>();
 			map.add("str", itemGroup.getGrpCode());
-			errorMessage = rest.postForObject(Constants.url + "/getNextItemCode",map,
-					ErrorMessage.class);
+			errorMessage = rest.postForObject(Constants.url + "/getNextItemCode", map, ErrorMessage.class);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		return errorMessage;
 	}
-	
-	/*@RequestMapping(value = "/checkItemCodeExist", method = RequestMethod.GET)
-	@ResponseBody
-	public ErrorMessage checkItemCodeExist(HttpServletRequest request, HttpServletResponse response) {
- 
-		 //int exist = 0 ;
-		 ErrorMessage errorMessage = new ErrorMessage();
-		try {
 
-			String itemCode = request.getParameter("itemCode");
-			 
-			for(int i = 0 ; i < itemList.size() ; i++)
-			 {
-				 if(itemList.get(i).getItemCode().equals(itemCode.trim()))
-				 {
-					 exist = 1;
-					 break;
-				 }
-			 }
-			
-			MultiValueMap<String, Object>	map = new LinkedMultiValueMap<String,Object>();
-			map.add("str", itemCode);
-			errorMessage = rest.postForObject(Constants.url + "/getNextVendorNo",map,
-					ErrorMessage.class);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	/*
+	 * @RequestMapping(value = "/checkItemCodeExist", method = RequestMethod.GET)
+	 * 
+	 * @ResponseBody public ErrorMessage checkItemCodeExist(HttpServletRequest
+	 * request, HttpServletResponse response) {
+	 * 
+	 * //int exist = 0 ; ErrorMessage errorMessage = new ErrorMessage(); try {
+	 * 
+	 * String itemCode = request.getParameter("itemCode");
+	 * 
+	 * for(int i = 0 ; i < itemList.size() ; i++) {
+	 * if(itemList.get(i).getItemCode().equals(itemCode.trim())) { exist = 1; break;
+	 * } }
+	 * 
+	 * MultiValueMap<String, Object> map = new LinkedMultiValueMap<String,Object>();
+	 * map.add("str", itemCode); errorMessage = rest.postForObject(Constants.url +
+	 * "/getNextVendorNo",map, ErrorMessage.class); } catch (Exception e) {
+	 * e.printStackTrace(); }
+	 * 
+	 * return errorMessage; }
+	 */
 
-		return errorMessage;
-	}*/
-	
 	@RequestMapping(value = "/addUom", method = RequestMethod.GET)
 	public ModelAndView addUom(HttpServletRequest request, HttpServletResponse response) {
 
 		ModelAndView model = new ModelAndView("masters/addUom");
 		try {
-			
-			 
+
 			Uom[] uom = rest.getForObject(Constants.url + "/getAllUoms", Uom[].class);
 			List<Uom> uomList = new ArrayList<Uom>(Arrays.asList(uom));
 			model.addObject("uomList", uomList);
-			 
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		return model;
 	}
-	
-	
+
 	@RequestMapping(value = "/insertUom", method = RequestMethod.POST)
 	public String insertUom(HttpServletRequest request, HttpServletResponse response) {
 
 		// ModelAndView model = new ModelAndView("masters/addEmployee");
 		try {
-			String uomId = request.getParameter("uomId"); 
-			String uom = request.getParameter("uom"); 
+			String uomId = request.getParameter("uomId");
+			String uom = request.getParameter("uom");
 
 			Uom insert = new Uom();
 
@@ -1141,8 +1115,8 @@ public class MasterController {
 				insert.setUomId(0);
 			else
 				insert.setUomId(Integer.parseInt(uomId));
-			insert.setUom(uom); 
-			insert.setIsUsed(1); 
+			insert.setUom(uom);
+			insert.setIsUsed(1);
 
 			System.out.println("Uom  " + insert);
 
@@ -1156,7 +1130,7 @@ public class MasterController {
 
 		return "redirect:/addUom";
 	}
-	
+
 	@RequestMapping(value = "/editUom/{uomId}", method = RequestMethod.GET)
 	public ModelAndView editUom(@PathVariable int uomId, HttpServletRequest request, HttpServletResponse response) {
 
@@ -1165,12 +1139,12 @@ public class MasterController {
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("uomId", uomId);
-			Uom  uom = rest.postForObject(Constants.url + "/getUomFormByUomId",map, Uom .class);
-			 model.addObject("editUom", uom);
-			  
-			 Uom[] list = rest.getForObject(Constants.url + "/getAllUoms", Uom[].class);
-				List<Uom> uomList = new ArrayList<Uom>(Arrays.asList(list));
-				model.addObject("uomList", uomList);
+			Uom uom = rest.postForObject(Constants.url + "/getUomFormByUomId", map, Uom.class);
+			model.addObject("editUom", uom);
+
+			Uom[] list = rest.getForObject(Constants.url + "/getAllUoms", Uom[].class);
+			List<Uom> uomList = new ArrayList<Uom>(Arrays.asList(list));
+			model.addObject("uomList", uomList);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1178,18 +1152,16 @@ public class MasterController {
 
 		return model;
 	}
-	
+
 	@RequestMapping(value = "/deleteUom/{uomId}", method = RequestMethod.GET)
 	public String deleteUom(@PathVariable int uomId, HttpServletRequest request, HttpServletResponse response) {
 
-		 
 		try {
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-			map.add("uomId", uomId); 
-			ErrorMessage  errorMessage = rest.postForObject(Constants.url + "/deleteItem",map, ErrorMessage .class);
+			map.add("uomId", uomId);
+			ErrorMessage errorMessage = rest.postForObject(Constants.url + "/deleteItem", map, ErrorMessage.class);
 			System.out.println(errorMessage);
-			 
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1197,9 +1169,9 @@ public class MasterController {
 
 		return "redirect:/addUom";
 	}
-	
+
 	List<User> userList = new ArrayList<>();
-	
+
 	@RequestMapping(value = "/addUser", method = RequestMethod.GET)
 	public ModelAndView addUser(HttpServletRequest request, HttpServletResponse response) {
 
@@ -1208,9 +1180,11 @@ public class MasterController {
 
 			User[] user = rest.getForObject(Constants.url + "/getUserList", User[].class);
 			userList = new ArrayList<User>(Arrays.asList(user));
-			
-			DepartmentMaster[] departmentMaster = rest.getForObject(Constants.url + "/getDepartmentMasterList", DepartmentMaster[].class);
-			List<DepartmentMaster> departmentMasterList = new ArrayList<DepartmentMaster>(Arrays.asList(departmentMaster));
+
+			DepartmentMaster[] departmentMaster = rest.getForObject(Constants.url + "/getDepartmentMasterList",
+					DepartmentMaster[].class);
+			List<DepartmentMaster> departmentMasterList = new ArrayList<DepartmentMaster>(
+					Arrays.asList(departmentMaster));
 
 			model.addObject("userList", userList);
 			model.addObject("departmentMasterList", departmentMasterList);
@@ -1222,25 +1196,25 @@ public class MasterController {
 
 		return model;
 	}
-	
+
 	@RequestMapping(value = "/checkUserExist", method = RequestMethod.GET)
 	@ResponseBody
 	public String checkUserExist(HttpServletRequest request, HttpServletResponse response) {
 
-		String flag="0";
-		
+		String flag = "0";
+
 		try {
 
 			String userName = request.getParameter("userName");
-			
-			for(int i=0 ; i<userList.size();i++) {
-				
-				if(userName.equals(userList.get(i).getUsername())) {
-					flag="1";
+
+			for (int i = 0; i < userList.size(); i++) {
+
+				if (userName.equals(userList.get(i).getUsername())) {
+					flag = "1";
 					break;
 				}
 			}
-			
+
 			System.out.println(flag);
 
 		} catch (Exception e) {
@@ -1249,88 +1223,84 @@ public class MasterController {
 
 		return flag;
 	}
-	
+
 	@RequestMapping(value = "/insertUser", method = RequestMethod.POST)
 	public String insertUser(HttpServletRequest request, HttpServletResponse response) {
 
 		// ModelAndView model = new ModelAndView("masters/addEmployee");
 		String ret = new String();
 		try {
-			String userId = request.getParameter("userId"); 
+			String userId = request.getParameter("userId");
 			String roleId = request.getParameter("roleId");
 			String userName = request.getParameter("userName");
 			String pass = request.getParameter("pass");
 			int flag = Integer.parseInt(request.getParameter("flag"));
-			
-			
-			
+
 			User insert = new User();
 
 			if (userId == "" || userId == null) {
 				insert.setId(0);
-			}
-			else {
+			} else {
 				insert.setId(Integer.parseInt(userId));
 				insert.setRoleId(Integer.parseInt(roleId));
 			}
 			try {
-				
+
 				int deptId = Integer.parseInt(request.getParameter("deptId"));
 				insert.setDeptId(deptId);
-			}catch(Exception e) {
-				
+			} catch (Exception e) {
+
 				int deptId = Integer.parseInt(request.getParameter("currentDeptId"));
 				insert.setDeptId(deptId);
 			}
-			insert.setUsername(userName); 
-			insert.setPassword(pass); 
-			//insert.setDeptId(1);
+			insert.setUsername(userName);
+			insert.setPassword(pass);
+			// insert.setDeptId(1);
 			insert.setUsertype(1);
-			
-			
+
 			System.out.println("User  " + insert);
 
 			User res = rest.postForObject(Constants.url + "/saveUser", insert, User.class);
 
 			System.out.println("res " + res);
-			
-			
-			if(flag==1) {
-				ret= "redirect:/addUser";
-			}
-			else {
-				ret= "redirect:/userEdit/"+userId+"/0";
+
+			if (flag == 1) {
+				ret = "redirect:/addUser";
+			} else {
+				ret = "redirect:/userEdit/" + userId + "/0";
 			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		 
-			return ret;
+		return ret;
 	}
-	
+
 	@RequestMapping(value = "/userEdit/{userId}/{flag}", method = RequestMethod.GET)
-	public ModelAndView editUser(@PathVariable int userId,@PathVariable int flag, HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView editUser(@PathVariable int userId, @PathVariable int flag, HttpServletRequest request,
+			HttpServletResponse response) {
 
 		ModelAndView model = new ModelAndView("masters/addUser");
 		try {
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("userId", userId);
-			User  editUser = rest.postForObject(Constants.url + "/getUserById",map, User .class);
-			 model.addObject("editUser", editUser);
-			 model.addObject("isEdit", 1);
-			  if(flag==1) {
-				  User[] user = rest.getForObject(Constants.url + "/getUserList", User[].class);
-					List<User> userList = new ArrayList<User>(Arrays.asList(user)); 
-					model.addObject("userList", userList);
-					DepartmentMaster[] departmentMaster = rest.getForObject(Constants.url + "/getDepartmentMasterList", DepartmentMaster[].class);
-					List<DepartmentMaster> departmentMasterList = new ArrayList<DepartmentMaster>(Arrays.asList(departmentMaster));
- 
-					model.addObject("departmentMasterList", departmentMasterList);
-			  } 
-			  model.addObject("flag", flag);
+			User editUser = rest.postForObject(Constants.url + "/getUserById", map, User.class);
+			model.addObject("editUser", editUser);
+			model.addObject("isEdit", 1);
+			if (flag == 1) {
+				User[] user = rest.getForObject(Constants.url + "/getUserList", User[].class);
+				List<User> userList = new ArrayList<User>(Arrays.asList(user));
+				model.addObject("userList", userList);
+				DepartmentMaster[] departmentMaster = rest.getForObject(Constants.url + "/getDepartmentMasterList",
+						DepartmentMaster[].class);
+				List<DepartmentMaster> departmentMasterList = new ArrayList<DepartmentMaster>(
+						Arrays.asList(departmentMaster));
+
+				model.addObject("departmentMasterList", departmentMasterList);
+			}
+			model.addObject("flag", flag);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1338,18 +1308,16 @@ public class MasterController {
 
 		return model;
 	}
-	
+
 	@RequestMapping(value = "/userDelete/{userId}", method = RequestMethod.GET)
 	public String deleteUser(@PathVariable int userId, HttpServletRequest request, HttpServletResponse response) {
 
-		 
 		try {
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-			map.add("userId", userId); 
-			ErrorMessage  errorMessage = rest.postForObject(Constants.url + "/deleteUser",map, ErrorMessage .class);
+			map.add("userId", userId);
+			ErrorMessage errorMessage = rest.postForObject(Constants.url + "/deleteUser", map, ErrorMessage.class);
 			System.out.println(errorMessage);
-			 
 
 		} catch (Exception e) {
 			e.printStackTrace();

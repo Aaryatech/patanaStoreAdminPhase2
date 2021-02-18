@@ -5,6 +5,44 @@
 
 
 <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
+<style>
+.tableFixHead {
+	overflow-y: auto;
+	height: 500px;
+	border: 1px solid #ccc;
+}
+
+.tableFixHead thead th {
+	position: sticky;
+	top: 0;
+	font-weight: 700;
+	font-size: 14px;
+	letter-spacing: 0.5px;
+	z-index: 10;
+}
+
+table {
+	border-collapse: collapse;
+	width: 100%;
+	white-space: nowrap;
+}
+
+th, td {
+	padding: 8px 16px;
+	border-right: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	font-size: 14px;
+}
+
+tr:nth-child(2n-1) {
+	background-color: #f5f5f5;
+	transition: all .125s ease-in-out;
+}
+
+th {
+	background: #ec268f;
+}
+</style>
 <body>
 
 	<c:url var="getPoListByDate" value="/getPoListByDate"></c:url>
@@ -36,7 +74,8 @@
 
 					</h1>
 				</div>
-			</div> --><br>
+			</div> -->
+			<br>
 			<!-- END Page Title -->
 
 			<div class="row">
@@ -54,139 +93,200 @@
 							</div>
 
 						</div>
-						 
-								<div class="box-content">
-								
-								<div class="box-content">
-							
+
+						<div class="box-content">
+
+							<div class="box-content">
+
 								<div class="col-md-2">Pending Month End Name</div>
-									<div class="col-md-3">
-										<input id="monthName" class="form-control"
-								 placeholder="monthName" value="${monthName}" name="monthName" type="text" readonly>
+								<div class="col-md-3">
+									<input id="monthName" class="form-control"
+										placeholder="monthName" value="${monthName}" name="monthName"
+										type="text" readonly>
 
 
-									</div>
-									 
-							</div><br>
-								
-								<div class="box-content">
-							
+								</div>
+
+							</div>
+							<br>
+
+							<div class="box-content">
+
 								<div class="col-md-2">From Date</div>
-									<div class="col-md-3">
-										<input id="fromDate" class="form-control"
-								 placeholder="From Date" value="${fromDate}" name="fromDate" type="text" readonly>
+								<div class="col-md-3">
+									<input id="fromDate" class="form-control"
+										placeholder="From Date" value="${fromDate}" name="fromDate"
+										type="text" readonly>
 
 
-									</div>
-									<div class="col-md-1"></div>
-									<div class="col-md-2">To Date</div>
-									<div class="col-md-3">
-										<input id="toDate" class="form-control"
-								 placeholder="To Date" value="${toDate}" name="toDate" type="text" readonly>
+								</div>
+								<div class="col-md-1"></div>
+								<div class="col-md-2">To Date</div>
+								<div class="col-md-3">
+									<input id="toDate" class="form-control" placeholder="To Date"
+										value="${toDate}" name="toDate" type="text" readonly>
 
 
-									</div>
-								
-				 
-							</div><br><br>
-							 
-								
+								</div>
+
+
+							</div>
+							<br> <br>
+
+
 							<div class="col-md-9"></div>
-								<label for="search" class="col-md-3" id="search"> <i
-									class="fa fa-search" style="font-size: 20px"></i> <input
-									type="text" id="myInput" onkeyup="myFunction()"
-									placeholder="Search.." title="Type in a name">
-								</label>	 
-					<br /> <br />
-					<div class="clearfix"></div>
-					<div class="table-responsive" style="border: 0">
-						<table class="table table-advance" id="table1">  
+							<label for="search" class="col-md-3" id="search"> <i
+								class="fa fa-search" style="font-size: 20px"></i> <input
+								type="text" id="myInput" onkeyup="myFunction()"
+								placeholder="Search.." title="Type in a name">
+							</label> <br /> <br />
+							<div class="clearfix"></div>
+							<div class="tableFixHead">
+								<table id="table1">
 									<thead>
-									<tr class="bgpink">
-										<th style="width:1%;">Sr no.</th>
-										<th class="col-md-2">Item Name</th>
-										<th class="col-md-1" style="text-align: right">OP QTY</th>
-										<th class="col-md-1" style="text-align: right">OP VALUE</th>
-										<th class="col-md-1" style="text-align: right">OP LANDING VALUE</th>
-										<th class="col-md-1" style="text-align: right">RECEIVED QTY</th>
-										<th class="col-md-1" style="text-align: right">RECEIVED VALUE</th>
-										<th class="col-md-1" style="text-align: right">RECEIVED LANDING VALUE</th>
-										<th class="col-md-1" style="text-align: right">ISSUE QTY</th>
-										<th class="col-md-1" style="text-align: right">ISSUE VALUE</th> 
-										<th class="col-md-1" style="text-align: right">ISSUE LANDING VALUE</th>
-										<th class="col-md-1" style="text-align: right">RETURN QTY</th>
-										<th class="col-md-1" style="text-align: right">RETURN VALUE</th> 
-										<th class="col-md-1" style="text-align: right">RETURN LANDING VALUE</th>
-										<th class="col-md-1" style="text-align: right">C/L QTY</th>
-										<th class="col-md-1" style="text-align: right">C/L VALUE</th> 
-										<th class="col-md-1" style="text-align: right">C/L LANDING VALUE</th>
-									</tr>
-								</thead>
-								<tbody>
-								
-								<c:set var="sr" value="0"> </c:set>
+										<tr class="bgpink">
+											<th style="width: 1%;">Sr no.</th>
+											<th class="col-md-2">Item Name</th>
+											<th class="col-md-1" style="text-align: right">OP QTY</th>
+											<th class="col-md-1" style="text-align: right">OP VALUE</th>
+											<th class="col-md-1" style="text-align: right">OP
+												LANDING VALUE</th>
+											<th class="col-md-1" style="text-align: right">RECEIVED
+												QTY</th>
+											<th class="col-md-1" style="text-align: right">RECEIVED
+												VALUE</th>
+											<th class="col-md-1" style="text-align: right">RECEIVED
+												LANDING VALUE</th>
+											<th class="col-md-1" style="text-align: right">ISSUE QTY</th>
+											<th class="col-md-1" style="text-align: right">ISSUE
+												VALUE</th>
+											<th class="col-md-1" style="text-align: right">ISSUE
+												LANDING VALUE</th>
+											<th class="col-md-1" style="text-align: right">RETURN
+												QTY</th>
+											<th class="col-md-1" style="text-align: right">RETURN
+												VALUE</th>
+											<th class="col-md-1" style="text-align: right">RETURN
+												LANDING VALUE</th>
+											<th class="col-md-1" style="text-align: right">C/L QTY</th>
+											<th class="col-md-1" style="text-align: right">C/L VALUE</th>
+											<th class="col-md-1" style="text-align: right">C/L
+												LANDING VALUE</th>
+										</tr>
+									</thead>
+									<tbody>
 
-									<c:forEach items="${stockList}" var="stockList"
-										varStatus="count">
-										<c:choose>
-												 	<c:when test="${stockList.approveQty>0 or stockList.approvedQtyValue>0 
+										<c:set var="sr" value="0">
+										</c:set>
+
+										<c:forEach items="${stockList}" var="stockList"
+											varStatus="count">
+											<c:choose>
+												<c:when
+													test="${stockList.approveQty>0 or stockList.approvedQtyValue>0 
 												 	or stockList.issueQty>0 or stockList.issueQtyValue>0 or stockList.damageQty>0 or stockList.damagValue>0 
 												 	or stockList.openingStock>0 or stockList.opStockValue>0}">
-										<tr>
-											<td  ><c:out value="${sr+1}" /></td> 
-												<c:set var="sr" value="${sr+1}" ></c:set>
- 
-											<td class="col-md-2"><c:out
-													value="${stockList.itemCode}" /></td>
-													
-											<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value="${stockList.openingStock}" /> </td> 
-											<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value="${stockList.opStockValue}" /> </td>
-											<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value="${stockList.opLandingValue}" /> </td>  
-											<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value="${stockList.approveQty}" /> </td>
-											<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value="${stockList.approvedQtyValue}" /> </td>
-											<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value="${stockList.approvedLandingValue}" /> </td>  
-											<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value="${stockList.issueQty}" /> </td> 
-											<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value="${stockList.issueQtyValue}" /> </td>
-											<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value="${stockList.issueLandingValue}" /> </td>	
-											<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value="${stockList.damageQty}" /> </td> 
-											<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value="${stockList.damagValue}" /> </td> 
-											<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value="${stockList.damageLandingValue}" /> </td> 
-											<c:set var="closingStock" value="${stockList.openingStock+stockList.approveQty-stockList.issueQty-stockList.damageQty}" ></c:set>
-											<c:set var="closingStockValue" value="${stockList.opStockValue+stockList.approvedQtyValue-stockList.issueQtyValue-stockList.damagValue}" ></c:set>
-											<c:set var="closingStockLandingValue" value="${stockList.opLandingValue+stockList.approvedLandingValue-stockList.issueLandingValue-stockList.damageLandingValue}" ></c:set>	
-											<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${closingStock}"/></td>
-											 <td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${closingStockValue}"/></td>
-											<td class="col-md-1" style="text-align: right"><fmt:formatNumber type = "number"  maxFractionDigits = "2" minFractionDigits="2" value ="${closingStockLandingValue}"/></td>
-										</tr>
-										</c:when>
-										</c:choose>
-										
-									</c:forEach>
+													<tr>
+														<td><c:out value="${sr+1}" /></td>
+														<c:set var="sr" value="${sr+1}"></c:set>
 
-								</tbody>
+														<td class="col-md-2"><c:out
+																value="${stockList.itemCode}" /></td>
+
+														<td class="col-md-1" style="text-align: right"><fmt:formatNumber
+																type="number" maxFractionDigits="2"
+																minFractionDigits="2" value="${stockList.openingStock}" />
+														</td>
+														<td class="col-md-1" style="text-align: right"><fmt:formatNumber
+																type="number" maxFractionDigits="2"
+																minFractionDigits="2" value="${stockList.opStockValue}" />
+														</td>
+														<td class="col-md-1" style="text-align: right"><fmt:formatNumber
+																type="number" maxFractionDigits="2"
+																minFractionDigits="2"
+																value="${stockList.opLandingValue}" /></td>
+														<td class="col-md-1" style="text-align: right"><fmt:formatNumber
+																type="number" maxFractionDigits="2"
+																minFractionDigits="2" value="${stockList.approveQty}" />
+														</td>
+														<td class="col-md-1" style="text-align: right"><fmt:formatNumber
+																type="number" maxFractionDigits="2"
+																minFractionDigits="2"
+																value="${stockList.approvedQtyValue}" /></td>
+														<td class="col-md-1" style="text-align: right"><fmt:formatNumber
+																type="number" maxFractionDigits="2"
+																minFractionDigits="2"
+																value="${stockList.approvedLandingValue}" /></td>
+														<td class="col-md-1" style="text-align: right"><fmt:formatNumber
+																type="number" maxFractionDigits="2"
+																minFractionDigits="2" value="${stockList.issueQty}" />
+														</td>
+														<td class="col-md-1" style="text-align: right"><fmt:formatNumber
+																type="number" maxFractionDigits="2"
+																minFractionDigits="2" value="${stockList.issueQtyValue}" />
+														</td>
+														<td class="col-md-1" style="text-align: right"><fmt:formatNumber
+																type="number" maxFractionDigits="2"
+																minFractionDigits="2"
+																value="${stockList.issueLandingValue}" /></td>
+														<td class="col-md-1" style="text-align: right"><fmt:formatNumber
+																type="number" maxFractionDigits="2"
+																minFractionDigits="2" value="${stockList.damageQty}" />
+														</td>
+														<td class="col-md-1" style="text-align: right"><fmt:formatNumber
+																type="number" maxFractionDigits="2"
+																minFractionDigits="2" value="${stockList.damagValue}" />
+														</td>
+														<td class="col-md-1" style="text-align: right"><fmt:formatNumber
+																type="number" maxFractionDigits="2"
+																minFractionDigits="2"
+																value="${stockList.damageLandingValue}" /></td>
+														<c:set var="closingStock"
+															value="${stockList.openingStock+stockList.approveQty-stockList.issueQty-stockList.damageQty}"></c:set>
+														<c:set var="closingStockValue"
+															value="${stockList.opStockValue+stockList.approvedQtyValue-stockList.issueQtyValue-stockList.damagValue}"></c:set>
+														<c:set var="closingStockLandingValue"
+															value="${stockList.opLandingValue+stockList.approvedLandingValue-stockList.issueLandingValue-stockList.damageLandingValue}"></c:set>
+														<td class="col-md-1" style="text-align: right"><fmt:formatNumber
+																type="number" maxFractionDigits="2"
+																minFractionDigits="2" value="${closingStock}" /></td>
+														<td class="col-md-1" style="text-align: right"><fmt:formatNumber
+																type="number" maxFractionDigits="2"
+																minFractionDigits="2" value="${closingStockValue}" /></td>
+														<td class="col-md-1" style="text-align: right"><fmt:formatNumber
+																type="number" maxFractionDigits="2"
+																minFractionDigits="2"
+																value="${closingStockLandingValue}" /></td>
+													</tr>
+												</c:when>
+											</c:choose>
+
+										</c:forEach>
+
+									</tbody>
 
 								</table>
-  
-					</div>
-				</div>
-							 
 
-
+							</div>
 						</div>
-						
+
+
+
 					</div>
-					 
+
 				</div>
-				<footer>
+
+			</div>
+			<footer>
 				<p>2019 © MONGINIS</p>
 			</footer>
-			</div>
- 
-		 
 		</div>
-		
-		<!-- END Content -->
- 
+
+
+	</div>
+
+	<!-- END Content -->
+
 	<!-- END Container -->
 
 	<!--basic scripts-->
@@ -255,86 +355,104 @@
 
 
 	<script type="text/javascript">
-	function search() {
-		  
-		
-		var fromDate = $("#fromDate").val();
-		var toDate = $("#toDate").val();
-		
-		if(fromDate=="" || fromDate == null)
-			alert("Select From Date");
-		else if (toDate=="" || toDate == null)
-			alert("Select To Date");
-		 
-		$('#loader').show();
+		function search() {
 
-		$
-				.getJSON(
-						'${getPoListByDate}',
+			var fromDate = $("#fromDate").val();
+			var toDate = $("#toDate").val();
 
-						{
-							 
-							fromDate : fromDate,
-							toDate : toDate, 
-							ajax : 'true'
+			if (fromDate == "" || fromDate == null)
+				alert("Select From Date");
+			else if (toDate == "" || toDate == null)
+				alert("Select To Date");
 
-						},
-						function(data) {
+			$('#loader').show();
 
-							$('#table1 td').remove();
-							$('#loader').hide();
+			$
+					.getJSON(
+							'${getPoListByDate}',
 
-							if (data == "") {
-								alert("No records found !!");
+							{
 
-							}
-						 
+								fromDate : fromDate,
+								toDate : toDate,
+								ajax : 'true'
 
-						  $.each(
-										data,
-										function(key, itemList) {
-										
+							},
+							function(data) {
 
-											var tr = $('<tr></tr>'); 
-										  	tr.append($('<td></td>').html(key+1));
-										  	tr.append($('<td></td>').html(itemList.poDate));
-										  	tr.append($('<td></td>').html(itemList.poNo));  
-										  	tr.append($('<td></td>').html(itemList.vendorName));
-										  	tr.append($('<td></td>').html(itemList.indNo));
-										  	tr.append($('<td></td>').html('<a href="${pageContext.request.contextPath}/editPurchaseOrder/'+itemList.poId+'"><abbr'+
-													'title="Edit"><i class="fa fa-edit"></i></abbr></a> <a href="${pageContext.request.contextPath}/deletePurchaseOrder/'+itemList.poId+'"'+
-													'onClick="return confirm("Are you sure want to delete this record");"><span class="glyphicon glyphicon-remove"></span></a>'));
-										    $('#table1 tbody').append(tr); 
-										})  
-										
-							 
-						}); 
-}
+								$('#table1 td').remove();
+								$('#loader').hide();
+
+								if (data == "") {
+									alert("No records found !!");
+
+								}
+
+								$
+										.each(
+												data,
+												function(key, itemList) {
+
+													var tr = $('<tr></tr>');
+													tr.append($('<td></td>')
+															.html(key + 1));
+													tr
+															.append($(
+																	'<td></td>')
+																	.html(
+																			itemList.poDate));
+													tr
+															.append($(
+																	'<td></td>')
+																	.html(
+																			itemList.poNo));
+													tr
+															.append($(
+																	'<td></td>')
+																	.html(
+																			itemList.vendorName));
+													tr
+															.append($(
+																	'<td></td>')
+																	.html(
+																			itemList.indNo));
+													tr
+															.append($(
+																	'<td></td>')
+																	.html(
+																			'<a href="${pageContext.request.contextPath}/editPurchaseOrder/'+itemList.poId+'"><abbr'+
+													'title="Edit"><i class="fa fa-edit"></i></abbr></a> <a href="${pageContext.request.contextPath}/deletePurchaseOrder/'
+																					+ itemList.poId
+																					+ '"'
+																					+ 'onClick="return confirm("Are you sure want to delete this record");"><span class="glyphicon glyphicon-remove"></span></a>'));
+													$('#table1 tbody').append(
+															tr);
+												})
+
+							});
+		}
 	</script>
-<script>
-function myFunction() {
-  var input, filter, table, tr, td ,td1,td2, i;
-  input = document.getElementById("myInput");
-  filter = input.value.toUpperCase();
-  table = document.getElementById("table1");
-  tr = table.getElementsByTagName("tr");
-  for (i = 0; i < tr.length; i++) {
-    td = tr[i].getElementsByTagName("td")[1]; 
-    if (td) {
-    	
-    	 if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
-    	        tr[i].style.display = "";
-    	      } 
-    	      else {
-    	        tr[i].style.display = "none";
-    	      }
-       
-    }  
-    
-     
-  }
-}
- 
-</script>
+	<script>
+		function myFunction() {
+			var input, filter, table, tr, td, td1, td2, i;
+			input = document.getElementById("myInput");
+			filter = input.value.toUpperCase();
+			table = document.getElementById("table1");
+			tr = table.getElementsByTagName("tr");
+			for (i = 0; i < tr.length; i++) {
+				td = tr[i].getElementsByTagName("td")[1];
+				if (td) {
+
+					if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+						tr[i].style.display = "";
+					} else {
+						tr[i].style.display = "none";
+					}
+
+				}
+
+			}
+		}
+	</script>
 </body>
 </html>

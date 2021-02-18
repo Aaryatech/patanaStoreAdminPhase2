@@ -1,5 +1,6 @@
 package com.ats.tril.controller;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -255,9 +256,12 @@ public class IssueController {
 			String accName = request.getParameter("accName");
 
 			if (editIndex.equalsIgnoreCase("") || editIndex.equalsIgnoreCase(null)) {
+
+				DecimalFormat df = new DecimalFormat("####0.00");
+
 				IssueDetail issueDetail = new IssueDetail();
 				issueDetail.setItemId(itemId);
-				issueDetail.setItemIssueQty(qty);
+				// issueDetail.setItemIssueQty(qty);
 
 				issueDetail.setDeptId(deptId);
 				issueDetail.setSubDeptId(subDeptId);
@@ -269,19 +273,31 @@ public class IssueController {
 				issueDetail.setAccName(accName);
 				issueDetail.setDelStatus(1);
 
+				float ration = 1;
 				for (int i = 0; i < itemListbyCatId.size(); i++) {
 					if (itemListbyCatId.get(i).getItemId() == itemId) {
 
 						issueDetail.setItemGroupId(itemListbyCatId.get(i).getGrpId());
+						ration = itemListbyCatId.get(i).getUomRatio2();
+						break;
 					}
 				}
+
+				float fractionQty = Float.parseFloat(df.format(qty / ration));
+				issueDetail.setItemIssueQty(fractionQty);
+				issueDetail.setItemRequestQty(qty);
+
 				for (int i = 0; i < batchList.size(); i++) {
-					if (batchList.get(i).getMrnDetailId() == mrnDetailId) {
+					if (batchList.get(i).getMrnDetailId() == mrnDetailId
+							&& batchList.get(i).getRemainingQty() >= fractionQty) {
 						issueDetail.setBatchNo(batchList.get(i).getBatchNo());
 						issueDetail.setMrnDetailId(mrnDetailId);
+						issueDetailList.add(issueDetail);
+
+						break;
 					}
 				}
-				issueDetailList.add(issueDetail);
+
 			} else {
 				int index = Integer.parseInt(editIndex);
 				issueDetailList.get(index).setItemId(itemId);
@@ -1041,6 +1057,7 @@ public class IssueController {
 			String accName = request.getParameter("accName");
 
 			if (editIndex.equalsIgnoreCase("") || editIndex.equalsIgnoreCase(null)) {
+				DecimalFormat df = new DecimalFormat("####0.00");
 				GetIssueDetail issueDetail = new GetIssueDetail();
 				issueDetail.setItemId(itemId);
 				issueDetail.setItemIssueQty(qty);
@@ -1055,20 +1072,30 @@ public class IssueController {
 				issueDetail.setDelStatus(1);
 				issueDetail.setStatus(2);
 
+				float ration = 1;
+
 				for (int i = 0; i < itemListbyCatId.size(); i++) {
 					if (itemListbyCatId.get(i).getItemId() == itemId) {
 
 						issueDetail.setItemGroupId(itemListbyCatId.get(i).getGrpId());
+						ration = itemListbyCatId.get(i).getUomRatio2();
+						break;
+					}
+				}
+				float fractionQty = Float.parseFloat(df.format(qty / ration));
+				issueDetail.setItemIssueQty(fractionQty);
+				issueDetail.setItemRequestQty(qty);
+
+				for (int i = 0; i < batchListInEditIssue.size(); i++) {
+					if (batchListInEditIssue.get(i).getMrnDetailId() == mrnDetailId
+							&& batchListInEditIssue.get(i).getRemainingQty() >= fractionQty) {
+						issueDetail.setBatchNo(batchListInEditIssue.get(i).getBatchNo());
+						issueDetail.setMrnDetailId(mrnDetailId);
+						issueDetailEditList.add(issueDetail);
+						break;
 					}
 				}
 
-				for (int i = 0; i < batchListInEditIssue.size(); i++) {
-					if (batchListInEditIssue.get(i).getMrnDetailId() == mrnDetailId) {
-						issueDetail.setBatchNo(batchListInEditIssue.get(i).getBatchNo());
-						issueDetail.setMrnDetailId(mrnDetailId);
-					}
-				}
-				issueDetailEditList.add(issueDetail);
 			} else {
 				int index = Integer.parseInt(editIndex);
 				issueDetailEditList.get(index).setItemId(itemId);
@@ -1522,57 +1549,67 @@ public class IssueController {
 			String deptName = request.getParameter("deptName");
 			String subDeptName = request.getParameter("subDeptName");
 			String accName = request.getParameter("accName");
+			float batchQty = Float.parseFloat(request.getParameter("batchQty"));
 
-			float remainingQty = qty;
+			float ration = 1;
 
 			int subGroupId = 0;
 
 			for (int j = 0; j < itemListbyCatId.size(); j++) {
 				if (itemListbyCatId.get(j).getItemId() == itemId) {
 					subGroupId = itemListbyCatId.get(j).getGrpId();
+					ration = itemListbyCatId.get(j).getUomRatio2();
 					break;
 				}
 
 			}
-			for (int i = 0; i < batchList.size(); i++) {
-				int flag = 0;
+			DecimalFormat df = new DecimalFormat("####0.00");
+			float fractionQty = Float.parseFloat(df.format(qty / ration));
 
-				if (batchList.get(i).getRemainingQty() > 0) {
+			if (batchQty >= fractionQty) {
 
-					System.out.println(remainingQty + "  " + batchList.get(i).getRemainingQty());
-					IssueDetail issueDetail = new IssueDetail();
+				for (int i = 0; i < batchList.size(); i++) {
+					int flag = 0;
 
-					if (remainingQty > batchList.get(i).getRemainingQty()) {
-						issueDetail.setItemIssueQty(batchList.get(i).getRemainingQty());
-						remainingQty = remainingQty - batchList.get(i).getRemainingQty();
-						flag = 1;
-					} else {
-						issueDetail.setItemIssueQty(remainingQty);
-					}
+					if (batchList.get(i).getRemainingQty() > 0) {
 
-					issueDetail.setItemId(itemId);
+						System.out.println(fractionQty + " " + ration);
+						IssueDetail issueDetail = new IssueDetail();
 
-					issueDetail.setDeptId(deptId);
-					issueDetail.setSubDeptId(subDeptId);
-					issueDetail.setAccHead(acc);
-					issueDetail.setItemName(itemName);
-					issueDetail.setGroupName(groupName);
-					issueDetail.setDeptName(deptName);
-					issueDetail.setSubDeptName(subDeptName);
-					issueDetail.setAccName(accName);
-					issueDetail.setDelStatus(1);
-					issueDetail.setBatchNo(batchList.get(i).getBatchNo());
-					issueDetail.setMrnDetailId(batchList.get(i).getMrnDetailId());
-					issueDetail.setItemGroupId(subGroupId);
+						if (fractionQty > batchList.get(i).getRemainingQty()) {
 
-					issueDetailList.add(issueDetail);
+							issueDetail.setItemIssueQty(batchList.get(i).getRemainingQty());
+							issueDetail.setItemRequestQty(Math.round(batchList.get(i).getRemainingQty() * ration));
+							fractionQty = fractionQty - batchList.get(i).getRemainingQty();
+							flag = 1;
+						} else {
+							issueDetail.setItemIssueQty(fractionQty);
+							issueDetail.setItemRequestQty(Math.round(fractionQty * ration));
+						}
 
-					if (flag == 0) {
-						break;
+						issueDetail.setItemId(itemId);
+
+						issueDetail.setDeptId(deptId);
+						issueDetail.setSubDeptId(subDeptId);
+						issueDetail.setAccHead(acc);
+						issueDetail.setItemName(itemName);
+						issueDetail.setGroupName(groupName);
+						issueDetail.setDeptName(deptName);
+						issueDetail.setSubDeptName(subDeptName);
+						issueDetail.setAccName(accName);
+						issueDetail.setDelStatus(1);
+						issueDetail.setBatchNo(batchList.get(i).getBatchNo());
+						issueDetail.setMrnDetailId(batchList.get(i).getMrnDetailId());
+						issueDetail.setItemGroupId(subGroupId);
+
+						issueDetailList.add(issueDetail);
+
+						if (flag == 0) {
+							break;
+						}
 					}
 				}
 			}
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

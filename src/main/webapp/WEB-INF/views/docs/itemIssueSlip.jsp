@@ -17,7 +17,7 @@
 
 <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
- 
+
 
 <style type="text/css">
 table {
@@ -75,7 +75,6 @@ h6 {
 }
 
 th {
-	 
 	color: black;
 }
 
@@ -118,13 +117,14 @@ hr {
 
 
 	<c:forEach items="${list}" var="item" varStatus="count">
- 
+
 		<div align="left">
 			<h5>${documentBean.docIsoSerialNumber}</h5>
 		</div>
 
 
-		<h4 align="center" align="center" style=" font-family: arial; font-weight: bold; font-size: 120%;">${company.companyName}</h4>
+		<h4 align="center" align="center"
+			style="font-family: arial; font-weight: bold; font-size: 120%;">${company.companyName}</h4>
 
 
 		<div class="invoice-box">
@@ -141,8 +141,9 @@ hr {
 									style="font-weight: bold;">ITEMS ISSUE SLIP</td>
 
 
-								<td width="20%" align="left">Slip No.&nbsp;&nbsp;: ${item.issueSlipNo}
-									<br> Date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
+								<td width="20%" align="left">Slip No.&nbsp;&nbsp;:
+									${item.issueSlipNo} <br>
+									Date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
 									${item.issueDate}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
 								</td>
@@ -163,9 +164,10 @@ hr {
 						<table>
 							<tr>
 								<td width="50%" valign="top"
-									style="border-left: 0px solid #313131; border-top: 1px solid #313131; border-bottom: 1px solid #313131; padding: 8px; color: #000; ">
-									Department.  &nbsp;&nbsp;&nbsp;: ${item.deptCode}<br>
-									Sub.Dept. &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;: ${item.subDeptCode}
+									style="border-left: 0px solid #313131; border-top: 1px solid #313131; border-bottom: 1px solid #313131; padding: 8px; color: #000;">
+									Department. &nbsp;&nbsp;&nbsp;: ${item.deptCode}<br>
+									Sub.Dept. &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;:
+									${item.subDeptCode}
 								</td>
 
 								<!-- 	<td width="50%" valign="top"
@@ -192,7 +194,7 @@ hr {
 					<th>ITEM</th>
 					<th>DESCRIPTION</th>
 					<th>UOM</th>
-					<th>ISSUED QTY.</th> 
+					<th>ISSUED QTY.</th>
 
 				</tr>
 			</thead>
@@ -241,8 +243,8 @@ hr {
 									style="font-weight: bold;">ITEMS ISSUE SLIP</td>
 
 
-								<td width="20%" align="left">Slip No.&nbsp;&nbsp;: 0001
-									<br> Date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
+								<td width="20%" align="left">Slip No.&nbsp;&nbsp;: 0001 <br>
+									Date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
 									${item.issueDate}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
 								</td>
@@ -264,8 +266,9 @@ hr {
 							<tr>
 								<td width="50%" valign="top"
 									style="border-left: 0px solid #313131; border-top: 1px solid #313131; border-bottom: 1px solid #313131; padding: 8px; color: #000; font-size: 12px;">
-									Department.  &nbsp;&nbsp;&nbsp;: ${item.deptCode}<br>
-									Sub.Dept. &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;: ${item.subDeptCode}
+									Department. &nbsp;&nbsp;&nbsp;: ${item.deptCode}<br>
+									Sub.Dept. &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;:
+									${item.subDeptCode}
 								</td>
 
 								<!-- 	<td width="50%" valign="top"
@@ -292,7 +295,7 @@ hr {
 					<th>ITEM</th>
 					<th>DESCRIPTION</th>
 					<th>UOM</th>
-					<th>ISSUED QTY.</th> 
+					<th>ISSUED QTY.</th>
 
 				</tr>
 			</thead>
@@ -312,10 +315,12 @@ hr {
 				<tr>
 					<td width="0" align="center"><c:out value="${count.index+1}" /></td>
 					<td width="0" align="center"><c:out value="${row.itemCode}" /></td>
-					<td width="60%" align="left" style="padding: 10px;"><c:out value="${row.itemDesc}" /></td>
+					<td width="60%" align="left" style="padding: 10px;"><c:out
+							value="${row.itemDesc}" /></td>
 					<td width="0" align="center"><c:out value="${row.itemUom}" /></td>
-					<td width="0" align="right" style="padding: 10px;"><c:out value="${row.itemIssueQty}" /></td>
-			 
+					<td width="0" align="right" style="padding: 10px;"><c:out
+							value="${row.itemRequestQty}" /></td>
+
 
 				</tr>
 
@@ -333,9 +338,8 @@ hr {
 
 
 		<p
-			style="color: #000;   text-align: left; margin: 0px;   font-family: arial; font-weight: bold; font-size: 90%;">
-			Remark - <br> <br> <br> <br>
-			<br>
+			style="color: #000; text-align: left; margin: 0px; font-family: arial; font-weight: bold; font-size: 90%;">
+			Remark - <br> <br> <br> <br> <br>
 
 		</p>
 
@@ -347,17 +351,17 @@ hr {
 						<table>
 							<tr>
 								<td width="25%" valign="top" align="center"
-									style="padding: 8px; color: #000;   font-weight: bold;">
+									style="padding: 8px; color: #000; font-weight: bold;">
 
 									Authorised By</td>
 
 								<td width="25%" valign="top" align="center"
-									style="padding: 8px; color: #000;   font-weight: bold;">
+									style="padding: 8px; color: #000; font-weight: bold;">
 
 									Issued By</td>
 
 								<td width="25%" valign="top" align="center"
-									style="padding: 8px; color: #000;   font-weight: bold;">
+									style="padding: 8px; color: #000; font-weight: bold;">
 
 									Received By</td>
 
@@ -369,8 +373,9 @@ hr {
 					</td>
 				</tr>
 			</table>
-															<hr	style="height: 1px; border: none; color: black; background-color: black;">
-			
+			<hr
+				style="height: 1px; border: none; color: black; background-color: black;">
+
 		</div>
 		<div style="page-break-after: always;"></div>
 	</c:forEach>

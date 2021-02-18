@@ -563,7 +563,7 @@
 
 					if (qty > batchQty) {
 
-						valid = false;
+						valid = true;
 					}
 				} else {
 
@@ -615,7 +615,7 @@
 
 							tr.append($('<td></td>').html(itemList.itemName));
 							tr.append($('<td align="right"></td>').html(
-									itemList.itemIssueQty));
+									itemList.itemRequestQty));
 							/* tr.append($('<td></td>').html('<span class="glyphicon glyphicon-edit" id="edit'+key+'" onclick="edit('+key+');"> </span><span class="glyphicon glyphicon-remove"  onclick="del('+key+')" id="del'+key+'"></span>'));
 							 */tr.append($('<td></td>').html(
 									'<span class="glyphicon glyphicon-remove"  onclick="del('
@@ -812,7 +812,7 @@
 
 					tr.append($('<td></td>').html(itemList.itemName));
 					tr.append($('<td align="right"></td>').html(
-							itemList.itemIssueQty));
+							itemList.itemRequestQty));
 					/* tr.append($('<td></td>').html('<span class="glyphicon glyphicon-edit" id="edit'+key+'" onclick="edit('+key+');"> </span><span class="glyphicon glyphicon-remove"  onclick="del('+key+')" id="del'+key+'"></span>'));
 					 */tr.append($('<td></td>').html(
 							'<span class="glyphicon glyphicon-remove"  onclick="del('

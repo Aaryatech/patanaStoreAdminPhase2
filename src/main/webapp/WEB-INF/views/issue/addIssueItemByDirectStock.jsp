@@ -485,7 +485,9 @@
 					/* html += '</option>';
 					$('#batchNo').html(html);
 					$("#batchNo").trigger("chosen:updated"); */
-					document.getElementById("batchQty").value = totalQty;
+					document.getElementById("batchQty").value = totalQty
+							.toFixed(2);
+
 					getMoqQty(itemId);
 				});
 			}
@@ -560,95 +562,79 @@
 			if (validation() == true) {
 				var valid = true;
 
-				if (editIndex == "" || editIndex == null) {
+				if (qty > batchQty) {
 
-					if (qty > batchQty) {
-
-						valid = false;
-					}
-				} else {
-
-					var previousQty = parseFloat($("#previousQty").val());
-					if (qty > (batchQty + previousQty)) {
-
-						document.getElementById("qty").value = previousQty;
-						valid = false;
-					}
-
+					valid = false;
 				}
 
-				if (valid == true) {
-					$('#loader').show();
+				$('#loader').show();
 
-					$.getJSON('${addItmeInIssueListForDirectQty}',
+				$.getJSON('${addItmeInIssueListForDirectQty}',
 
-					{
+				{
 
-						itemId : itemId,
-						batchNo : 0,
-						qty : qty,
-						groupId : groupId,
-						deptId : deptId,
-						subDeptId : subDeptId,
-						editIndex : editIndex,
-						acc : acc,
-						itemName : itemName,
-						groupName : groupName,
-						deptName : deptName,
-						subDeptName : subDeptName,
-						accName : accName,
-						ajax : 'true'
+					itemId : itemId,
+					batchNo : 0,
+					qty : qty,
+					groupId : groupId,
+					deptId : deptId,
+					subDeptId : subDeptId,
+					editIndex : editIndex,
+					acc : acc,
+					itemName : itemName,
+					groupName : groupName,
+					deptName : deptName,
+					subDeptName : subDeptName,
+					accName : accName,
+					batchQty : batchQty,
+					ajax : 'true'
 
-					}, function(data) {
+				}, function(data) {
 
-						$('#table_grid td').remove();
-						$('#loader').hide();
+					$('#table_grid td').remove();
+					$('#loader').hide();
 
-						if (data == "") {
-							alert("No records found !!");
-							document.getElementById("submit").disabled = true;
-						}
+					if (data == "") {
+						alert("No records found !!");
+						document.getElementById("submit").disabled = true;
+					}
 
-						$.each(data, function(key, itemList) {
+					$.each(data, function(key, itemList) {
 
-							var tr = $('<tr></tr>');
-							tr.append($('<td></td>').html(key + 1));
+						var tr = $('<tr></tr>');
+						tr.append($('<td></td>').html(key + 1));
 
-							tr.append($('<td></td>').html(itemList.itemName));
-							tr.append($('<td align="right"></td>').html(
-									itemList.itemIssueQty));
-							/* tr.append($('<td></td>').html('<span class="glyphicon glyphicon-edit" id="edit'+key+'" onclick="edit('+key+');"> </span><span class="glyphicon glyphicon-remove"  onclick="del('+key+')" id="del'+key+'"></span>'));
-							 */tr.append($('<td></td>').html(
-									'<span class="glyphicon glyphicon-remove"  onclick="del('
-											+ key + ')" id="del' + key
-											+ '"></span>'));
-							$('#table_grid tbody').append(tr);
-							document.getElementById("submit").disabled = false;
-							$('#poTyped').prop('disabled', true).trigger(
-									"chosen:updated");
-							document.getElementById("type").value = type;
-						})
+						tr.append($('<td></td>').html(itemList.itemName));
+						tr.append($('<td align="right"></td>').html(
+								itemList.itemRequestQty));
+						/* tr.append($('<td></td>').html('<span class="glyphicon glyphicon-edit" id="edit'+key+'" onclick="edit('+key+');"> </span><span class="glyphicon glyphicon-remove"  onclick="del('+key+')" id="del'+key+'"></span>'));
+						 */tr.append($('<td></td>').html(
+								'<span class="glyphicon glyphicon-remove"  onclick="del('
+										+ key + ')" id="del' + key
+										+ '"></span>'));
+						$('#table_grid tbody').append(tr);
+						document.getElementById("submit").disabled = false;
+						$('#poTyped').prop('disabled', true).trigger(
+								"chosen:updated");
+						document.getElementById("type").value = type;
+					})
 
-						document.getElementById("qty").value = "";
-						document.getElementById("groupId").value = "";
-						$('#groupId').trigger("chosen:updated");
-						/* document.getElementById("deptId").value= ""; 
-						$('#deptId').trigger("chosen:updated"); */
-						document.getElementById("itemId").value = "";
-						$('#itemId').trigger("chosen:updated");
-						/* document.getElementById("subDeptId").value= "";
-						$('#subDeptId').trigger("chosen:updated");
-						document.getElementById("acc").value= "";
-						$('#acc').trigger("chosen:updated");*/
-						document.getElementById("batchNo").value = "";
-						$('#batchNo').trigger("chosen:updated");
-						document.getElementById("editIndex").value = "";
-					});
+					document.getElementById("qty").value = "";
+					document.getElementById("groupId").value = "";
+					$('#groupId').trigger("chosen:updated");
+					/* document.getElementById("deptId").value= ""; 
+					$('#deptId').trigger("chosen:updated"); */
+					document.getElementById("itemId").value = "";
+					$('#itemId').trigger("chosen:updated");
+					/* document.getElementById("subDeptId").value= "";
+					$('#subDeptId').trigger("chosen:updated");
+					document.getElementById("acc").value= "";
+					$('#acc').trigger("chosen:updated");*/
+					document.getElementById("batchNo").value = "";
+					$('#batchNo').trigger("chosen:updated");
+					document.getElementById("editIndex").value = "";
+				});
 
-				} else {
-					alert("Enter Valid QTY");
-					document.getElementById("qty").focus();
-				}
 			}
 
 		}
@@ -813,7 +799,7 @@
 
 					tr.append($('<td></td>').html(itemList.itemName));
 					tr.append($('<td align="right"></td>').html(
-							itemList.itemIssueQty));
+							itemList.itemRequestQty));
 					/* tr.append($('<td></td>').html('<span class="glyphicon glyphicon-edit" id="edit'+key+'" onclick="edit('+key+');"> </span><span class="glyphicon glyphicon-remove"  onclick="del('+key+')" id="del'+key+'"></span>'));
 					 */tr.append($('<td></td>').html(
 							'<span class="glyphicon glyphicon-remove"  onclick="del('
