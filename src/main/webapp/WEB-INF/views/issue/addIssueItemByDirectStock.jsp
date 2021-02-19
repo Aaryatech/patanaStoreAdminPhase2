@@ -282,11 +282,19 @@
 							<div class="box-content">
 
 								<label class="col-md-2">Avg. Issue</label>
-								<div class="col-sm-6 col-lg-2 controls">
+								<div class="col-md-3">
 
 									<input type="text" name="itemCurrentStock"
 										id="itemCurrentStock" class="form-control"
 										placeholder="Current Stock" readonly />
+
+								</div>
+
+								<label class="col-md-2">Issue UOM</label>
+								<div class="col-md-3">
+
+									<input type="text" name="issueUom" id="issueUom"
+										class="form-control" placeholder="Issue UOM" readonly />
 
 								</div>
 
@@ -326,6 +334,7 @@
 												<tr>
 													<th style="width: 2%">Sr.No.</th>
 													<th>Item Name</th>
+													<th class="col-md-1">Issue UOM</th>
 													<th class="col-md-1">Qty</th>
 													<th class="col-md-1">Action</th>
 												</tr>
@@ -558,6 +567,7 @@
 			var editIndex = $("#editIndex").val();
 			var batchQty = parseFloat($("#batchQty").val());
 			var type = parseFloat($("#type").val());
+			var issueUom = $("#issueUom").val();
 
 			if (validation() == true) {
 				var valid = true;
@@ -587,6 +597,7 @@
 					subDeptName : subDeptName,
 					accName : accName,
 					batchQty : batchQty,
+					issueUom : issueUom,
 					ajax : 'true'
 
 				}, function(data) {
@@ -605,6 +616,8 @@
 						tr.append($('<td></td>').html(key + 1));
 
 						tr.append($('<td></td>').html(itemList.itemName));
+						tr.append($('<td align="center"></td>').html(
+								itemList.issueUom));
 						tr.append($('<td align="right"></td>').html(
 								itemList.itemRequestQty));
 						/* tr.append($('<td></td>').html('<span class="glyphicon glyphicon-edit" id="edit'+key+'" onclick="edit('+key+');"> </span><span class="glyphicon glyphicon-remove"  onclick="del('+key+')" id="del'+key+'"></span>'));
@@ -798,6 +811,8 @@
 					tr.append($('<td></td>').html(key + 1));
 
 					tr.append($('<td></td>').html(itemList.itemName));
+					tr.append($('<td align="center"></td>').html(
+							itemList.issueUom));
 					tr.append($('<td align="right"></td>').html(
 							itemList.itemRequestQty));
 					/* tr.append($('<td></td>').html('<span class="glyphicon glyphicon-edit" id="edit'+key+'" onclick="edit('+key+');"> </span><span class="glyphicon glyphicon-remove"  onclick="del('+key+')" id="del'+key+'"></span>'));
@@ -943,6 +958,7 @@
 
 								document.getElementById("itemCurrentStock").value = (data.avgIssueQty)
 										.toFixed(2);
+								document.getElementById("issueUom").value = data.issueUom;
 							});
 
 		}

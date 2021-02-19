@@ -23,7 +23,7 @@ public class IssueDetail {
 	private String deptName;
 	private String subDeptName;
 	private String accName; 
-	
+	private String issueUom; 
 	
 	public String getItemName() {
 		return itemName;
@@ -141,6 +141,12 @@ public class IssueDetail {
 	public void setMrnDetailId(int mrnDetailId) {
 		this.mrnDetailId = mrnDetailId;
 	}
+	public String getIssueUom() {
+		return issueUom;
+	}
+	public void setIssueUom(String issueUom) {
+		this.issueUom = issueUom;
+	}
 	@Override
 	public String toString() {
 		return "IssueDetail [issueDetailId=" + issueDetailId + ", issueId=" + issueId + ", itemGroupId=" + itemGroupId
@@ -148,7 +154,7 @@ public class IssueDetail {
 				+ ", itemIssueQty=" + itemIssueQty + ", itemRequestQty=" + itemRequestQty + ", itemPendingQty="
 				+ itemPendingQty + ", delStatus=" + delStatus + ", status=" + status + ", batchNo=" + batchNo
 				+ ", mrnDetailId=" + mrnDetailId + ", itemName=" + itemName + ", groupName=" + groupName + ", deptName="
-				+ deptName + ", subDeptName=" + subDeptName + ", accName=" + accName + "]";
+				+ deptName + ", subDeptName=" + subDeptName + ", accName=" + accName + ", issueUom=" + issueUom + "]";
 	}
 	
 	

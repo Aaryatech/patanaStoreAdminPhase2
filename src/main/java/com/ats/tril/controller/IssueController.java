@@ -254,7 +254,8 @@ public class IssueController {
 			String deptName = request.getParameter("deptName");
 			String subDeptName = request.getParameter("subDeptName");
 			String accName = request.getParameter("accName");
-
+			String issueUom = request.getParameter("issueUom");
+			
 			if (editIndex.equalsIgnoreCase("") || editIndex.equalsIgnoreCase(null)) {
 
 				DecimalFormat df = new DecimalFormat("####0.00");
@@ -272,7 +273,7 @@ public class IssueController {
 				issueDetail.setSubDeptName(subDeptName);
 				issueDetail.setAccName(accName);
 				issueDetail.setDelStatus(1);
-
+				issueDetail.setIssueUom(issueUom);
 				float ration = 1;
 				for (int i = 0; i < itemListbyCatId.size(); i++) {
 					if (itemListbyCatId.get(i).getItemId() == itemId) {
@@ -1550,7 +1551,7 @@ public class IssueController {
 			String subDeptName = request.getParameter("subDeptName");
 			String accName = request.getParameter("accName");
 			float batchQty = Float.parseFloat(request.getParameter("batchQty"));
-
+			String issueUom = request.getParameter("issueUom");
 			float ration = 1;
 
 			int subGroupId = 0;
@@ -1588,7 +1589,7 @@ public class IssueController {
 						}
 
 						issueDetail.setItemId(itemId);
-
+						issueDetail.setIssueUom(issueUom);
 						issueDetail.setDeptId(deptId);
 						issueDetail.setSubDeptId(subDeptId);
 						issueDetail.setAccHead(acc);
