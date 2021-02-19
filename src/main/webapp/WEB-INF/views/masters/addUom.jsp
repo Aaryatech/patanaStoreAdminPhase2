@@ -36,7 +36,8 @@
 
 					</h1>
 				</div>
-			</div> --><br>
+			</div> -->
+			<br>
 			<!-- END Page Title -->
 
 			<div class="row">
@@ -48,8 +49,8 @@
 								<i class="fa fa-table"></i>Add Uom
 							</h3>
 							<div class="box-tool">
-								<a href="${pageContext.request.contextPath}/addUom">
-									Add Uom</a> <a data-action="collapse" href="#"><i
+								<a href="${pageContext.request.contextPath}/addUom"> Add Uom</a>
+								<a data-action="collapse" href="#"><i
 									class="fa fa-chevron-up"></i></a>
 							</div>
 
@@ -58,23 +59,23 @@
 						<div class=" box-content">
 							<form id="addSupplier"
 								action="${pageContext.request.contextPath}/insertUom"
-								onsubmit="return confirm('Do you really want to submit the form?');" method="post">
+								onsubmit="return confirm('Do you really want to submit the form?');"
+								method="post">
 								<div class="box-content">
 
 									<div class="col-md-2">UOM*</div>
 									<div class="col-md-10">
-										<input id="uom" class="form-control"
-								placeholder="UOM" value="${editUom.uom}"  style="text-align: left;" name="uom" type="text" required>
-								<input id="uomId" class="form-control"
-								  name="uomId" value="${editUom.uomId}" type="hidden" >
+										<input id="uom" class="form-control" placeholder="UOM"
+											value="${editUom.uom}" style="text-align: left;" name="uom"
+											type="text" required> <input id="uomId"
+											class="form-control" name="uomId" value="${editUom.uomId}"
+											type="hidden">
 									</div>
 									<div class="col-md-1"></div>
-									
-									 
+
+
 								</div>
-								<br> <br>
-								 
-					<br>
+								<br> <br> <br>
 								<div class=" box-content">
 									<div class="col-md-12" style="text-align: center">
 										<input type="submit" class="btn btn-info" value="Submit"
@@ -84,52 +85,51 @@
 
 									</div>
 								</div>
-								
-								<div class="box-content">
-								
-								<div class="col-md-9"></div> 
-								<label for="search" class="col-md-3" id="search"> <i
-									class="fa fa-search" style="font-size: 20px"></i> <input
-									type="text" id="myInput" onkeyup="myFunction()"
-									placeholder="Search.." title="Type in a name">
-								</label>
 
-					<br /> <br />
-					<div class="clearfix"></div>
-					<div class="table-responsive" style="border: 0">
-						<table class="table table-advance" id="table1">  
-									<thead>
+								<div class="box-content">
+
+									<div class="col-md-9"></div>
+									<label for="search" class="col-md-3" id="search"> <i
+										class="fa fa-search" style="font-size: 20px"></i> <input
+										type="text" id="myInput" onkeyup="myFunction()"
+										placeholder="Search.." title="Type in a name">
+									</label> <br /> <br />
+									<div class="clearfix"></div>
+									<div class="table-responsive" style="border: 0">
+										<table class="table table-advance" id="table1">
+											<thead>
 												<tr class="bgpink">
-													<th class="col-sm-1">Sr no.</th> 
-													<th class="col-md-2">UOM</th> 
+													<th class="col-sm-1">Sr no.</th>
+													<th class="col-md-2">UOM</th>
 													<th class="col-md-1">Action</th>
 												</tr>
 											</thead>
 											<tbody>
-											
-											  <c:forEach items="${uomList}" var="uomList"
-									varStatus="count">
-									<tr>
-										 <td class="col-md-1"><c:out value="${count.index+1}" /></td>
-										  
-											 
-										 <td class="col-md-5"><c:out value="${uomList.uom}" /></td> 
-									 <td class="col-md-1">
-									 <a href="${pageContext.request.contextPath}/editUom/${uomList.uomId}"><abbr title="Edit"><i  class="fa fa-edit"></i></abbr></a>&nbsp;&nbsp;
-									 <a href="${pageContext.request.contextPath}/deleteUom/${uomList.uomId}" onClick="return confirm('Are you sure want to delete this record');"><span
-												class="glyphicon glyphicon-remove"></span></a>
-									  
-									 </td>
-										 
-									</tr>
-								</c:forEach>  
+
+												<c:forEach items="${uomList}" var="uomList"
+													varStatus="count">
+													<tr>
+														<td class="col-md-1"><c:out value="${count.index+1}" /></td>
+
+
+														<td class="col-md-5"><c:out value="${uomList.uom}" /></td>
+														<td class="col-md-1"><a
+															href="${pageContext.request.contextPath}/editUom/${uomList.uomId}"><abbr
+																title="Edit"><i class="fa fa-edit"></i></abbr></a>&nbsp;&nbsp;
+															<a
+															href="${pageContext.request.contextPath}/deleteUom/${uomList.uomId}"
+															onClick="return confirm('Are you sure want to delete this record');"><span
+																class="glyphicon glyphicon-remove"></span></a></td>
+
+													</tr>
+												</c:forEach>
 
 											</tbody>
 
-								</table>
-  
-					</div>
-				</div>
+										</table>
+
+									</div>
+								</div>
 							</form>
 
 
@@ -139,7 +139,7 @@
 
 				</div>
 			</div>
- 
+
 			<!-- END Main Content -->
 			<footer>
 				<p>2019 © MONGINIS</p>
@@ -236,33 +236,32 @@
 		}
 	</script>
 	<script>
-function myFunction() {
-  var input, filter, table, tr,td1, td, i;
-  input = document.getElementById("myInput");
-  filter = input.value.toUpperCase();
-  table = document.getElementById("table1");
-  tr = table.getElementsByTagName("tr");
-  for (i = 0; i < tr.length; i++) {
-    td = tr[i].getElementsByTagName("td")[1];
-    td1 = tr[i].getElementsByTagName("td")[2];
-    if (td || td1) {
-    	
-    	 if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
-    	        tr[i].style.display = "";
-    	      }else if (td1.innerHTML.toUpperCase().indexOf(filter) > -1) {
-    	        tr[i].style.display = "";
-    	      }  else {
-    	        tr[i].style.display = "none";
-    	      }
-       
-    }
-  }
-}
-function FocusOnInput()
-{
-document.getElementById("uom").focus();
-}
-</script>
+		function myFunction() {
+			var input, filter, table, tr, td1, td, i;
+			input = document.getElementById("myInput");
+			filter = input.value.toUpperCase();
+			table = document.getElementById("table1");
+			tr = table.getElementsByTagName("tr");
+			for (i = 0; i < tr.length; i++) {
+				td = tr[i].getElementsByTagName("td")[1];
+				td1 = tr[i].getElementsByTagName("td")[2];
+				if (td || td1) {
+
+					if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+						tr[i].style.display = "";
+					} else if (td1.innerHTML.toUpperCase().indexOf(filter) > -1) {
+						tr[i].style.display = "";
+					} else {
+						tr[i].style.display = "none";
+					}
+
+				}
+			}
+		}
+		function FocusOnInput() {
+			document.getElementById("uom").focus();
+		}
+	</script>
 
 </body>
 </html>

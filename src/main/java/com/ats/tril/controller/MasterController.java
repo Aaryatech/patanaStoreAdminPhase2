@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,12 +37,14 @@ import com.ats.tril.model.GetItem;
 import com.ats.tril.model.GetItemGroup;
 import com.ats.tril.model.GetItemSubGrp;
 import com.ats.tril.model.GetSubDept;
+import com.ats.tril.model.Info;
 import com.ats.tril.model.Item;
 import com.ats.tril.model.ItemGroup;
 import com.ats.tril.model.SubDept;
 import com.ats.tril.model.TaxForm;
 import com.ats.tril.model.Type;
 import com.ats.tril.model.Uom;
+import com.ats.tril.model.UomConversion;
 import com.ats.tril.model.login.User;
 
 @Controller
@@ -1324,6 +1327,132 @@ public class MasterController {
 		}
 
 		return "redirect:/addUser";
+	}
+
+	@RequestMapping(value = "/addUomConversionMaster", method = RequestMethod.GET)
+	public String addUomConversionMaster(HttpServletRequest request, HttpServletResponse response, Model model) {
+
+		String retrn = "masters/addUomConversionMaster";
+		try {
+
+			Uom[] uom = rest.getForObject(Constants.url + "/getAllUoms", Uom[].class);
+			uomList = new ArrayList<Uom>(Arrays.asList(uom));
+			model.addAttribute("uomList", uomList);
+
+			UomConversion[] uomConversion = rest.getForObject(Constants.url + "/getAllUomConversion",
+					UomConversion[].class);
+			List<UomConversion> uomConversionList = new ArrayList<UomConversion>(Arrays.asList(uomConversion));
+			model.addAttribute("uomConversionList", uomConversionList);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return retrn;
+	}
+
+	@RequestMapping(value = "/insertConversionMaster", method = RequestMethod.POST)
+	public String insertConversionMaster(HttpServletRequest request, HttpServletResponse response, Model model) {
+
+		try {
+
+			int uom = Integer.parseInt(request.getParameter("uom"));
+			int uom2 = Integer.parseInt(request.getParameter("uom2"));
+
+			float uomratio = Float.parseFloat(request.getParameter("uomratio"));
+			float uom2ratio = Float.parseFloat(request.getParameter("uom2ratio"));
+
+			UomConversion insert = new UomConversion();
+
+			int flag = 0;
+
+			try {
+				int convertId = Integer.parseInt(request.getParameter("convertId"));
+				insert.setConvertId(convertId);
+				flag = 1;
+
+			} catch (Exception e) {
+
+			}
+
+			insert.setUom1(uom);
+			insert.setUom2(uom2);
+			insert.setRation1(uomratio);
+			insert.setRation2(uom2ratio);
+			insert.setDelStuatus(1);
+
+			UomConversion res = rest.postForObject(Constants.url + "/saveUomConversion", insert, UomConversion.class);
+
+			if (flag == 1) {
+
+				String umname = "-";
+
+				for (int i = 0; i < uomList.size(); i++) {
+
+					if (uomList.get(i).getUomId() == uom) {
+						umname = uomList.get(i).getUom();
+						break;
+					}
+				}
+
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+				map.add("id", insert.getConvertId());
+				map.add("uom", uom);
+				map.add("uom2", uom2);
+				map.add("uom2ratio", uom2ratio);
+				map.add("umname", umname);
+				Info info = rest.postForObject(Constants.url + "/updateUomIdsInItemMaster", map, Info.class);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "redirect:/addUomConversionMaster";
+	}
+
+	@RequestMapping(value = "/deleteUomConversion/{id}", method = RequestMethod.GET)
+	public String deleteUomConversion(@PathVariable int id, HttpServletRequest request, HttpServletResponse response) {
+
+		try {
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("id", id);
+			ErrorMessage res = rest.postForObject(Constants.url + "/deleteUomConversion", map, ErrorMessage.class);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "redirect:/addUomConversionMaster";
+	}
+
+	@RequestMapping(value = "/editUomConversion/{id}", method = RequestMethod.GET)
+	public String editUomConversion(@PathVariable int id, HttpServletRequest request, HttpServletResponse response,
+			Model model) {
+
+		String retrn = "masters/addUomConversionMaster";
+		try {
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("id", id);
+			UomConversion res = rest.postForObject(Constants.url + "/getUomConversionByUomId", map,
+					UomConversion.class);
+			model.addAttribute("editUomConversion", res);
+
+			Uom[] uom = rest.getForObject(Constants.url + "/getAllUoms", Uom[].class);
+			uomList = new ArrayList<Uom>(Arrays.asList(uom));
+			model.addAttribute("uomList", uomList);
+
+			UomConversion[] uomConversion = rest.getForObject(Constants.url + "/getAllUomConversion",
+					UomConversion[].class);
+			List<UomConversion> uomConversionList = new ArrayList<UomConversion>(Arrays.asList(uomConversion));
+			model.addAttribute("uomConversionList", uomConversionList);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return retrn;
 	}
 
 }
