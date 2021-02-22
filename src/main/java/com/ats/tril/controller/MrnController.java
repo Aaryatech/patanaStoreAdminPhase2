@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.StringJoiner;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -2107,20 +2108,31 @@ List<GetPODetail> poDetailForEditMrn=new ArrayList<GetPODetail>();
 				 List<OfficeMrnDetail> officeMrnList = new ArrayList<>(Arrays.asList(officeMrnArr));
 				
 				int mrnHeadStatus = 0;
+				 List<Integer> statList = new ArrayList<Integer>();
+				 
 				 for (int i = 0; i < officeMrnList.size(); i++) {
 					 
-					if(officeMrnList.get(i).getMrnDetailStatus()==2) {
-						
-						mrnHeadStatus = 2;	
+					if(officeMrnList.get(i).getMrnDetailStatus()==2) {						
+							
+						statList.add(2);
 					}else {
-						mrnHeadStatus = 1;	
+						
+						statList.add(1);
 					}
+					
+					
 				}
 				 
-				 map = new LinkedMultiValueMap<String, Object>();
-				 map.add("mrnId", Integer.parseInt(request.getParameter("mrnId")));
-				 map.add("status", mrnHeadStatus);
-				 ErrorMessage approved = rest.postForObject(Constants.url + "/updateMrnHeadStatus", map, ErrorMessage.class);
+				
+				 if(statList.contains(1)) {
+					 mrnHeadStatus = 1;	
+				 }else {
+					 mrnHeadStatus = 2;
+				 }
+			map = new LinkedMultiValueMap<String, Object>();
+			map.add("mrnId", Integer.parseInt(request.getParameter("mrnId")));
+			map.add("status", mrnHeadStatus);
+			ErrorMessage approved = rest.postForObject(Constants.url + "/updateMrnHeadStatus", map, ErrorMessage.class);
 				 
 			} catch (Exception e) {
 

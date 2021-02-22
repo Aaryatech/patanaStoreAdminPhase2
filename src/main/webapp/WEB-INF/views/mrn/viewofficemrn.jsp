@@ -56,7 +56,7 @@
 
 
 						<div class="box-content">
-							<form action="${pageContext.request.contextPath}/getMrnHeaders"
+							<form action="${pageContext.request.contextPath}/getOfficeMrnHeaders"
 								class="form-horizontal" id="validation-form" method="get">
 
 

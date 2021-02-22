@@ -534,7 +534,7 @@ body {
 		src="${pageContext.request.contextPath}/resources/assets/jquery-validation/dist/additional-methods.min.js"></script>
 
 	<script type="text/javascript">
-			/* function getInvoiceNo() {
+			 function getInvoiceNo() {
 
 				var date = $("#grn_date").val();
 				var catId = $("#grn_type").val();
@@ -553,7 +553,7 @@ body {
 
 				});
 
-			} */
+			} 
 		
 	
 	function validateMrnQty(currQty, remQty){
