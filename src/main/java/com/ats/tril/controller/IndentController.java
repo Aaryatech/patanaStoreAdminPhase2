@@ -48,6 +48,7 @@ import com.ats.tril.model.GetSubDept;
 import com.ats.tril.model.ImportExcelForPo;
 import com.ats.tril.model.IndentValueLimit;
 import com.ats.tril.model.ItemListWithCurrentStock;
+import com.ats.tril.model.SettingValue;
 import com.ats.tril.model.StockHeader;
 import com.ats.tril.model.Type;
 import com.ats.tril.model.doc.DocumentBean;
@@ -907,7 +908,7 @@ public class IndentController {
 	public String saveIndent(HttpServletRequest request, HttpServletResponse response) {
 
 		try {
-
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			System.err.println("Inside saveIndent");
 
 			int catId = Integer.parseInt(request.getParameter("catId"));
@@ -944,9 +945,14 @@ public class IndentController {
 
 			Indent indent = new Indent();
 			DocumentBean docBean = null;
+			
+			map = new LinkedMultiValueMap<String, Object>();
+			map.add("name", "indentStatus");
+			SettingValue settingValue = rest.postForObject(Constants.url + "/getSettingValue", map, SettingValue.class);
+			
 			try {
-
-				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+				map = new LinkedMultiValueMap<String, Object>();
+				
 				map.add("docId", 1);
 				map.add("catId", catId);
 				map.add("date", DateConvertor.convertToYMD(indDate));
@@ -978,7 +984,7 @@ public class IndentController {
 			indent.setIndIsmonthly(isMonthly);
 			indent.setIndMDate(DateConvertor.convertToYMD(indDate));
 
-			indent.setIndMStatus(9);
+			indent.setIndMStatus(Integer.parseInt(settingValue.getValue()));
 			indent.setIndMType(indType);
 			indent.setIndRemark("-");
 
@@ -995,7 +1001,7 @@ public class IndentController {
 				IndentTrans transDetail = new IndentTrans();
 				TempIndentDetail detail = tempIndentList.get(i);
 
-				transDetail.setIndDStatus(9);
+				transDetail.setIndDStatus(Integer.parseInt(settingValue.getValue()));
 
 				transDetail.setIndItemCurstk(detail.getCurStock());
 				transDetail.setIndItemDesc(detail.getItemName());
