@@ -437,6 +437,11 @@ System.err.println("Inside getPODetailList add Mrn jsp Ajax call ");
 				e.printStackTrace();
 			}
 			//----------------------------Inv No---------------------------------
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map = new LinkedMultiValueMap<String, Object>();
+			map.add("name", "mrnStatus");
+			SettingValue settingValue = rest.postForObject(Constants.url + "/getSettingValue", map, SettingValue.class);
+			
 			List<MrnDetail> mrnDetailList = new ArrayList<MrnDetail>();
 
 			mrnHeader.setBillDate(DateConvertor.convertToYMD(billDate));
@@ -450,7 +455,7 @@ System.err.println("Inside getPODetailList add Mrn jsp Ajax call ");
 			mrnHeader.setLrNo(lrNo);
 			mrnHeader.setMrnDate(DateConvertor.convertToYMD(grnDate));
 		
-			mrnHeader.setMrnStatus(4);
+			mrnHeader.setMrnStatus(Integer.parseInt(settingValue.getValue()));
 			mrnHeader.setMrnType(grnType);
 			mrnHeader.setRemark1(lorryRemark);
 			mrnHeader.setRemark2("def");
@@ -476,7 +481,7 @@ System.err.println("Inside getPODetailList add Mrn jsp Ajax call ");
 
 					mrnDetail.setPoNo(detail.getPoNo());
 
-					mrnDetail.setMrnDetailStatus(4);
+					mrnDetail.setMrnDetailStatus(Integer.parseInt(settingValue.getValue()));
 
 					mrnDetail.setBatchNo("Default Batch KKKK-00456");
 					mrnDetail.setDelStatus(Constants.delStatus);
@@ -871,6 +876,10 @@ List<GetPODetail> poDetailForEditMrn=new ArrayList<GetPODetail>();
 				}
 
 			}
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map = new LinkedMultiValueMap<String, Object>();
+			map.add("name", "mrnStatus");
+			SettingValue settingValue = rest.postForObject(Constants.url + "/getSettingValue", map, SettingValue.class);
 
 			List<MrnDetail> editMrnDetailList = new ArrayList<MrnDetail>();
 
@@ -884,7 +893,7 @@ List<GetPODetail> poDetailForEditMrn=new ArrayList<GetPODetail>();
 			mrnHeader.setLrDate(DateConvertor.convertToYMD(lrDate));
 			mrnHeader.setLrNo(lrNo);
 			// mrnHeader.setMrnNo("default MRN NO");
-			mrnHeader.setMrnStatus(4);
+			mrnHeader.setMrnStatus(Integer.parseInt(settingValue.getValue()));
 			mrnHeader.setRemark1(lorryRemark);
 			mrnHeader.setRemark2("def");
 			mrnHeader.setTransport(transport);
@@ -906,7 +915,7 @@ List<GetPODetail> poDetailForEditMrn=new ArrayList<GetPODetail>();
 					mrnDetail.setItemId(detail.getItemId());
 					mrnDetail.setPoId(detail.getPoId());
 					mrnDetail.setPoNo(detail.getPoNo());
-					mrnDetail.setMrnDetailStatus(4);
+					mrnDetail.setMrnDetailStatus(Integer.parseInt(settingValue.getValue()));
 					mrnDetail.setMrnDetailId(detail.getMrnDetailId());
 					mrnDetail.setBatchNo(detail.getBatchNo());
 					mrnDetail.setDelStatus(detail.getDelStatus());
