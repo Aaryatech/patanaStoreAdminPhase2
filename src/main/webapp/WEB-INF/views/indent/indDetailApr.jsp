@@ -19,11 +19,12 @@
 	<c:url var="itemListByGroupId" value="/itemListByGroupId" />
 
 	<c:url var="updateIndDetail" value="/updateIndDetail" />
-	
+
 	<c:url var="getInvoiceNo" value="/getInvoiceNo" />
-<c:url var="getlimitationValue" value="/getlimitationValue" /> 
+	<c:url var="getlimitationValue" value="/getlimitationValue" />
 	<c:url var="getIndentValueLimit" value="/getIndentValueLimit" />
-	<c:url var="getIndentPendingValueLimit" value="/getIndentPendingValueLimit" />
+	<c:url var="getIndentPendingValueLimit"
+		value="/getIndentPendingValueLimit" />
 	<c:url var="getLastRate" value="/getLastRate" />
 
 	<div class="container" id="main-container">
@@ -58,54 +59,54 @@
 					<div class="box">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-bars"></i>Approve Indent Detail : Approval ${apr}
+								<i class="fa fa-bars"></i>Approve Indent Detail : Approval
+								${apr}
 							</h3>
 							<div class="box-tool">
-								<a href="${pageContext.request.contextPath}/getIndents">Back to List</a> <a data-action="collapse" href="${pageContext.request.contextPath}/getIndents"><i
+								<a href="${pageContext.request.contextPath}/getIndents">Back
+									to List</a> <a data-action="collapse"
+									href="${pageContext.request.contextPath}/getIndents"><i
 									class="fa fa-chevron-up"></i></a>
 							</div>
 
 						</div>
-<!-- ${pageContext.request.contextPath}/aprIndentProcess  -->
+						<!-- ${pageContext.request.contextPath}/aprIndentProcess  -->
 						<div class="box-content">
-							<form
-								
-								method="post" class="form-horizontal" id="validation-form">
+							<form method="post" class="form-horizontal" id="validation-form">
 
 								<div class="form-group">
 
-										<c:set var="indmtype" value="o"></c:set>
-										
-										<c:forEach items="${typeList}" var="typeList"  varStatus="count">
-														<c:choose>
-															<c:when test="${indent.indMType==typeList.typeId}">
-																<c:set var="indmtype" value="${typeList.typeName}"></c:set>
-															</c:when>
-															 
-														</c:choose>
-														</c:forEach>
-									 
-<div class="col-md-1"></div>
-									<div class="col-md-2">Indent
-										Type</div>
+									<c:set var="indmtype" value="o"></c:set>
+
+									<c:forEach items="${typeList}" var="typeList" varStatus="count">
+										<c:choose>
+											<c:when test="${indent.indMType==typeList.typeId}">
+												<c:set var="indmtype" value="${typeList.typeName}"></c:set>
+											</c:when>
+
+										</c:choose>
+									</c:forEach>
+
+									<div class="col-md-1"></div>
+									<div class="col-md-2">Indent Type</div>
 									<div class="col-md-3">
 										<c:out value="${indmtype}"></c:out>
 									</div>
-									<input type="hidden" value="${indent.indMType}" name="indent_type" id="indent_type">
-									
-									<div class="col-md-2">Indent
-										Category </div>
+									<input type="hidden" value="${indent.indMType}"
+										name="indent_type" id="indent_type">
+
+									<div class="col-md-2">Indent Category</div>
 									<div class="col-md-3">
 										<c:out value="${indent.catDesc}"></c:out>
 										<input type="hidden" value="${indent.indMId}" name="indentId">
 									</div>
-									<input type="hidden" value="${indent.catId}" name="ind_cat" id="ind_cat">
+									<input type="hidden" value="${indent.catId}" name="ind_cat"
+										id="ind_cat">
 								</div>
 								<div class="form-group">
-								
-								<div class="col-md-1"></div>
-									<div class="col-md-2">Indent
-										No.</div>
+
+									<div class="col-md-1"></div>
+									<div class="col-md-2">Indent No.</div>
 									<div class="col-md-3">
 										<c:out value="${indent.indMNo}"></c:out>
 									</div>
@@ -223,9 +224,9 @@
 										</select>
 									</div>
 								</div> --%>
-								<br /> 
-<hr/>
-<!-- <div class="box-content">
+								<br />
+								<hr />
+								<!-- <div class="box-content">
 								
 								<div class="col-md-2">MRN Limit : 
 									</div>
@@ -278,8 +279,8 @@
 									</div>
 									 <input type="hidden" name="totalIndentPendingValueText" id="totalIndentPendingValueText" />
 								</div> -->
-								 
-								<h4> Items to Approve</h4>
+
+								<h4>Items to Approve</h4>
 								<div class="clearfix"></div>
 								<div id="table-scroll" class="table-scroll">
 
@@ -288,7 +289,8 @@
 										<table id="table1" class="table table-advance">
 											<thead>
 												<tr class="bgpink">
-													<th  style="text-align: center; padding: 0px; align-items: center;"
+													<th
+														style="text-align: center; padding: 0px; align-items: center;"
 														width="2%"><input type="checkbox" name="name1"
 														value="0" /> &nbsp;&nbsp;&nbsp;All</th>
 													<th width="4%" style="text-align: center;">Sr</th>
@@ -297,85 +299,88 @@
 													<th class="col-md-3" style="text-align: center;">Item
 														Desc</th>
 													<th class="col-md-1" style="text-align: center;">UOM</th>
-												
+
 													<th class="col-md-1" style="text-align: center;">Indent
 														Qty</th>
-													<th class="col-md-1" style="text-align: center;">Sch Day</th>
+													<th class="col-md-1" style="text-align: center;">Sch
+														Day</th>
 													<th class="col-md-1" style="text-align: center;">Sch
 														Date</th>
-														<th class="col-md-2" style="text-align: left;">Remark</th>
-														<!-- <th class="col-md-1" style="text-align: center;">Action
+													<th class="col-md-2" style="text-align: left;">Remark</th>
+													<!-- <th class="col-md-1" style="text-align: center;">Action
 														</th> -->
 												</tr>
 											</thead>
 											<tbody>
 												<c:forEach items="${indDetailList}" var="indDetail"
 													varStatus="count">
-<input type="hidden" name="apr" value="${apr}">
+													<input type="hidden" name="apr" value="${apr}">
 													<tr>
-												
-													<td  style="text-align: left; padding: 0px; align-items: center; align-content: center;"
+
+														<td
+															style="text-align: left; padding: 0px; align-items: center; align-content: center;"
 															width="2%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 															<c:choose>
-															<c:when test="${apr==1}">
-															<c:choose>
-															<c:when test="${indDetail.indDStatus==7}">
-															<input type="checkbox" checked 
-															name="name1" value="${indDetail.indDId}" />
-															</c:when>
-															<c:otherwise>
-															<input type="checkbox" 
-															name="name1" value="${indDetail.indDId}" />
-															</c:otherwise>
-															</c:choose>
-															</c:when>
-															
+																<c:when test="${apr==1}">
+																	<c:choose>
+																		<c:when test="${indDetail.indDStatus==7}">
+																			<input type="checkbox" checked name="name1"
+																				value="${indDetail.indDId}" />
+																		</c:when>
+																		<c:otherwise>
+																			<input type="checkbox" name="name1"
+																				value="${indDetail.indDId}" />
+																		</c:otherwise>
+																	</c:choose>
+																</c:when>
+
 																<c:when test="${apr==2}">
-																<c:choose>
-															<c:when test="${indDetail.indDStatus==7}">
-															<input type="checkbox" checked 
-															name="name1" value="${indDetail.indDId}" />
-															</c:when>
-															<c:otherwise>
-															<input type="checkbox"  disabled
-															name="name1" value="${indDetail.indDId}" />
-															</c:otherwise>
+																	<c:choose>
+																		<c:when test="${indDetail.indDStatus==7}">
+																			<input type="checkbox" checked name="name1"
+																				value="${indDetail.indDId}" />
+																		</c:when>
+																		<c:otherwise>
+																			<input type="checkbox" disabled name="name1"
+																				value="${indDetail.indDId}" />
+																		</c:otherwise>
+																	</c:choose>
+																</c:when>
 															</c:choose>
-															</c:when>
-															</c:choose>
-															
-															</td>
+
+														</td>
 														<td style="text-align: center;" width="4%"><c:out
 																value="${count.index+1}" /></td>
-																
-																<td style="text-align: center;" class="col-md-1"><c:out
+
+														<td style="text-align: center;" class="col-md-1"><c:out
 																value="${indDetail.itemCode}" /></td>
 
 														<td style="text-align: left;" class="col-md-3"><c:out
 																value="${indDetail.itemDesc}" /></td>
-																
-																	
-																<td style="text-align: center;" class="col-md-1"><c:out
-																value="${indDetail.itemUom}" /></td>
-																
 
-														<td style="text-align: center;" class="col-md-1"><%-- <input
+
+														<td style="text-align: center;" class="col-md-1"><c:out
+																value="${indDetail.itemUom}" /></td>
+
+
+														<td style="text-align: center;" class="col-md-1">
+															<%-- <input
 															type="number" class="form-control" readonly
 															value="${indDetail.indQty}" min="1"  
 															onchange="(this.value,${indDetail.indDId},${indent.indMId})"
 															id="indQty${indDetail.indDId}"
-															name="indQty${indDetail.indDId}"> --%>
-															<c:out value="${indDetail.indQty}"></c:out>
-															</td>
-														<td style="text-align: center;" class="col-md-1"><c:out value="${indDetail.indItemSchd}"></c:out>
-														<%-- <input type="number" readonly class="form-control"  id="indSchDays${indDetail.indDId}" name="indSchDays${indDetail.indDId}" value="${indDetail.indItemSchd}"  /> --%></td>
+															name="indQty${indDetail.indDId}"> --%> <c:out
+																value="${indDetail.indQty}"></c:out>
+														</td>
+														<td style="text-align: center;" class="col-md-1"><c:out
+																value="${indDetail.indItemSchd}"></c:out> <%-- <input type="number" readonly class="form-control"  id="indSchDays${indDetail.indDId}" name="indSchDays${indDetail.indDId}" value="${indDetail.indItemSchd}"  /> --%></td>
 
 														<td style="text-align: center;" class="col-md-1"><c:out
 																value="${indDetail.indItemSchddt}" /></td>
 
 														<td style="text-align: left;" class="col-md-2"><c:out
 																value="${indDetail.indRemark}" /></td>
-<%-- 
+														<%-- 
 														<td style="text-align: center;" class="col-md-1">
 															<input
 															type="button" value="update"
@@ -402,9 +407,9 @@
 
 								<div class="row">
 									<div class="col-md-12" style="text-align: center">
-									
-												<input type="button" class="btn btn-info"
-													value="Submit" onclick="callApproveIndent(${apr})">
+
+										<input type="button" class="btn btn-info" value="Submit"
+											onclick="callApproveIndent(${apr})">
 
 									</div>
 								</div>
@@ -499,7 +504,7 @@
 		src="${pageContext.request.contextPath}/resources/assets/jquery-validation/dist/jquery.validate.min.js"></script>
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/assets/jquery-validation/dist/additional-methods.min.js"></script>
-		<script type="text/javascript">
+	<script type="text/javascript">
 
 function getInvoiceNo() {
 	
@@ -644,7 +649,7 @@ function getLastRate(qty,flag) {
 
 		}
 	</script>
-	
+
 	<!-- 1 -->
 	<script>
 		function myFunction() {
@@ -665,8 +670,8 @@ function getLastRate(qty,flag) {
 			}
 		}
 	</script>
-	
-	
+
+
 
 </body>
 </html>

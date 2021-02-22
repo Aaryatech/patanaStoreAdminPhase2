@@ -255,7 +255,7 @@ public class IssueController {
 			String subDeptName = request.getParameter("subDeptName");
 			String accName = request.getParameter("accName");
 			String issueUom = request.getParameter("issueUom");
-			
+
 			if (editIndex.equalsIgnoreCase("") || editIndex.equalsIgnoreCase(null)) {
 
 				DecimalFormat df = new DecimalFormat("####0.00");
@@ -279,7 +279,9 @@ public class IssueController {
 					if (itemListbyCatId.get(i).getItemId() == itemId) {
 
 						issueDetail.setItemGroupId(itemListbyCatId.get(i).getGrpId());
-						ration = itemListbyCatId.get(i).getUomRatio2();
+						if (itemListbyCatId.get(i).getUomRatio2() != 0) {
+							ration = itemListbyCatId.get(i).getUomRatio2();
+						}
 						break;
 					}
 				}
@@ -1079,7 +1081,10 @@ public class IssueController {
 					if (itemListbyCatId.get(i).getItemId() == itemId) {
 
 						issueDetail.setItemGroupId(itemListbyCatId.get(i).getGrpId());
-						ration = itemListbyCatId.get(i).getUomRatio2();
+						if (itemListbyCatId.get(i).getUomRatio2() != 0) {
+							ration = itemListbyCatId.get(i).getUomRatio2();
+						}
+
 						break;
 					}
 				}
@@ -1559,7 +1564,10 @@ public class IssueController {
 			for (int j = 0; j < itemListbyCatId.size(); j++) {
 				if (itemListbyCatId.get(j).getItemId() == itemId) {
 					subGroupId = itemListbyCatId.get(j).getGrpId();
-					ration = itemListbyCatId.get(j).getUomRatio2();
+					if (itemListbyCatId.get(j).getUomRatio2() != 0) {
+						ration = itemListbyCatId.get(j).getUomRatio2();
+					}
+
 					break;
 				}
 

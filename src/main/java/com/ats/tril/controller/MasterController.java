@@ -718,6 +718,8 @@ public class MasterController {
 		return "redirect:/addAccountHead";
 	}
 
+	List<UomConversion> uomConversionList = new ArrayList<UomConversion>();
+
 	@RequestMapping(value = "/addItem", method = RequestMethod.GET)
 	public ModelAndView addItem(HttpServletRequest request, HttpServletResponse response) {
 
@@ -751,6 +753,11 @@ public class MasterController {
 			intialValueItem.setItemSchd("100");
 			intialValueItem.setItemLife("100");
 			model.addObject("editItem", intialValueItem);
+
+			UomConversion[] uomConversion = rest.getForObject(Constants.url + "/getAllUomConversion",
+					UomConversion[].class);
+			uomConversionList = new ArrayList<UomConversion>(Arrays.asList(uomConversion));
+			model.addObject("uomConversionList", uomConversionList);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -832,9 +839,11 @@ public class MasterController {
 			String itemCode = request.getParameter("itemCode");
 			String itemDesc = request.getParameter("itemDesc");
 			String uom = request.getParameter("uom");
-			String uom2 = request.getParameter("uom2");
-			float uomratio = Float.parseFloat(request.getParameter("uomratio"));
-			float uom2ratio = Float.parseFloat(request.getParameter("uom2ratio"));
+			/*
+			 * String uom2 = request.getParameter("uom2"); float uomratio =
+			 * Float.parseFloat(request.getParameter("uomratio")); float uom2ratio =
+			 * Float.parseFloat(request.getParameter("uom2ratio"));
+			 */
 
 			String itemDate = request.getParameter("itemDate");
 			float opQty = Float.parseFloat(request.getParameter("opQty"));
@@ -883,14 +892,23 @@ public class MasterController {
 			insert.setItemDesc(itemDesc);
 			insert.setItemDate(DateConvertor.convertToYMD(itemDate));
 
+			for (int i = 0; i < uomConversionList.size(); i++) {
+				if (Integer.parseInt(uom) == uomConversionList.get(i).getConvertId()) {
+					insert.setItemUom2(String.valueOf(uomConversionList.get(i).getUom1()));
+					insert.setUom2(uomConversionList.get(i).getUom2());
+					insert.setUomRatio(uomConversionList.get(i).getConvertId());
+					insert.setUomRatio2(uomConversionList.get(i).getRation2());
+					break;
+				}
+			}
+
 			for (int i = 0; i < uomList.size(); i++) {
-				if (Integer.parseInt(uom) == uomList.get(i).getUomId()) {
+				if (Integer.parseInt(insert.getItemUom2()) == uomList.get(i).getUomId()) {
 					insert.setItemUom(uomList.get(i).getUom());
 					break;
 				}
 			}
 
-			insert.setItemUom2(uom);
 			insert.setItemOpQty(opQty);
 			insert.setItemOpRate(opRate);
 			insert.setItemClQty(clQty);
@@ -911,9 +929,10 @@ public class MasterController {
 			insert.setCatId(catId);
 			insert.setGrpId(grpId);
 			insert.setSubGrpId(subGrpId);
-			insert.setUom2(Integer.parseInt(uom2));
-			insert.setUomRatio(uomratio);
-			insert.setUomRatio2(uom2ratio);
+			/*
+			 * insert.setUom2(Integer.parseInt(uom2)); insert.setUomRatio(uomratio);
+			 * insert.setUomRatio2(uom2ratio);
+			 */
 			if (docFile.equalsIgnoreCase("") || docFile.equalsIgnoreCase(null)) {
 				insert.setItemDesc3(imageName);
 			} else {
@@ -1017,6 +1036,11 @@ public class MasterController {
 			TaxForm[] taxFormList = rest.getForObject(Constants.url + "/getAllTaxForms", TaxForm[].class);
 			model.addObject("taxFormList", taxFormList);
 
+			UomConversion[] uomConversion = rest.getForObject(Constants.url + "/getAllUomConversion",
+					UomConversion[].class);
+			uomConversionList = new ArrayList<UomConversion>(Arrays.asList(uomConversion));
+			model.addObject("uomConversionList", uomConversionList);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

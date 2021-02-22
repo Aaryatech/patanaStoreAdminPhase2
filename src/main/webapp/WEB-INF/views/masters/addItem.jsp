@@ -244,34 +244,45 @@
 
 								<div class="box-content">
 
-									<div class="col-md-2">MRN UOM*</div>
+									<div class="col-md-2">UOM Conversion Factor*</div>
 									<div class="col-md-3">
 
 										<select class="form-control chosen" name="uom" id="uom"
 											required>
-											<option value="">Select UOM</option>
-											<c:forEach items="${uomList}" var="uomList">
-												<c:set var="uomString" value="${uomList.uomId}"></c:set>
+											<option value="">Select Conversion Factor</option>
+											<c:forEach items="${uomConversionList}"
+												var="uomConversionList">
+												<c:set var="uomFrom" value="-"></c:set>
+												<c:set var="uomTo" value="-"></c:set>
+												<c:forEach items="${uomList}" var="uomList">
+													<c:if test="${uomConversionList.uom1==uomList.uomId}">
+														<c:set var="uomFrom" value="${uomList.uom}"></c:set>
+													</c:if>
+													<c:if test="${uomConversionList.uom2==uomList.uomId}">
+														<c:set var="uomTo" value="${uomList.uom}"></c:set>
+													</c:if>
+												</c:forEach>
 												<c:choose>
-													<c:when test="${editItem.itemUom2 eq uomString}">
-														<option value="${uomList.uomId}" selected>${uomList.uom}</option>
+													<c:when
+														test="${uomConversionList.convertId==editItem.uomRatio}">
+														<option value="${uomConversionList.convertId}" selected>${uomFrom}-${uomTo}
+															1 - ${uomConversionList.ration2}</option>
 													</c:when>
 													<c:otherwise>
-														<option value="${uomList.uomId}">${uomList.uom}</option>
+														<option value="${uomConversionList.convertId}">${uomFrom}-${uomTo}
+															1 - ${uomConversionList.ration2}</option>
 													</c:otherwise>
 												</c:choose>
 
-
 											</c:forEach>
-
 										</select>
 
 
 									</div>
 									<div class="col-md-1"></div>
-									<div class="col-md-2">Issue UOM*</div>
+									<!-- <div class="col-md-2">Issue UOM*</div> -->
 									<div class="col-md-3">
-										<select class="form-control chosen" name="uom2" id="uom2"
+										<%-- <select class="form-control chosen" name="uom2" id="uom2"
 											required>
 											<option value="">Select UOM</option>
 											<c:forEach items="${uomList}" var="uomList">
@@ -288,7 +299,8 @@
 
 											</c:forEach>
 
-										</select> <input id="itemDate" class="form-control date-picker"
+										</select> --%>
+										<input id="itemDate" class="form-control date-picker"
 											placeholder="Item Date" value="${date}" name="itemDate"
 											type="hidden" readonly>
 
@@ -297,7 +309,7 @@
 
 								</div>
 								<br>
-								<div class="box-content">
+								<%-- <div class="box-content">
 
 									<div class="col-md-2">MRN Ratio*</div>
 									<div class="col-md-3">
@@ -330,8 +342,8 @@
 										</c:choose>
 									</div>
 
-								</div>
-								<br>
+								</div> --%>
+								<!-- <br> -->
 
 
 
@@ -833,15 +845,13 @@
 		function check() {
 
 			var uom = document.getElementById("uom").value;
-			var uom2 = document.getElementById("uom2").value;
+			//var uom2 = document.getElementById("uom2").value;
 			var catId = document.getElementById("catId").value;
 			var grpId = document.getElementById("grpId").value;
 			var subGrpId = document.getElementById("subGrpId").value;
 
 			if (uom == "" || uom == null) {
-				alert("Select MRN UOM");
-			} else if (uom2 == "" || uom2 == null) {
-				alert("Select Issue UOM");
+				alert("Select UOM Conversion");
 			} else if (catId == "" || catId == null) {
 				alert("Select Category");
 			} else if (grpId == "" || grpId == null) {
