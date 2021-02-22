@@ -603,6 +603,9 @@ public class PurchaseOrderController {
 			
 			
 			
+			map = new LinkedMultiValueMap<String, Object>();
+			map.add("name", "poStatus");
+			SettingValue settingValue = rest.postForObject(Constants.url + "/getSettingValue", map, SettingValue.class);
 			
 			Calendar c = Calendar.getInstance();
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -617,7 +620,7 @@ public class PurchaseOrderController {
 						poDetail.setItemId(intendDetailList.get(i).getItemId());
 						poDetail.setIndedQty(intendDetailList.get(i).getIndQty());
 						poDetail.setItemUom(intendDetailList.get(i).getIndItemUom());
-						poDetail.setStatus(9);
+						poDetail.setStatus(Integer.parseInt(settingValue.getValue()));
 						poDetail.setItemQty(
 								Float.parseFloat(request.getParameter("poQty" + intendDetailList.get(i).getIndDId())));
 						poDetail.setPendingQty(
@@ -845,6 +848,12 @@ public class PurchaseOrderController {
 				e.printStackTrace();
 			}
 			// ----------------------------Inv No---------------------------------
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			
+			map = new LinkedMultiValueMap<String, Object>();
+			map.add("name", "poStatus");
+			SettingValue settingValue = rest.postForObject(Constants.url + "/getSettingValue", map, SettingValue.class);
+			
 			PoHeader.setVendId(vendId);
 			PoHeader.setVendQuation(quotation);
 			PoHeader.setPoType(poType);
@@ -861,7 +870,7 @@ public class PurchaseOrderController {
 			//PoHeader.setIndId(PoHeader.getPoDetailList().get(0).getIndId());
 			PoHeader.setDelStatus(1);
 			PoHeader.setPoRemark(poRemark);
-			PoHeader.setPoStatus(9);
+			PoHeader.setPoStatus(Integer.parseInt(settingValue.getValue()));
 			PoHeader.setApprovStatus(orderValidity);
 			System.out.println(PoHeader);
 			PoHeader save = rest.postForObject(Constants.url + "/savePoHeaderAndDetail", PoHeader, PoHeader.class);
