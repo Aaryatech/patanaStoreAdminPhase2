@@ -129,6 +129,7 @@ public class IssueController {
 			map.add("toDate", toDateForStock);
 			map.add("itemId", itemId);
 
+			System.out.println(map);
 			getItem = rest.postForObject(Constants.url + "/getItemListByItemIdWithStock", map,
 					ItemListWithCurrentStock.class);
 

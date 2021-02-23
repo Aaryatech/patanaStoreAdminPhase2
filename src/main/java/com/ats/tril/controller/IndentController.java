@@ -1580,7 +1580,7 @@ public class IndentController {
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			// ind.remove(ind.get(0));
 			if (apr == 1) {
-				map.add("indDStatus", 0);
+				map.add("indDStatus", 7);
 
 			} else if (apr == 2) {
 				map.add("indDStatus", 0);
