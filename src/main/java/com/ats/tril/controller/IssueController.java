@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,6 +37,8 @@ import com.ats.tril.model.GetSubDept;
 import com.ats.tril.model.GetpassHeader;
 import com.ats.tril.model.IssueDetail;
 import com.ats.tril.model.IssueHeader;
+import com.ats.tril.model.IssueItemListForIssueReturn;
+import com.ats.tril.model.IssueReturn;
 import com.ats.tril.model.ItemListWithCurrentStock;
 import com.ats.tril.model.StockHeader;
 import com.ats.tril.model.Type;
@@ -1624,6 +1627,90 @@ public class IssueController {
 			e.printStackTrace();
 		}
 		return issueDetailList;
+	}
+
+	@RequestMapping(value = "/issueReturnList", method = RequestMethod.GET)
+	public String issueReturnList(HttpServletRequest request, HttpServletResponse response, Model model) {
+
+		String ret = "issue/issueReturnList";
+		try {
+			GetItem[] item = rest.getForObject(Constants.url + "/getAllItems", GetItem[].class);
+			List<GetItem> itemList = new ArrayList<GetItem>(Arrays.asList(item));
+			model.addAttribute("itemList", itemList);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return ret;
+	}
+
+	String date = new String();
+	List<IssueItemListForIssueReturn> itemList = new ArrayList<IssueItemListForIssueReturn>();
+
+	@RequestMapping(value = "/getIssueItemList", method = RequestMethod.POST)
+	@ResponseBody
+	public List<IssueItemListForIssueReturn> getIssueItemList(HttpServletRequest request,
+			HttpServletResponse response) {
+
+		try {
+			date = request.getParameter("date");
+			String itemIds = request.getParameter("itemIds");
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("date", DateConvertor.convertToYMD(date));
+			map.add("itemIds", itemIds);
+			System.out.println(map);
+			IssueItemListForIssueReturn[] item = rest.postForObject(Constants.url + "/getIssueItemListForReturnProcess",
+					map, IssueItemListForIssueReturn[].class);
+			itemList = new ArrayList<IssueItemListForIssueReturn>(Arrays.asList(item));
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return itemList;
+	}
+
+	@RequestMapping(value = "/submitIssueReturnProcess", method = RequestMethod.POST)
+	public String submitIssueReturnProcess(HttpServletRequest request, HttpServletResponse response) {
+
+		try {
+
+			Date dt = new Date();
+			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+
+			List<IssueReturn> list = new ArrayList<>();
+
+			for (int i = 0; i < itemList.size(); i++) {
+
+				try {
+					float qty = Float
+							.parseFloat(request.getParameter("returnQty" + itemList.get(i).getIssueDetailId()));
+					if (qty > 0) {
+						IssueReturn issueReturn = new IssueReturn();
+						issueReturn.setIssueId(itemList.get(i).getIssueId());
+						issueReturn.setIssueUom(itemList.get(i).getUom2());
+						issueReturn.setItemId(itemList.get(i).getItemId());
+						issueReturn.setReturnQty(qty);
+						issueReturn.setReturnDate(sf.format(dt));
+						list.add(issueReturn);
+
+					}
+				} catch (Exception e) {
+
+				}
+
+				if (list.size() > 0) {
+					IssueReturn[] item = rest.postForObject(Constants.url + "/saveIssueReturn", list,
+							IssueReturn[].class);
+				}
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "redirect:/issueReturnList";
 	}
 
 }
