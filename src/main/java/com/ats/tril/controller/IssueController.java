@@ -32,6 +32,7 @@ import com.ats.tril.model.ErrorMessage;
 import com.ats.tril.model.GetBillOfMaterialList;
 import com.ats.tril.model.GetIssueDetail;
 import com.ats.tril.model.GetIssueHeader;
+import com.ats.tril.model.GetIssueReturn;
 import com.ats.tril.model.GetItemGroup;
 import com.ats.tril.model.GetSubDept;
 import com.ats.tril.model.GetpassHeader;
@@ -1802,10 +1803,10 @@ public class IssueController {
 				map.add("fromDate", sf.format(date));
 				map.add("toDate", sf.format(date));
 
-				GetIssueHeader[] IssueHeader = rest.postForObject(Constants.url + "/getIssueHeaderList", map,
-						GetIssueHeader[].class);
-				List<GetIssueHeader> issueHeaderList = new ArrayList<GetIssueHeader>(Arrays.asList(IssueHeader));
-				model.addObject("issueHeaderList", issueHeaderList);
+				GetIssueReturn[] getIssueReturn = rest.postForObject(Constants.url + "/getIssueReturnList", map,
+						GetIssueReturn[].class);
+				List<GetIssueReturn> getIssueReturnList = new ArrayList<GetIssueReturn>(Arrays.asList(getIssueReturn));
+				model.addObject("getIssueReturnList", getIssueReturnList);
 
 				model.addObject("fromDate", disply.format(date));
 				model.addObject("toDate", disply.format(date));
@@ -1818,5 +1819,6 @@ public class IssueController {
 
 		return model;
 	}
+	
 
 }

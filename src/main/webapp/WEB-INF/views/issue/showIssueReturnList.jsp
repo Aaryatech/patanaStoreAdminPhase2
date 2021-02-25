@@ -57,7 +57,8 @@
 						</div>
 
 						<div class="box-content">
-							<form action="${pageContext.request.contextPath}/issueList"
+							<form
+								action="${pageContext.request.contextPath}/getIssueReturnList"
 								class="form-horizontal" id="validation-form" method="get">
 								<div class="box-content">
 
@@ -81,44 +82,9 @@
 
 
 								</div>
-								<br>
-								<br>
+								<br> <br>
 
 
-
-
-								<c:set value="0" var="isEdit"></c:set>
-								<c:set value="0" var="isDelete"></c:set>
-								<c:forEach items="${sessionScope.newModuleList}"
-									var="allModuleList">
-									<c:choose>
-										<c:when
-											test="${allModuleList.moduleId==sessionScope.sessionModuleId}">
-											<c:forEach items="${allModuleList.subModuleJsonList}"
-												var="subModuleJsonList">
-												<c:choose>
-													<c:when
-														test="${subModuleJsonList.subModuleId==sessionScope.sessionSubModuleId}">
-														<c:choose>
-
-															<c:when
-																test="${subModuleJsonList.editReject eq 'visible'}">
-																<c:set value="1" var="isEdit"></c:set>
-															</c:when>
-														</c:choose>
-														<c:choose>
-															<c:when
-																test="${subModuleJsonList.deleteRejectApprove eq 'visible'}">
-																<c:set value="1" var="isDelete"></c:set>
-															</c:when>
-														</c:choose>
-													</c:when>
-												</c:choose>
-											</c:forEach>
-										</c:when>
-									</c:choose>
-
-								</c:forEach>
 								<div class="form-group">
 									<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-5">
 										<input type="submit" class="btn btn-primary" value="Submit">
@@ -148,60 +114,33 @@
 								<table class="table table-advance" id="table1">
 									<thead>
 										<tr class="bgpink">
-											<th style="width: 2%;"><input type="checkbox"
-												name="name1" value="0" />All</th>
-											<th style="width: 2%;">Sr no.</th>
-											<th class="col-md-1">Issue No</th>
-											<th class="col-md-1">Issue Date</th>
-											<th class="col-md-3">Department</th>
-											<th class="col-md-3">Sub Department</th>
-											<th class="col-md-1">Action</th>
+
+											<th style="width: 5%; text-align: center;">Sr no.</th>
+											<th class="col-md-1" style="text-align: center;">Return
+												Date</th>
+											<th style="text-align: center;">Item name</th>
+											<th style="text-align: center;" class="col-md-1">UOM</th>
+											<th style="text-align: center;" class="col-md-1">QTY</th>
 										</tr>
 									</thead>
 									<tbody>
 
-										<c:forEach items="${issueHeaderList}" var="issueHeaderList"
-											varStatus="count">
+										<c:forEach items="${getIssueReturnList}"
+											var="getIssueReturnList" varStatus="count">
 											<tr>
-
-												<td><input type="checkbox" name="name1"
-													value="${issueHeaderList.issueId}" /></td>
 
 												<td><c:out value="${count.index+1}" /></td>
 
 
-												<td><c:out value="${issueHeaderList.issueNo}" /></td>
+												<td><c:out value="${getIssueReturnList.returnDate}" /></td>
 
-												<td><c:out value="${issueHeaderList.issueDate}" /></td>
+												<td><c:out value="${getIssueReturnList.itemDesc}" /></td>
 
-												<td><c:out value="${issueHeaderList.deptCode}" /></td>
+												<td><c:out value="${getIssueReturnList.uom}" /></td>
 
-												<td><c:out value="${issueHeaderList.subDeptCode}" />
-												</td>
+												<td style="text-align: right;"><c:out
+														value="${getIssueReturnList.returnQty}" /></td>
 
-
-												<td><a
-													href="javascript:genPdf(${issueHeaderList.issueId});"><abbr
-														title="PDF"><i
-															class="glyphicon glyphicon glyphicon-file"></i></abbr></a> <c:choose>
-														<c:when test="${isEdit==1}">
-															<a
-																href="${pageContext.request.contextPath}/editIssueHeader/${issueHeaderList.issueId}"><abbr
-																title="Edit"><i class="fa fa-edit"></i></abbr></a>
-
-														</c:when>
-
-													</c:choose> <c:choose>
-														<c:when test="${isDelete==1}">
-
-
-															<a
-																href="${pageContext.request.contextPath}/deleteIssueHeader/${issueHeaderList.issueId}"
-																onClick="return confirm('Are you sure want to delete this record');"><span
-																class="glyphicon glyphicon-remove"></span></a>
-
-														</c:when>
-													</c:choose></td>
 
 											</tr>
 										</c:forEach>
