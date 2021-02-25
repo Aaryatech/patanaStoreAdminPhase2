@@ -1756,7 +1756,7 @@ public class IssueController {
 						}
 
 						IssueReturn issueReturn = new IssueReturn();
-						issueReturn.setIssueId(itemList.get(i).getIssueId());
+						issueReturn.setIssueId(itemList.get(i).getIssueDetailId());
 						issueReturn.setIssueUom(itemList.get(i).getUom2());
 						issueReturn.setItemId(itemList.get(i).getItemId());
 						issueReturn.setReturnQty(qty);
@@ -1783,6 +1783,40 @@ public class IssueController {
 		}
 
 		return "redirect:/issueReturnList";
+	}
+
+	@RequestMapping(value = "/getIssueReturnList", method = RequestMethod.GET)
+	public ModelAndView getIssueReturnList(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("issue/showIssueReturnList");
+		try {
+
+			Date date = new Date();
+			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+			SimpleDateFormat disply = new SimpleDateFormat("dd-MM-yyyy");
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+
+			if (request.getParameter("fromDate") != null && request.getParameter("toDate") != null) {
+
+				map.add("fromDate", sf.format(date));
+				map.add("toDate", sf.format(date));
+
+				GetIssueHeader[] IssueHeader = rest.postForObject(Constants.url + "/getIssueHeaderList", map,
+						GetIssueHeader[].class);
+				List<GetIssueHeader> issueHeaderList = new ArrayList<GetIssueHeader>(Arrays.asList(IssueHeader));
+				model.addObject("issueHeaderList", issueHeaderList);
+
+				model.addObject("fromDate", disply.format(date));
+				model.addObject("toDate", disply.format(date));
+
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return model;
 	}
 
 }
