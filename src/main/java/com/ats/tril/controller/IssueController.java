@@ -887,10 +887,10 @@ public class IssueController {
 								+ getIssueHeader.getIssueDetailList().get(i).getItemIssueQty());
 						updateMrnDetail.get(j).setIssueQty(updateMrnDetail.get(j).getIssueQty()
 								- getIssueHeader.getIssueDetailList().get(i).getItemIssueQty());
-						if (updateMrnDetail.get(i).getIssueQty() > 0) {
-							updateMrnDetail.get(i).setChalanQty(1);
+						if (updateMrnDetail.get(j).getIssueQty() > 0) {
+							updateMrnDetail.get(j).setChalanQty(1);
 						} else {
-							updateMrnDetail.get(i).setChalanQty(0);
+							updateMrnDetail.get(j).setChalanQty(0);
 						}
 					}
 				}
@@ -1634,6 +1634,8 @@ public class IssueController {
 
 		String ret = "issue/issueReturnList";
 		try {
+			itemList = new ArrayList<IssueItemListForIssueReturn>();
+
 			GetItem[] item = rest.getForObject(Constants.url + "/getAllItems", GetItem[].class);
 			List<GetItem> itemList = new ArrayList<GetItem>(Arrays.asList(item));
 			model.addAttribute("itemList", itemList);
@@ -1679,6 +1681,44 @@ public class IssueController {
 			Date dt = new Date();
 			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
 
+			String mrnDetailList = new String();
+			String issueDetalList = new String();
+
+			for (int i = 0; i < itemList.size(); i++) {
+				try {
+					float qty = Float
+							.parseFloat(request.getParameter("returnQty" + itemList.get(i).getIssueDetailId()));
+					if (qty > 0) {
+						mrnDetailList = mrnDetailList + "," + itemList.get(i).getMrnDetailId();
+						issueDetalList = issueDetalList + "," + itemList.get(i).getIssueDetailId();
+					}
+				} catch (Exception e) {
+
+				}
+
+			}
+
+			try {
+				mrnDetailList = mrnDetailList.substring(1, mrnDetailList.length());
+				issueDetalList = issueDetalList.substring(1, issueDetalList.length());
+			} catch (Exception e) {
+				mrnDetailList = "0";
+				issueDetalList = "0";
+			}
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			DecimalFormat df = new DecimalFormat("####0.00");
+
+			map.add("mrnDetailList", mrnDetailList);
+			MrnDetail[] MrnDetail = rest.postForObject(Constants.url + "/getMrnDetailListByMrnDetailId", map,
+					MrnDetail[].class);
+			List<MrnDetail> updateMrnDetail = new ArrayList<>(Arrays.asList(MrnDetail));
+
+			map = new LinkedMultiValueMap<>();
+			map.add("issueDetailId", issueDetalList);
+			IssueDetail[] issueDetail = rest.postForObject(Constants.url + "/getIssueDetailByIssueDetailId", map,
+					IssueDetail[].class);
+			List<IssueDetail> updateissueDetail = new ArrayList<>(Arrays.asList(issueDetail));
+
 			List<IssueReturn> list = new ArrayList<>();
 
 			for (int i = 0; i < itemList.size(); i++) {
@@ -1687,6 +1727,34 @@ public class IssueController {
 					float qty = Float
 							.parseFloat(request.getParameter("returnQty" + itemList.get(i).getIssueDetailId()));
 					if (qty > 0) {
+						float fractionQty = Float.parseFloat(df.format(qty / itemList.get(i).getUomRatio2()));
+
+						for (int j = 0; j < updateMrnDetail.size(); j++) {
+							if (updateMrnDetail.get(j).getMrnDetailId() == itemList.get(i).getMrnDetailId()) {
+
+								updateMrnDetail.get(j)
+										.setRemainingQty(updateMrnDetail.get(j).getRemainingQty() + fractionQty);
+								updateMrnDetail.get(j).setIssueQty(updateMrnDetail.get(j).getIssueQty() - fractionQty);
+								if (updateMrnDetail.get(j).getIssueQty() > 0) {
+									updateMrnDetail.get(j).setChalanQty(1);
+								} else {
+									updateMrnDetail.get(j).setChalanQty(0);
+								}
+								break;
+							}
+						}
+
+						for (int j = 0; j < updateissueDetail.size(); j++) {
+							if (updateissueDetail.get(j).getIssueDetailId() == itemList.get(i).getIssueDetailId()) {
+
+								updateissueDetail.get(j)
+										.setItemIssueQty(updateissueDetail.get(j).getItemIssueQty() - fractionQty);
+								updateissueDetail.get(j)
+										.setItemRequestQty(updateissueDetail.get(j).getItemRequestQty() - qty);
+								break;
+							}
+						}
+
 						IssueReturn issueReturn = new IssueReturn();
 						issueReturn.setIssueId(itemList.get(i).getIssueId());
 						issueReturn.setIssueUom(itemList.get(i).getUom2());
@@ -1703,6 +1771,10 @@ public class IssueController {
 				if (list.size() > 0) {
 					IssueReturn[] item = rest.postForObject(Constants.url + "/saveIssueReturn", list,
 							IssueReturn[].class);
+					MrnDetail[] updateMrn = rest.postForObject(Constants.url + "/updateMrnDetailList", updateMrnDetail,
+							MrnDetail[].class);
+					IssueDetail[] updateIssue = rest.postForObject(Constants.url + "/saveIssueDetail",
+							updateissueDetail, IssueDetail[].class);
 				}
 			}
 
