@@ -1040,7 +1040,7 @@ public class MasterController {
 					UomConversion[].class);
 			uomConversionList = new ArrayList<UomConversion>(Arrays.asList(uomConversion));
 			model.addObject("uomConversionList", uomConversionList);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1187,7 +1187,7 @@ public class MasterController {
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 			map.add("uomId", uomId);
-			ErrorMessage errorMessage = rest.postForObject(Constants.url + "/deleteItem", map, ErrorMessage.class);
+			ErrorMessage errorMessage = rest.postForObject(Constants.url + "/deleteUom", map, ErrorMessage.class);
 			System.out.println(errorMessage);
 
 		} catch (Exception e) {

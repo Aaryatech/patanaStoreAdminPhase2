@@ -70,6 +70,7 @@
 											type="text" required> <input id="uomId"
 											class="form-control" name="uomId" value="${editUom.uomId}"
 											type="hidden">
+
 									</div>
 									<div class="col-md-1"></div>
 

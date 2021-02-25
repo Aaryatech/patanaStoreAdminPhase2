@@ -151,9 +151,9 @@
 
 
 								<br> <br>
-								<button
+								<!-- <button
 									style="background-color: #008CBA; border: none; color: white; text-align: center; text-decoration: none; display: block; font-size: 12px; cursor: pointer; width: 50px; height: 30px; margin: auto;"
-									onclick="commonPdf()">PDF</button>
+									onclick="commonPdf()">PDF</button> -->
 
 
 
@@ -344,7 +344,6 @@
 				td = tr[i].getElementsByTagName("td")[2];
 				td1 = tr[i].getElementsByTagName("td")[3];
 				td2 = tr[i].getElementsByTagName("td")[4];
-				td3 = tr[i].getElementsByTagName("td")[5];
 				if (td || td1) {
 
 					if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
@@ -352,8 +351,6 @@
 					} else if (td1.innerHTML.toUpperCase().indexOf(filter) > -1) {
 						tr[i].style.display = "";
 					} else if (td2.innerHTML.toUpperCase().indexOf(filter) > -1) {
-						tr[i].style.display = "";
-					} else if (td3.innerHTML.toUpperCase().indexOf(filter) > -1) {
 						tr[i].style.display = "";
 					} else {
 						tr[i].style.display = "none";
