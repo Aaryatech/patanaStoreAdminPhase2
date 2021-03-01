@@ -174,7 +174,9 @@
  
  
 											<td>
-											 
+											 <a href="javascript:genThPdf(${issueHeaderList.issueId});"><abbr title="PDF"><i
+															class="glyphicon glyphicon glyphicon-file"></i></abbr></a>
+															
 											<a href="javascript:genPdf(${issueHeaderList.issueId});"><abbr title="PDF"><i
 															class="glyphicon glyphicon glyphicon-file"></i></abbr></a>
 																								
@@ -351,7 +353,8 @@
 										  	tr.append($('<td></td>').html(itemList.issueDate)); 
 										  	tr.append($('<td></td>').html(itemList.deptCode));
 										  	tr.append($('<td></td>').html(itemList.subDeptCode));
-										  	tr.append($('<td></td>').html('<a href="javascript:genPdf('+ itemList.issueId +');"><abbr'+
+										  	tr.append($('<td></td>').html('<a href="javascript:genThPdf('+ itemList.issueId +');"><abbr'+
+													'title="PDF"><i class="glyphicon glyphicon glyphicon-file"></i></abbr></a><a href="javascript:genPdf('+ itemList.issueId +');"><abbr'+
 													'title="PDF"><i class="glyphicon glyphicon glyphicon-file"></i></abbr></a>	<a href="${pageContext.request.contextPath}/editIssueHeader/'+itemList.issueId+'"><abbr'+
 													'title="Edit"><i class="fa fa-edit"></i></abbr></a> <a href="${pageContext.request.contextPath}/deleteIssueHeader/'+itemList.issueId+'"'+
 													'onClick="return confirm("Are you sure want to delete this record");"><span class="glyphicon glyphicon-remove"></span></a>'));
@@ -405,6 +408,13 @@ function myFunction() {
 				//alert(id);
 		
 				window.open('pdfForReport?url=/pdf/issueListDoc/'
+						+ id );
+
+			}
+			function genThPdf(id) {
+				//alert(id);
+		
+				window.open('pdfForReport?url=/pdf/issueListThDoc/'
 						+ id );
 
 			}

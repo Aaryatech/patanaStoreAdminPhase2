@@ -540,6 +540,64 @@ public class PdfReportController {
 		}
 		return model;
 	}
+	
+	@RequestMapping(value = "/pdf/issueListThDoc/{id}", method = RequestMethod.GET)
+	public ModelAndView issueListThDoc ( @PathVariable int[] id, HttpServletRequest request, HttpServletResponse response) {
+
+		
+		ModelAndView model = new ModelAndView("docs/isuueThPdf");
+		try {
+		System.out.println("Issue List ids " + id);
+		
+		
+		RestTemplate restTemplate = new RestTemplate();
+
+	    MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+
+	    List<Integer> integersList = new ArrayList<Integer>();
+
+		for (int i = 0; i < id.length; i++) {
+
+			if (id[i] > 0) {
+
+				integersList.add(id[i]);
+			}
+		}
+
+		String listOfIds = integersList.stream().map(Object::toString).collect(Collectors.joining(","));
+    
+	    
+		map.add("issueIdList", listOfIds);
+		
+		IssueReport[] reportarray =restTemplate.postForObject(Constants.url + "/getIssueHeaderDetailReport", map,IssueReport[].class );
+		
+		List<IssueReport>reportsList=new ArrayList<IssueReport>(Arrays.asList(reportarray));
+		
+		System.out.println("Issue Report data " + reportsList.toString());
+
+		
+		model.addObject("list", reportsList);
+		
+		Company company = restTemplate.getForObject(Constants.url + "getCompanyDetails",
+				Company.class);
+		model.addObject("company", company);
+		
+		Date date = new Date();
+		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+		 map = new LinkedMultiValueMap<String, Object>();
+		 map.add("docId", 6);
+		 map.add("date", sf.format(date));
+		DocumentBean documentBean = restTemplate.postForObject(Constants.url + "getDocumentInfo",map,
+				DocumentBean.class);
+		model.addObject("documentBean", documentBean);
+		
+		}catch (Exception e) {
+			
+			e.printStackTrace();
+						
+		}
+		return model;
+	}
 
 	
 	// REJECTION MEMO
