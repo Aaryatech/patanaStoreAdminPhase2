@@ -596,6 +596,10 @@ public class MastersController {
 			SettingValue settingValue = rest.postForObject(Constants.url + "/getSettingValue", map, SettingValue.class);
 			
 			map = new LinkedMultiValueMap<String, Object>();
+			map.add("stateCode", settingValue.getValue()); 
+			State state = rest.postForObject(Constants.url + "/getStateByStateCode", map, State.class);
+			
+			map = new LinkedMultiValueMap<String, Object>();
 			map.add("name", "approvByName"); 
 			SettingValue selectApprovBy = rest.postForObject(Constants.url + "/getSettingValue", map, SettingValue.class);
 			
@@ -605,7 +609,7 @@ public class MastersController {
 
 				model.addObject("apprvByList", apprvByList);
 			}
-			model.addObject("selectApprovBy", selectApprovBy.getValue());
+			model.addObject("selectApprovBy", selectApprovBy.getValue());			
 
 			Vendor vendor = new Vendor();
 			
@@ -618,7 +622,7 @@ public class MastersController {
 			vendor.setVendorItem("-");
 			vendor.setVendorAdd3("-");
 			vendor.setCreatedIn(1);
-			vendor.setVendorStateId(Integer.parseInt(settingValue.getValue()));			
+			vendor.setVendorStateId(state.getStateId());			
 			
 			model.addObject("editVendor", vendor);
 
