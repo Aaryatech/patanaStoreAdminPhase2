@@ -171,6 +171,7 @@
 													<th class="col-md-1">Date</th>
 													<th class="col-md-5">Vendor</th>
 													<th class="col-md-1">Type</th>
+													<th class="col-md-1">Status</th>
 													<th class="col-md-1">Action</th>
 												</tr>
 											</thead>
@@ -203,17 +204,22 @@
 														</c:choose>
 														</c:forEach>
 													
-														<td ><c:out value="${mrnType}" /></td>
+														<td><c:out value="${mrnType}" /></td>
+														
+														<td><c:out value="${mrn.mrnStatus==4 ? 'Pending' : 
+														mrn.mrnStatus==1 ? 'Partial' : 'Complete'}" /></td>
 
-														<td   >
+														<td>
 														
 														<a href="javascript:genPdf(${ mrn.mrnId});" title="PDF"><i
 															class="glyphicon glyphicon glyphicon-file"></i></a>
 													
 														&nbsp;&nbsp;
+														<c:if test="${mrn.mrnStatus!=2}">
 														<a
-															href="${pageContext.request.contextPath}/addMrnHeadDetail/${mrn.mrnId}" title="Add MRN"><span
+															href="${pageContext.request.contextPath}/addMrnHeadDetail/${mrn.mrnId}" title="Add Office MRN"><span
 																class="glyphicon glyphicon-plus"></span></a>&nbsp;&nbsp;
+														</c:if>
 														<c:choose>
 																<c:when test="${isEdit==1}"><a
 															href="${pageContext.request.contextPath}/showEditViewOfficeMrnDetail/${mrn.mrnId}" title="View/Edit"><span

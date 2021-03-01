@@ -1560,9 +1560,25 @@ public class IndentController {
 		int apr = Integer.parseInt(request.getParameter("apr"));
 		ModelAndView model = null;
 		try {
-
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			
 			System.err.println("Inside  aprIndentProcess");
+			System.err.println("Indent Detail List " + indAprItemList.toString());
 			String indDetail[] = request.getParameterValues("name1");
+						
+			for (int i = 0; i < indAprItemList.size(); i++) {	
+				
+				map.add("indDId", Integer.parseInt(request.getParameter("indId"+indAprItemList.get(i).getIndDId())));
+				map.add("indQty", Float.parseFloat(request.getParameter("indQty"+indAprItemList.get(i).getIndDId())));
+			
+				if(indAprItemList.get(i).getIndDId()==Integer.parseInt(request.getParameter("indId"+indAprItemList.get(i).getIndDId()))){
+			
+					ErrorMessage editIndentDetailResponse = rest.postForObject(Constants.url + "/editIndentTransDetailQty", map,
+						ErrorMessage.class);
+				}
+			}
+			
+			
 
 			// indentId
 			int indentId = Integer.parseInt(request.getParameter("indentId"));
@@ -1577,7 +1593,7 @@ public class IndentController {
 				
 			}
 
-			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map = new LinkedMultiValueMap<String, Object>();
 			// ind.remove(ind.get(0));
 			if (apr == 1) {
 				map.add("indDStatus", 7);
@@ -1591,7 +1607,7 @@ public class IndentController {
 			map.add("indentId", indentId);
 			
 			ErrorMessage editIndentDetailResponse = rest.postForObject(Constants.url + "/approveIndent", map,
-					ErrorMessage.class);
+				ErrorMessage.class);
 
 		} catch (Exception e) {
 			System.err.println("Exce in appr Indent  " + e.getMessage());

@@ -364,13 +364,18 @@
 
 
 														<td style="text-align: center;" class="col-md-1">
-															<%-- <input
-															type="number" class="form-control" readonly
-															value="${indDetail.indQty}" min="1"  
-															onchange="(this.value,${indDetail.indDId},${indent.indMId})"
+															 <input
+															type="number" class="form-control" 
+															value="${indDetail.indQty}" min="1"  															
 															id="indQty${indDetail.indDId}"
-															name="indQty${indDetail.indDId}"> --%> <c:out
-																value="${indDetail.indQty}"></c:out>
+															name="indQty${indDetail.indDId}">
+															
+															 <input
+															type="hidden" class="form-control" 
+															value="${indDetail.indDId}" min="1"  															
+															id="indId${indDetail.indDId}"
+															name="indId${indDetail.indDId}"> <%--  <c:out
+																value="${indDetail.indQty}"></c:out> --%>
 														</td>
 														<td style="text-align: center;" class="col-md-1"><c:out
 																value="${indDetail.indItemSchd}"></c:out> <%-- <input type="number" readonly class="form-control"  id="indSchDays${indDetail.indDId}" name="indSchDays${indDetail.indDId}" value="${indDetail.indItemSchd}"  /> --%></td>

@@ -445,7 +445,7 @@ body {
 									<div class="col-sm-3 col-lg-2 controls">
 										<input type="text" name="sch_days" id="sch_days"
 											class="form-control date-picker" placeholder="Schedule Date"
-											   />
+											value="${date}"   />
 									</div>
 									<label class="col-md-2">Remark</label>
 									<div class="col-sm-6 col-lg-2 controls">
