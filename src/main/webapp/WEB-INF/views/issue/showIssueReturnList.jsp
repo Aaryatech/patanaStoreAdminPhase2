@@ -148,7 +148,18 @@
 									</tbody>
 
 								</table>
+								<div class="form-group" id="range">
 
+
+
+									<div class="col-sm-3  controls">
+										<input type="button" id="expExcel" class="btn btn-primary"
+											disabled="disabled" value="EXPORT TO Excel"
+											onclick="exportToExcel();">
+									</div>
+								</div>
+								<button class="btn btn-primary" value="PDF" id="PDFButton"
+									onclick="genPdf()">PDF</button>
 
 								<br> <br>
 								<!-- <button
@@ -242,7 +253,26 @@
 		src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/date.js"></script>
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/daterangepicker.js"></script>
+<script type="text/javascript">
+		function exportToExcel() {
 
+			window.open("${pageContext.request.contextPath}/exportToExcel");
+			document.getElementById("expExcel").disabled = true;
+		}
+	</script>
+
+	<script type="text/javascript">
+		function genPdf() {
+			
+			var fromDate = document.getElementById("fromDate").value;
+			var toDate = document.getElementById("toDate").value;
+
+			window.open('${pageContext.request.contextPath}/getIssueReturnPdf/'
+					+ fromDate + '/' + toDate);
+			document.getElementById("expExcel").disabled = false;
+
+		}
+	</script>
 
 	<script type="text/javascript">
 		function search() {
@@ -364,7 +394,7 @@
 
 
 
-	<script type="text/javascript">
+	<!-- <script type="text/javascript">
 		function genPdf(id) {
 			//alert(id);
 
@@ -383,7 +413,7 @@
 			window.open('pdfForReport?url=/pdf/issueListDoc/' + list);
 
 		}
-	</script>
+	</script> -->
 
 
 </body>

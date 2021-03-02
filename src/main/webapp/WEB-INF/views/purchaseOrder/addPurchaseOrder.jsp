@@ -266,7 +266,7 @@ body {
 												 <c:choose>
 												 	<c:when test="${intedList.indMId==indId}">
 												 		<option value="${intedList.indMId}" selected> ${intedList.indMNo} &nbsp;&nbsp; ${intedList.indMDate}</option>
-												 		
+												 		<c:set var="indentDate" value="${intedList.indMDate}"></c:set>
 												 	</c:when>
 												 	<%-- <c:otherwise>
 												 		<option value="${intedList.indMId}"> ${intedList.indMNo} &nbsp;&nbsp; ${intedList.indMDate}</option>

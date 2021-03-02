@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -29,6 +30,7 @@ import com.ats.tril.model.BillOfMaterialHeader;
 import com.ats.tril.model.Category;
 import com.ats.tril.model.Dept;
 import com.ats.tril.model.ErrorMessage;
+import com.ats.tril.model.ExportToExcel;
 import com.ats.tril.model.GetBillOfMaterialList;
 import com.ats.tril.model.GetIssueDetail;
 import com.ats.tril.model.GetIssueHeader;
@@ -1797,19 +1799,57 @@ public class IssueController {
 			SimpleDateFormat disply = new SimpleDateFormat("dd-MM-yyyy");
 
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			
+			String fromDate = request.getParameter("fromDate");
+			String toDate = request.getParameter("toDate");
 
-			if (request.getParameter("fromDate") != null && request.getParameter("toDate") != null) {
+			if (fromDate != null && toDate != null) {
 
-				map.add("fromDate", sf.format(date));
-				map.add("toDate", sf.format(date));
-
+				map.add("fromDate", DateConvertor.convertToYMD(fromDate));
+				map.add("toDate", DateConvertor.convertToYMD(toDate));
+				
 				GetIssueReturn[] getIssueReturn = rest.postForObject(Constants.url + "/getIssueReturnList", map,
 						GetIssueReturn[].class);
 				List<GetIssueReturn> getIssueReturnList = new ArrayList<GetIssueReturn>(Arrays.asList(getIssueReturn));
 				model.addObject("getIssueReturnList", getIssueReturnList);
 
-				model.addObject("fromDate", disply.format(date));
-				model.addObject("toDate", disply.format(date));
+				model.addObject("fromDate", fromDate);
+				model.addObject("toDate", toDate);
+				
+				// export to excel
+
+				List<ExportToExcel> exportToExcelList = new ArrayList<ExportToExcel>();
+
+				ExportToExcel expoExcel = new ExportToExcel();
+				List<String> rowData = new ArrayList<String>();
+
+				rowData.add("Sr. No");
+				rowData.add("Return Date");
+				rowData.add("Item Name");
+				rowData.add("UOM");
+				rowData.add("Qty");
+
+				expoExcel.setRowData(rowData);
+				exportToExcelList.add(expoExcel);
+				int cnt = 1;
+				for (int i = 0; i < getIssueReturnList.size(); i++) {
+					expoExcel = new ExportToExcel();
+					rowData = new ArrayList<String>();
+					cnt = cnt + i;
+					rowData.add("" + (cnt));
+					rowData.add("" + getIssueReturnList.get(i).getReturnDate());
+					rowData.add(getIssueReturnList.get(i).getItemDesc()+"-"+getIssueReturnList.get(i).getItemCode());
+					rowData.add("" + getIssueReturnList.get(i).getUom());
+					rowData.add("" + getIssueReturnList.get(i).getReturnQty());
+					
+					expoExcel.setRowData(rowData);
+					exportToExcelList.add(expoExcel);
+
+				}
+
+				HttpSession session = request.getSession();
+				session.setAttribute("exportExcelList", exportToExcelList);
+				session.setAttribute("excelName", "GetPoHeaderList");
 
 			}
 
@@ -1819,6 +1859,46 @@ public class IssueController {
 
 		return model;
 	}
+	
+	
+	@RequestMapping(value = "/getIssueReturnPdf/{fromDate}/{toDate}", method = RequestMethod.GET)
+	public ModelAndView getIssueReturnPdf(HttpServletRequest request, HttpServletResponse response,
+			@PathVariable String fromDate, @PathVariable String toDate) {
+
+		ModelAndView model = new ModelAndView("issue/issueReturnPdf");
+		try {
+
+			Date date = new Date();
+			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+			SimpleDateFormat disply = new SimpleDateFormat("dd-MM-yyyy");
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();			
+
+			if (fromDate != null && toDate != null) {
+
+				map.add("fromDate", DateConvertor.convertToYMD(fromDate));
+				map.add("toDate", DateConvertor.convertToYMD(toDate));
+				
+				System.out.println("MAP------------"+map);
+
+				GetIssueReturn[] getIssueReturn = rest.postForObject(Constants.url + "/getIssueReturnList", map,
+						GetIssueReturn[].class);
+				List<GetIssueReturn> getIssueReturnList = new ArrayList<GetIssueReturn>(Arrays.asList(getIssueReturn));
+				model.addObject("getIssueReturnList", getIssueReturnList);
+
+				model.addObject("fromDate", fromDate);
+				model.addObject("toDate", toDate);
+
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return model;
+	}
+	
+	
 	
 
 }

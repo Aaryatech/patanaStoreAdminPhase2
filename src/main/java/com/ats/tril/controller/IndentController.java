@@ -1721,7 +1721,8 @@ public class IndentController {
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 
 			map.add("status", "0,1");
-			GetIndents[] indentList2 = rest.postForObject(Constants.url + "/getIndentList", map, GetIndents[].class);
+			GetIndents[] indentList2 = rest.postForObject(Constants.url + "/getIndentHeaderList", map, GetIndents[].class);
+			/* /getIndentList */
 
 			List<GetIndents> indentListRes2 = new ArrayList<GetIndents>(Arrays.asList(indentList2));
 			System.err.println(indentListRes2.toString());
