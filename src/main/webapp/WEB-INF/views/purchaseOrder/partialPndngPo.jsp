@@ -8,6 +8,83 @@
 <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 
 <body>
+<c:url value="/getPartialPendingPoDtl" var="getPartialPendingPoDtl"></c:url>
+ <style>
+
+
+/* The Modal (background) */
+.modal {
+	display: none; /* Hidden by default */
+	position: fixed; /* Stay in place */
+	z-index: 1; /* Sit on top */
+	padding-top: 20px; /* Location of the box */
+	left: 0;
+	top: 0;
+	width: 100%; /* Full width */
+	height: 100%; /* Full height */
+	overflow: auto; /* Enable scroll if needed */
+	background-color: rgb(0, 0, 0); /* Fallback color */
+	background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+	background-color: #fefefe;
+	margin: auto;
+	padding: 20px;
+	border: 1px solid #888;
+	width: 60%;
+}
+
+/* The Close Button */
+.close {
+	color: #aaaaaa;
+	float: right;
+	font-size: 28px;
+	font-weight: bold;
+}
+
+.close:hover, .close:focus {
+	color: #000;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+#overlay {
+	position: fixed;
+	display: none;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(101, 113, 119, 0.5);
+	z-index: 2;
+	cursor: pointer;
+}
+
+#text {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	font-size: 25px;
+	color: white;
+	transform: translate(-50%, -50%);
+	-ms-transform: translate(-50%, -50%);
+}
+.bg-overlay {
+    background: linear-gradient(rgba(0,0,0,.7), rgba(0,0,0,.7)), url("${pageContext.request.contextPath}/resources/images/smart.jpeg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    color: #fff;
+    height:auto;
+    width:auto;
+    padding-top: 10px;
+    padding-left:20px;
+}
+</style>
 	<div class="container" id="main-container">
 
 		<!-- BEGIN Sidebar -->
@@ -109,7 +186,7 @@
 									</div>
 								</div> --%>
 
-							<div class="clearfix"></div>
+							<div class="clearfix"></div>							
 							<div id="table-scroll" class="table-scroll">
 
 								<div id="faux-table" class="faux-table" aria="hidden">
@@ -182,10 +259,10 @@
 													<c:set var="sts" value="-"/>
 															<c:choose>
 																<c:when test="${indent.indMStatus==9}">
-																	<c:set var="sts" value="Approval peding"></c:set>
+																	<c:set var="sts" value="Approval Pending"></c:set>
 																</c:when>
 																<c:when test="${indent.indMStatus==7}">
-																	<c:set var="sts" value="Approval peding"></c:set>
+																	<c:set var="sts" value="Approval Pending"></c:set>
 																</c:when>
 																<c:when test="${indent.indMStatus==0}">
 																	<c:set var="sts" value="Indet Pending"></c:set>
@@ -200,7 +277,12 @@
 																
 														 <td  ><c:out value="${sts}" /></td>
 
-													<td><a
+													<td>
+													<a
+														href="javascript:void(0);" onclick="getPartialPndngPoDtl(${indent.indMId},${indent.indMType})"
+														class="glyphicon glyphicon-list">
+													</a>
+													<a
 														href="${pageContext.request.contextPath}/addPurchaseOrderFromDashboard/${indent.indMId}/${indent.indMType}">PO
 													</a></td>
 												</tr>
@@ -228,6 +310,48 @@
 		<!-- END Content -->
 	</div>
 	<!-- END Container -->
+
+	<div id="myModal" class="modal">
+		<div class="modal-content" style="color: black;">
+			<span class="close" id="close">&times;</span>
+			<h3 style="text-align: center;">Item List</h3>
+			<div align="center" id="loader" style="display: none">
+
+								<span>
+									<h4>
+										<font color="#343690">Loading</font>
+									</h4>
+								</span> <span class="l-1"></span> <span class="l-2"></span> <span
+									class="l-3"></span> <span class="l-4"></span> <span class="l-5"></span>
+								<span class="l-6"></span>
+							</div>
+			<div class=" box-content">
+				<div class="row">
+					<div
+						style="overflow: scroll; height: 70%; width: 100%; overflow: auto">
+						<table width="100%" border="0"
+							class="table table-bordered table-striped fill-head "
+							style="width: 100%; font-size: 14px;" id="table_grid1">
+							<thead>
+								<tr>									
+									<th width="2%">SR</th>
+									<th class="col-md-5">Item Name</th>
+									<th class="col-md-1">Ind Qty</th>
+									<th class="col-md-1">Status</th>
+									<th class="col-md-1">Rem Qty</th>
+								</tr>
+							</thead>
+							<tbody>
+
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+	</div>
 
 	<!--basic scripts-->
 
@@ -340,5 +464,69 @@
 		src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/date.js"></script>
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/daterangepicker.js"></script>
+		
+<script type="text/javascript">
+//Get the modal
+var modal = document.getElementById('myModal');
+
+// Get the <span> element that closes the modal
+ var span = document.getElementById("close");
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+    modal.style.display = "none"; 
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+        
+    } 
+}
+	function getPartialPndngPoDtl(indMId, poType){
+		modal.style.display = "block";
+		$('#table_grid1 td').remove();
+		$('#loader').show();
+		$
+		.getJSON(
+				'${getPartialPendingPoDtl}',
+
+				{					 
+					indMId : indMId,
+					poType : poType,
+					ajax : 'true'
+				},
+				function(data) {
+					
+					
+					$('#loader').hide();
+					if (data == "") {
+						alert("No records found !!");
+					}
+					
+				  $.each(
+								data,
+								function(key, itemList) {
+								
+									var tr = $('<tr></tr>'); 
+								  	tr.append($('<td></td>').html(key+1)); 
+								  	tr.append($('<td></td>').html(itemList.indItemDesc));
+								  	tr.append($('<td></td>').html(itemList.indQty));
+								  	tr.append($('<td></td>').html(itemList.indDStatus == 9 ? 'Approval Pending' :
+								  		itemList.indDStatus == 7 ? 'Approval Pending' :
+								  			itemList.indDStatus == 9 ? 'Approval peding' :
+								  				itemList.indDStatus == 0 ? 'Pending' :
+								  					itemList.indDStatus == 1 ? 'Partial Pending' :
+								  						itemList.indDStatus == 2 ? 'Complete' : 'Closed'));
+								  	tr.append($('<td></td>').html(itemList.indFyr));
+							
+								  	 $('#table_grid1 tbody').append(tr);
+								  	
+								});
+					
+				});
+	}
+</script>
 </body>
 </html>

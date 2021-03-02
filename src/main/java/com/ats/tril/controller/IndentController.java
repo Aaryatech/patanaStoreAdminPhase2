@@ -53,6 +53,7 @@ import com.ats.tril.model.StockHeader;
 import com.ats.tril.model.Type;
 import com.ats.tril.model.doc.DocumentBean;
 import com.ats.tril.model.doc.SubDocument;
+import com.ats.tril.model.indent.DashIndentDetails;
 import com.ats.tril.model.indent.GetIndent;
 import com.ats.tril.model.indent.GetIndentDetail;
 import com.ats.tril.model.indent.GetIndents;
@@ -1735,6 +1736,33 @@ public class IndentController {
 		}
 
 		return model;
+	}
+	
+	
+	@RequestMapping(value = "/getPartialPendingPoDtl", method = RequestMethod.GET)
+	public @ResponseBody List<DashIndentDetails> getPartialPendingPoDtl(HttpServletRequest request,
+			HttpServletResponse response) {
+
+		List<DashIndentDetails> indentTransListRes = new ArrayList<DashIndentDetails>();
+		try {
+			
+			String status= request.getParameter("poType");
+			int indMId = Integer.parseInt(request.getParameter("indMId"));
+			
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("status", status);
+			map.add("indMId", indMId);
+			
+			DashIndentDetails[] indentList2 = rest.postForObject(Constants.url + "/getIndentTransDtlList", map,
+					DashIndentDetails[].class);
+		
+			indentTransListRes = new ArrayList<DashIndentDetails>(Arrays.asList(indentList2));
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return indentTransListRes;
 	}
 
 }// end of Class
