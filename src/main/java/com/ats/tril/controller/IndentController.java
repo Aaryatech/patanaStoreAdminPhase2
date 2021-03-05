@@ -1750,7 +1750,7 @@ public class IndentController {
 			int indMId = Integer.parseInt(request.getParameter("indMId"));
 			
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-			map.add("status", status);
+			map.add("status", "0,1,2");
 			map.add("indMId", indMId);
 			
 			DashIndentDetails[] indentList2 = rest.postForObject(Constants.url + "/getIndentTransDtlList", map,

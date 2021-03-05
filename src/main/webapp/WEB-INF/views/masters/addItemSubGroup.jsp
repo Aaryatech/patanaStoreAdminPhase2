@@ -36,7 +36,8 @@
 
 					</h1>
 				</div>
-			</div> --><br>
+			</div> -->
+			<br>
 			<!-- END Page Title -->
 
 			<div class="row">
@@ -58,9 +59,10 @@
 						<div class=" box-content">
 							<form id="addSupplier"
 								action="${pageContext.request.contextPath}/insertItemSubGroup"
-								onsubmit="return confirm('Do you really want to submit the form?');" method="post">
+								onsubmit="return confirm('Do you really want to submit the form?');"
+								method="post">
 								<div class="box-content">
-
+									<div class="col-md-2">Select Group*</div>
 									<div class="col-md-3">
 										<select class="form-control chosen" name="grpId" id="grpId"
 											required>
@@ -91,9 +93,7 @@
 											value="${editItemSubGroup.subgrpId}" type="hidden">
 									</div>
 								</div>
-								<br> <br>
-								 
-					<br>
+								<br> <br> <br>
 								<div class=" box-content">
 									<div class="col-md-12" style="text-align: center">
 										<input type="submit" class="btn btn-info" value="Submit"
@@ -103,56 +103,55 @@
 
 									</div>
 								</div>
-								
+
 								<div class="box-content">
-								<div class="col-md-9"></div>
-								<label for="search" class="col-md-3" id="search"> <i
-									class="fa fa-search" style="font-size: 20px"></i> <input
-									type="text" id="myInput" onkeyup="myFunction()"
-									placeholder="Search.." title="Type in a name">
-								</label>
+									<div class="col-md-9"></div>
+									<label for="search" class="col-md-3" id="search"> <i
+										class="fa fa-search" style="font-size: 20px"></i> <input
+										type="text" id="myInput" onkeyup="myFunction()"
+										placeholder="Search.." title="Type in a name">
+									</label> <br /> <br />
+									<div class="clearfix"></div>
+									<div class="table-responsive" style="border: 0">
+										<table class="table table-advance" id="table1">
+											<thead>
+												<tr class="bgpink">
+													<th class="col-sm-1">Sr no.</th>
+													<th class="col-md-1">Sub Group Description</th>
+													<th class="col-md-1">Group</th>
+													<th class="col-md-1">Action</th>
+												</tr>
+											</thead>
+											<tbody>
 
-					<br /> <br />
-					<div class="clearfix"></div>
-					<div class="table-responsive" style="border: 0">
-						<table class="table table-advance" id="table1">  
-									<thead>
-										<tr class="bgpink">
-											<th class="col-sm-1">Sr no.</th>
-											<th class="col-md-1">Sub Group Description</th>
-											<th class="col-md-1">Group</th>
-											<th class="col-md-1">Action</th>
-										</tr>
-									</thead>
-									<tbody>
-
-										<c:forEach items="${itemSubGroupList}" var="itemSubGroupList"
-											varStatus="count">
-											<tr>
-												<td class="col-md-1"><c:out value="${count.index+1}" /></td>
+												<c:forEach items="${itemSubGroupList}"
+													var="itemSubGroupList" varStatus="count">
+													<tr>
+														<td class="col-md-1"><c:out value="${count.index+1}" /></td>
 
 
-												<td class="col-md-1"><c:out
-														value="${itemSubGroupList.subgrpDesc}" /></td>
-												<td class="col-md-1"><c:out
-														value="${itemSubGroupList.grpDesc}" /></td>
+														<td class="col-md-1"><c:out
+																value="${itemSubGroupList.subgrpDesc}" /></td>
+														<td class="col-md-1"><c:out
+																value="${itemSubGroupList.grpDesc}" /></td>
 
-												<td><a
-													href="${pageContext.request.contextPath}/editItemSubGroup/${itemSubGroupList.subgrpId}"><abbr
-														title="Edit"><i class="fa fa-edit"></i></abbr></a>&nbsp;&nbsp;
-														<a href="${pageContext.request.contextPath}/deleteItemSubGroup/${itemSubGroupList.subgrpId}" onClick="return confirm('Are you sure want to delete this record');"><span
-												class="glyphicon glyphicon-remove"></span></a>
-													 </td>
+														<td><a
+															href="${pageContext.request.contextPath}/editItemSubGroup/${itemSubGroupList.subgrpId}"><abbr
+																title="Edit"><i class="fa fa-edit"></i></abbr></a>&nbsp;&nbsp;
+															<a
+															href="${pageContext.request.contextPath}/deleteItemSubGroup/${itemSubGroupList.subgrpId}"
+															onClick="return confirm('Are you sure want to delete this record');"><span
+																class="glyphicon glyphicon-remove"></span></a></td>
 
-											</tr>
-										</c:forEach>
+													</tr>
+												</c:forEach>
 
-									</tbody>
+											</tbody>
 
-								</table>
-  
-					</div>
-				</div>
+										</table>
+
+									</div>
+								</div>
 							</form>
 
 
@@ -164,11 +163,7 @@
 			</div>
 
 
-			<div class=" box-content">
-
-				
-
-			</div>
+			<div class=" box-content"></div>
 
 			<!-- END Main Content -->
 			<footer>
@@ -265,35 +260,34 @@
 			}
 		}
 	</script>
-	
+
 	<script>
-function myFunction() {
-  var input, filter, table, tr,td1, td, i;
-  input = document.getElementById("myInput");
-  filter = input.value.toUpperCase();
-  table = document.getElementById("table1");
-  tr = table.getElementsByTagName("tr");
-  for (i = 0; i < tr.length; i++) {
-    td = tr[i].getElementsByTagName("td")[1];
-    td1 = tr[i].getElementsByTagName("td")[2];
-    if (td || td1) {
-    	
-    	 if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
-    	        tr[i].style.display = "";
-    	      }else if (td1.innerHTML.toUpperCase().indexOf(filter) > -1) {
-    	        tr[i].style.display = "";
-    	      }  else {
-    	        tr[i].style.display = "none";
-    	      }
-       
-    }
-  }
-}
-function FocusOnInput()
-{
-document.getElementById("subGrpDesc").focus();
-}
-</script>
+		function myFunction() {
+			var input, filter, table, tr, td1, td, i;
+			input = document.getElementById("myInput");
+			filter = input.value.toUpperCase();
+			table = document.getElementById("table1");
+			tr = table.getElementsByTagName("tr");
+			for (i = 0; i < tr.length; i++) {
+				td = tr[i].getElementsByTagName("td")[1];
+				td1 = tr[i].getElementsByTagName("td")[2];
+				if (td || td1) {
+
+					if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+						tr[i].style.display = "";
+					} else if (td1.innerHTML.toUpperCase().indexOf(filter) > -1) {
+						tr[i].style.display = "";
+					} else {
+						tr[i].style.display = "none";
+					}
+
+				}
+			}
+		}
+		function FocusOnInput() {
+			document.getElementById("subGrpDesc").focus();
+		}
+	</script>
 
 </body>
 </html>

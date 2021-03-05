@@ -37,7 +37,8 @@
 
 					</h1>
 				</div>
-			</div> --><br>
+			</div> -->
+			<br>
 			<!-- END Page Title -->
 
 			<div class="row">
@@ -46,10 +47,9 @@
 					<div class="box" id="todayslist">
 						<div class="box-title">
 							<h3>
-								<i class="fa fa-table"></i>
-								${title}
-								 
-								 <%-- <c:choose>
+								<i class="fa fa-table"></i> ${title}
+
+								<%-- <c:choose>
 										<c:when test="${isEdit==1}">
 										Edit Vendor Approve By
 										</c:when>
@@ -69,22 +69,30 @@
 						<div class=" box-content">
 							<form id="addSupplier"
 								action="${pageContext.request.contextPath}/insertApproveBy"
-								onsubmit="return confirm('Do you really want to submit the form?');" method="post" >
-								
+								onsubmit="return confirm('Do you really want to submit the form?');"
+								method="post">
+
 								<div class="box-content">
-									<input type="hidden" value="${approve.approvById}" name="approveById" id="approveById">
+
+									<input type="hidden" value="${approve.approvById}"
+										name="approveById" id="approveById">
 									<div class="col-md-2">Approve By Name*</div>
-									<div class="col-md-3">
-										<input id="aprvByName" class="form-control" placeholder="Approve By Name" 
-									name="aprvByName" type="text" value="${approve.approveByName}"
-									required style="text-align: left;" autofocus>
+									<div class="col-md-10">
+										<input id="aprvByName" class="form-control"
+											placeholder="Approve By Name" name="aprvByName" type="text"
+											value="${approve.approveByName}" required>
 									</div>
-								
-									<div class="col-md-12" style="text-align: center">									 
+								</div>
+								<br>
+								<div class="box-content">
+
+									<div class="col-md-12" style="text-align: center">
 										<input type="submit" class="btn btn-info" value="Submit"
 											id="submit">
 									</div>
+
 								</div>
+								<div class=" box-content"></div>
 							</form>
 						</div>
 					</div>
@@ -162,11 +170,10 @@
 		src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/date.js"></script>
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/assets/bootstrap-daterangepicker/daterangepicker.js"></script>
-<script type="text/javascript">
-function FocusOnInput()
-{
-	document.getElementById("aprvByName").focus();
-}
-</script>
+	<script type="text/javascript">
+		function FocusOnInput() {
+			document.getElementById("aprvByName").focus();
+		}
+	</script>
 </body>
 </html>
