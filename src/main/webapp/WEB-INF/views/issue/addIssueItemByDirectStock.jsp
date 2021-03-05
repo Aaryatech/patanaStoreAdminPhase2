@@ -299,6 +299,19 @@
 								</div>
 
 							</div>
+							<br>
+							<div class="box-content">
+
+								<label class="col-md-2">Yesterday Issue</label>
+								<div class="col-md-3">
+
+									<input type="text" name="yesterdayIssue" id="yesterdayIssue"
+										class="form-control" placeholder="Yesterday Issue" readonly />
+
+								</div>
+
+
+							</div>
 
 
 							<div class="box-content"></div>
@@ -959,6 +972,8 @@
 								document.getElementById("itemCurrentStock").value = (data.avgIssueQty)
 										.toFixed(2);
 								document.getElementById("issueUom").value = data.issueUom;
+								document.getElementById("yesterdayIssue").value = (data.issueReturnQty)
+										.toFixed(2);
 							});
 
 		}
