@@ -47,6 +47,7 @@ import com.ats.tril.model.GetItem;
 import com.ats.tril.model.GetPoHeaderList;
 import com.ats.tril.model.SettingValue;
 import com.ats.tril.model.Type;
+import com.ats.tril.model.billbook.BillReceiptHeaderDisplay;
 import com.ats.tril.model.doc.DocumentBean;
 import com.ats.tril.model.doc.GatePassReport;
 import com.ats.tril.model.doc.IndentReport;
@@ -947,5 +948,35 @@ public class PdfReportController {
 
 		}
 	}
+	// -------------BILL RECEIPT PDF------------------
+		@RequestMapping(value = "/pdf/billReceiptPdf/{id}", method = RequestMethod.GET)
+		public ModelAndView billReceiptPdf(@PathVariable int id, HttpServletRequest request, HttpServletResponse response) {
 
+			ModelAndView model = new ModelAndView("docs/billReceipt");
+			try {
+				System.out.println("BR id= " + id);
+
+				RestTemplate restTemplate = new RestTemplate();
+
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+
+				map.add("brId", id);
+
+				BillReceiptHeaderDisplay header = restTemplate.postForObject(Constants.url + "/getSettledBillReceiptById",
+						map, BillReceiptHeaderDisplay.class);
+
+				System.out.println("BILL Receipt Report data " + header);
+
+				model.addObject("recHeader", header);
+
+				Company company = restTemplate.getForObject(Constants.url + "getCompanyDetails", Company.class);
+				model.addObject("company", company);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+
+			}
+
+			return model;
+		}
 }

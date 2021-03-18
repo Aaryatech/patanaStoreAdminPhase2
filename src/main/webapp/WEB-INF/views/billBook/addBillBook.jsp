@@ -514,6 +514,17 @@ body {
 						<div class="modal-content" style="color: black;">
 							<span class="close" id="close">&times;</span>
 							<h3 style="text-align: center;">Select Account Level Item</h3>
+						
+							<div align="center" id="loader_mod" style="display: none;">
+							<br> <span>
+								<h4>
+									<font color="#343690">Loading</font>
+								</h4>
+							</span> <span class="l-1"></span> <span class="l-2"></span> <span
+								class="l-3"></span> <span class="l-4"></span> <span class="l-5"></span>
+							<span class="l-6"></span>
+						</div>
+						
 							<div class=" box-content">
 								<div class="row">
 									<div
@@ -771,7 +782,7 @@ body {
 	<script type="text/javascript">
 		function getAccLevelItems() {
 
-			$('#loader').show();
+			$('#loader_mod').show();
 
 			$
 					.getJSON(
@@ -782,7 +793,7 @@ body {
 							function(data) {
 
 								$('#table_grid1 td').remove();
-								$('#loader').hide();
+								$('#loader_mod').hide();
 
 								if (data == "") {
 									alert("No records found !!");
