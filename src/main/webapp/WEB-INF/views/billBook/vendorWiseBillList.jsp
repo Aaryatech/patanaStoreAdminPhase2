@@ -125,8 +125,8 @@ body {
 </style>
 
 <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
-<body onload="getBills(${vendId},${status})">
-
+<body>
+<!--  onload="getBills(${vendId},${status})"  -->
 	<c:url var="getBillsForSettle" value="/getBillsForSettle" />
 
 	<!-- BEGIN Sidebar -->
