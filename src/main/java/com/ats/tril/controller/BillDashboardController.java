@@ -53,9 +53,11 @@ import org.zefer.pd4ml.PD4PageMark;
 import com.ats.tril.common.Constants;
 import com.ats.tril.common.DateConvertor;
 import com.ats.tril.model.Vendor;
+import com.ats.tril.model.billbook.BillBookHeader;
 import com.ats.tril.model.billbook.BillDashData;
 import com.ats.tril.model.billbook.BillReceiptDetail;
 import com.ats.tril.model.billbook.BillReceiptHeader;
+import com.ats.tril.model.billbook.BillReceiptHeaderDisplay;
 import com.ats.tril.model.login.UserResponse;
 
 @Controller
@@ -66,53 +68,53 @@ public class BillDashboardController {
 
 	DecimalFormat df = new DecimalFormat("#.000");
 
-//	@RequestMapping(value = "/showBillDash", method = RequestMethod.GET)
-//	public ModelAndView showBillDash(HttpServletRequest request, HttpServletResponse response) {
-//
-//		ModelAndView model = new ModelAndView("dashboard/billDashboard");
-//		try {
-//
-//			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-//
-//			BillDashData[] billDashDataRes = rest.postForObject(Constants.url + "/getPendingBillsForDashboard", map,
-//					BillDashData[].class);
-//			List<BillDashData> billList = new ArrayList<BillDashData>();
-//			billList = new ArrayList<BillDashData>(Arrays.asList(billDashDataRes));
-//			System.err.println("BILL LIST - " + billList);
-//
-//			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-//			Calendar cal = Calendar.getInstance();
-//			model.addObject("currDate", sdf.format(cal.getTime()));
-//
-//			Date now = new Date();
-//
-//			if (billList != null) {
-//
-//				for (int i = 0; i < billList.size(); i++) {
-//
-//					Date expdate = sdf.parse(billList.get(i).getExpiryDate());
-//					// System.err.println("NOW - "+now+" EXPIRY - "+expdate);
-//
-//					int val = 1;
-//
-//					if (now.equals(expdate) || now.after(expdate)) {
-//						val = 0;
-//					}
-//
-//					// System.err.println("VAL = "+val);
-//
-//					billList.get(i).setChkDate(val);
-//
-//				}
-//				model.addObject("billList", billList);//
-//			}
-//
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//
-//		return model;
-//	}
+	@RequestMapping(value = "/showBillDash", method = RequestMethod.GET)
+	public ModelAndView showBillDash(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("dashboard/billDashboard");
+		try {
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+
+			BillDashData[] billDashDataRes = rest.postForObject(Constants.url + "/getPendingBillsForDashboard", map,
+					BillDashData[].class);
+			List<BillDashData> billList = new ArrayList<BillDashData>();
+			billList = new ArrayList<BillDashData>(Arrays.asList(billDashDataRes));
+			System.err.println("BILL LIST - " + billList);
+
+			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+			Calendar cal = Calendar.getInstance();
+			model.addObject("currDate", sdf.format(cal.getTime()));
+
+			Date now = new Date();
+
+			if (billList != null) {
+
+				for (int i = 0; i < billList.size(); i++) {
+
+					Date expdate = sdf.parse(billList.get(i).getExpiryDate());
+					// System.err.println("NOW - "+now+" EXPIRY - "+expdate);
+
+					int val = 1;
+
+					if (now.equals(expdate) || now.after(expdate)) {
+						val = 0;
+					}
+
+					// System.err.println("VAL = "+val);
+
+					billList.get(i).setChkDate(val);
+
+				}
+				model.addObject("billList", billList);//
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return model;
+	}
 
 	@RequestMapping(value = "/billSettle/{vendId}", method = RequestMethod.GET)
 	public ModelAndView addBillBook(@PathVariable int vendId, HttpServletRequest request,
@@ -386,124 +388,124 @@ public class BillDashboardController {
 
 	List<Vendor> vendorList = new ArrayList<>();
 
-//	@RequestMapping(value = "/showSettledBill", method = RequestMethod.GET)
-//	public ModelAndView showSettledBill(HttpServletRequest request, HttpServletResponse response) {
-//
-//		ModelAndView model = new ModelAndView("billBook/settledBillList");
-//		try {
-//
-//			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-//
-//			Vendor[] vendorRes = rest.postForObject(Constants.url + "/getAllVendorListForDash", map, Vendor[].class);
-//			vendorList = new ArrayList<Vendor>(Arrays.asList(vendorRes));
-//			System.err.println("VENDOR LIST - " + vendorList);
-//
-//			model.addObject("vendorList", vendorList);
-//
-//			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-//			SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
-//			Calendar cal = Calendar.getInstance();
-//			model.addObject("date", sdf.format(cal.getTime()));
-//
-//			String vendId = "";
-//			if (vendorList != null) {
-//				for (Vendor v : vendorList) {
-//					vendId = vendId + "," + v.getVendorId();
-//				}
-//			}
-//
-//			map = new LinkedMultiValueMap<>();
-//			map.add("fromDate", sdf1.format(cal.getTime()));
-//			map.add("toDate", sdf1.format(cal.getTime()));
-//			map.add("vendId", vendId.substring(1, vendId.length()));
-//
-//			System.err.println("VEND ID - " + vendId.substring(1, vendId.length()));
-//
-//			BillReceiptHeaderDisplay[] res = rest.postForObject(Constants.url + "/getSettledBillReceipt", map,
-//					BillReceiptHeaderDisplay[].class);
-//			ArrayList<BillReceiptHeaderDisplay> billRecList = new ArrayList<BillReceiptHeaderDisplay>(
-//					Arrays.asList(res));
-//			model.addObject("billRecList", billRecList);
-//
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//
-//		return model;
-//	}
-//
-//	// AJAX
-//	@RequestMapping(value = "/getAllVendorListAjax", method = RequestMethod.GET)
-//	@ResponseBody
-//	public List<Vendor> getAllVendorListAjax(HttpServletRequest request, HttpServletResponse response) {
-//		return vendorList;
-//	}
-//
-//	// AJAX
-//	@RequestMapping(value = "/getSettledBillReceiptList", method = RequestMethod.GET)
-//	@ResponseBody
-//	public List<BillReceiptHeaderDisplay> getSettledBillReceiptList(HttpServletRequest request,
-//			HttpServletResponse response) {
-//
-//		List<BillReceiptHeaderDisplay> billRecList = new ArrayList<BillReceiptHeaderDisplay>();
-//		try {
-//
-//			String fromDate = request.getParameter("fromDate");
-//			String toDate = request.getParameter("toDate");
-//
-//			String vendId = request.getParameter("vendId");
-//			vendId = vendId.substring(1, vendId.length() - 1);
-//			vendId = vendId.replaceAll("\"", "");
-//
-//			System.err.println("VEND ID - " + vendId);
-//
-//			List<String> vendIds = Stream.of(vendId.split(",")).collect(Collectors.toList());
-//			System.err.println("VEND ID LIST - " + vendIds);
-//
-//			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-//			map.add("fromDate", DateConvertor.convertToYMD(fromDate));
-//			map.add("toDate", DateConvertor.convertToYMD(toDate));
-//			map.add("vendId", vendId);
-//
-//			BillReceiptHeaderDisplay[] res = rest.postForObject(Constants.url + "/getSettledBillReceipt", map,
-//					BillReceiptHeaderDisplay[].class);
-//			billRecList = new ArrayList<BillReceiptHeaderDisplay>(Arrays.asList(res));
-//
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//
-//		return billRecList;
-//	}
-//
-//	// ------------------
-//	@RequestMapping(value = "/viewBillDetail/{billId}", method = RequestMethod.GET)
-//	public ModelAndView editPurchaseOrder(@PathVariable int billId, HttpServletRequest request,
-//			HttpServletResponse response) {
-//
-//		// ModelAndView model = new ModelAndView("billBook/editBillBook");
-//		ModelAndView model = new ModelAndView("billBook/billDetailForDisplay");
-//		try {
-//
-//			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-//			map.add("billId", billId);
-//
-//			BillBookHeader billHeader = rest.postForObject(Constants.url + "getBillHeaderById", map,
-//					BillBookHeader.class);
-//			System.err.println("BILL - " + billHeader);
-//
-//			if (billHeader != null) {
-//
-//				model.addObject("billHeader", billHeader);
-//				model.addObject("billDate", DateConvertor.convertToDMY(billHeader.getBillDate()));
-//
-//			}
-//
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//
-//		return model;
-//	}
+	@RequestMapping(value = "/showSettledBill", method = RequestMethod.GET)
+	public ModelAndView showSettledBill(HttpServletRequest request, HttpServletResponse response) {
+
+		ModelAndView model = new ModelAndView("billBook/settledBillList");
+		try {
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+
+			Vendor[] vendorRes = rest.postForObject(Constants.url + "/getAllVendorListForDash", map, Vendor[].class);
+			vendorList = new ArrayList<Vendor>(Arrays.asList(vendorRes));
+			System.err.println("VENDOR LIST - " + vendorList);
+
+			model.addObject("vendorList", vendorList);
+
+			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+			SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+			Calendar cal = Calendar.getInstance();
+			model.addObject("date", sdf.format(cal.getTime()));
+
+			String vendId = "";
+			if (vendorList != null) {
+				for (Vendor v : vendorList) {
+					vendId = vendId + "," + v.getVendorId();
+				}
+			}
+
+			map = new LinkedMultiValueMap<>();
+			map.add("fromDate", sdf1.format(cal.getTime()));
+			map.add("toDate", sdf1.format(cal.getTime()));
+			map.add("vendId", vendId.substring(1, vendId.length()));
+
+			System.err.println("VEND ID - " + vendId.substring(1, vendId.length()));
+
+			BillReceiptHeaderDisplay[] res = rest.postForObject(Constants.url + "/getSettledBillReceipt", map,
+					BillReceiptHeaderDisplay[].class);
+			ArrayList<BillReceiptHeaderDisplay> billRecList = new ArrayList<BillReceiptHeaderDisplay>(
+					Arrays.asList(res));
+			model.addObject("billRecList", billRecList);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return model;
+	}
+
+	// AJAX
+	@RequestMapping(value = "/getAllVendorListAjax", method = RequestMethod.GET)
+	@ResponseBody
+	public List<Vendor> getAllVendorListAjax(HttpServletRequest request, HttpServletResponse response) {
+		return vendorList;
+	}
+
+	// AJAX
+	@RequestMapping(value = "/getSettledBillReceiptList", method = RequestMethod.GET)
+	@ResponseBody
+	public List<BillReceiptHeaderDisplay> getSettledBillReceiptList(HttpServletRequest request,
+			HttpServletResponse response) {
+
+		List<BillReceiptHeaderDisplay> billRecList = new ArrayList<BillReceiptHeaderDisplay>();
+		try {
+
+			String fromDate = request.getParameter("fromDate");
+			String toDate = request.getParameter("toDate");
+
+			String vendId = request.getParameter("vendId");
+			vendId = vendId.substring(1, vendId.length() - 1);
+			vendId = vendId.replaceAll("\"", "");
+
+			System.err.println("VEND ID - " + vendId);
+
+			List<String> vendIds = Stream.of(vendId.split(",")).collect(Collectors.toList());
+			System.err.println("VEND ID LIST - " + vendIds);
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("fromDate", DateConvertor.convertToYMD(fromDate));
+			map.add("toDate", DateConvertor.convertToYMD(toDate));
+			map.add("vendId", vendId);
+
+			BillReceiptHeaderDisplay[] res = rest.postForObject(Constants.url + "/getSettledBillReceipt", map,
+					BillReceiptHeaderDisplay[].class);
+			billRecList = new ArrayList<BillReceiptHeaderDisplay>(Arrays.asList(res));
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return billRecList;
+	}
+
+	// ------------------
+	@RequestMapping(value = "/viewBillDetail/{billId}", method = RequestMethod.GET)
+	public ModelAndView editPurchaseOrder(@PathVariable int billId, HttpServletRequest request,
+			HttpServletResponse response) {
+
+		// ModelAndView model = new ModelAndView("billBook/editBillBook");
+		ModelAndView model = new ModelAndView("billBook/billDetailForDisplay");
+		try {
+
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+			map.add("billId", billId);
+
+			BillBookHeader billHeader = rest.postForObject(Constants.url + "getBillHeaderById", map,
+					BillBookHeader.class);
+			System.err.println("BILL - " + billHeader);
+
+			if (billHeader != null) {
+
+				model.addObject("billHeader", billHeader);
+				model.addObject("billDate", DateConvertor.convertToDMY(billHeader.getBillDate()));
+
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return model;
+	}
 
 }

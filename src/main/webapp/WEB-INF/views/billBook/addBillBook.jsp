@@ -272,38 +272,38 @@ body {
 											<tr>
 
 												<th
-													style="position: sticky; top: 0; z-index: 5;  background: #f95d64; color: white;"
+													style="position: sticky; top: 0; z-index: 5;  background: #ec268f; color: white;"
 													width="2%">SR</th>
 												<th
-													style="text-align: center; position: sticky; top: 0; z-index: 5;  background: #f95d64; color: white;">Item
+													style="text-align: center; position: sticky; top: 0; z-index: 5;  background: #ec268f; color: white;">Item
 													Name</th>
 												<th class="col-md-1"
-													style="text-align: center; position: sticky; top: 0; z-index: 5; background: #f95d64; color: white;">Uom</th>
+													style="text-align: center; position: sticky; top: 0; z-index: 5; background: #ec268f; color: white;">Uom</th>
 												<th class="col-md-1"
-													style="text-align: center; position: sticky; top: 0; z-index: 5;  background: #f95d64; color: white;">MRN
+													style="text-align: center; position: sticky; top: 0; z-index: 5;  background: #ec268f; color: white;">MRN
 													Qty</th>
 												<th class="col-md-1"
-													style="text-align: center; position: sticky; top: 0; z-index: 5;  background: #f95d64; color: white;">PO
+													style="text-align: center; position: sticky; top: 0; z-index: 5;  background: #ec268f; color: white;">PO
 													Rate</th>
 
 												<th class="col-md-1"
-													style="text-align: center; position: sticky; top: 0; z-index: 5;  background: #f95d64; color: white;">Bill
+													style="text-align: center; position: sticky; top: 0; z-index: 5;  background: #ec268f; color: white;">Bill
 													Rate</th>
 												<th class="col-md-1"
-													style="text-align: center; position: sticky; top: 0; z-index: 5;  background: #f95d64; color: white;">Total</th>
+													style="text-align: center; position: sticky; top: 0; z-index: 5;  background: #ec268f; color: white;">Total</th>
 												<th class="col-md-1"
-													style="text-align: center; position: sticky; top: 0; z-index: 5;  background: #f95d64; color: white;">Additional
+													style="text-align: center; position: sticky; top: 0; z-index: 5;  background: #ec268f; color: white;">Additional
 													Charges</th>
 												<th class="col-md-1"
-													style="text-align: center; position: sticky; top: 0; z-index: 5;  background: #f95d64; color: white;">Taxable</th>
+													style="text-align: center; position: sticky; top: 0; z-index: 5;  background: #ec268f; color: white;">Taxable</th>
 												<th class="col-md-1"
-													style="text-align: center; position: sticky; top: 0; z-index: 5;  background: #f95d64; color: white;">Tax
+													style="text-align: center; position: sticky; top: 0; z-index: 5;  background: #ec268f; color: white;">Tax
 													Per</th>
 												<th class="col-md-1"
-													style="text-align: center; position: sticky; top: 0; z-index: 5;  background: #f95d64; color: white;">Tax
+													style="text-align: center; position: sticky; top: 0; z-index: 5;  background: #ec268f; color: white;">Tax
 													Value</th>
 												<th class="col-md-1"
-													style="text-align: center; position: sticky; top: 0; z-index: 5;  background: #f95d64; color: white;">Grand
+													style="text-align: center; position: sticky; top: 0; z-index: 5;  background: #ec268f; color: white;">Grand
 													Total</th>
 
 
@@ -534,17 +534,17 @@ body {
 											style="width: 100%; font-size: 14px;" id="table_grid1">
 											<thead>
 												<tr>
-													<th style="text-align: center; position: sticky; top: 0; z-index: 5;  background: #f95d64; color: white;" align="left" width="1%"><input type="checkbox"
+													<th style="text-align: center; position: sticky; top: 0; z-index: 5;  background: #ec268f; color: white;" align="left" width="1%"><input type="checkbox"
 														id="allCheck" />All</th>
-													<th width="2%" style="text-align: center; position: sticky; top: 0; z-index: 5;  background: #f95d64; color: white;">SR</th>
-													<th class="col-md-5" style="text-align: center; position: sticky; top: 0; z-index: 5;  background: #f95d64; color: white;">Item Name</th>
-													<th class="col-md-1" style="text-align: center; position: sticky; top: 0; z-index: 5;  background: #f95d64; color: white;">Uom</th>
-													<th class="col-md-1" style="text-align: center; position: sticky; top: 0; z-index: 5;  background: #f95d64; color: white;">Qty</th>
-													<th class="col-md-1" style="text-align: center; position: sticky; top: 0; z-index: 5;  background: #f95d64; color: white;">Rate</th>
-													<th class="col-md-1" style="text-align: center; position: sticky; top: 0; z-index: 5;  background: #f95d64; color: white;">Taxable</th>
-													<th class="col-md-1" style="text-align: center; position: sticky; top: 0; z-index: 5;  background: #f95d64; color: white;">Tax Per</th>
-													<th class="col-md-1" style="text-align: center; position: sticky; top: 0; z-index: 5;  background: #f95d64; color: white;">Tax Value</th>
-													<th class="col-md-1" style="text-align: center; position: sticky; top: 0; z-index: 5;  background: #f95d64; color: white;">Total</th>
+													<th width="2%" style="text-align: center; position: sticky; top: 0; z-index: 5;  background: #ec268f; color: white;">SR</th>
+													<th class="col-md-5" style="text-align: center; position: sticky; top: 0; z-index: 5;  background: #ec268f; color: white;">Item Name</th>
+													<th class="col-md-1" style="text-align: center; position: sticky; top: 0; z-index: 5;  background: #ec268f; color: white;">Uom</th>
+													<th class="col-md-1" style="text-align: center; position: sticky; top: 0; z-index: 5;  background: #ec268f; color: white;">Qty</th>
+													<th class="col-md-1" style="text-align: center; position: sticky; top: 0; z-index: 5;  background: #ec268f; color: white;">Rate</th>
+													<th class="col-md-1" style="text-align: center; position: sticky; top: 0; z-index: 5;  background: #ec268f; color: white;">Taxable</th>
+													<th class="col-md-1" style="text-align: center; position: sticky; top: 0; z-index: 5;  background: #ec268f; color: white;">Tax Per</th>
+													<th class="col-md-1" style="text-align: center; position: sticky; top: 0; z-index: 5;  background: #ec268f; color: white;">Tax Value</th>
+													<th class="col-md-1" style="text-align: center; position: sticky; top: 0; z-index: 5;  background: #ec268f; color: white;">Total</th>
 												</tr>
 											</thead>
 											<tbody>
