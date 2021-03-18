@@ -317,7 +317,10 @@ System.err.println("Inside getPODetailList add Mrn jsp Ajax call ");
 			
 			float chalanQty = Float.parseFloat(request.getParameter("chalanQty"));
 			
-			
+			String btcCode = request.getParameter("btcCode");
+			String btcDate = request.getParameter("btcDate");
+			String expDate = request.getParameter("expDate");	
+			System.out.println("Para-------------"+btcDate+" ******** "+btcCode+"---------"+expDate);
 			if (poDetailList.size() > 0) {
 
 				// if(qty>0) {
@@ -331,7 +334,9 @@ System.err.println("Inside getPODetailList add Mrn jsp Ajax call ");
 
 						poDetailList.get(i).setReceivedQty(qty);
 						poDetailList.get(i).setChalanQty(chalanQty);
-
+						poDetailList.get(i).setBtcDate(btcDate);
+						poDetailList.get(i).setBtcCode(btcCode);
+						poDetailList.get(i).setExpDate(expDate);
 					} else {
 
 						System.err.println("Po Detail ID Not matched ");
@@ -438,6 +443,9 @@ System.err.println("Inside getPODetailList add Mrn jsp Ajax call ");
 			}
 			//----------------------------Inv No---------------------------------
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			
+			String batchCode = null;
+			
 			map = new LinkedMultiValueMap<String, Object>();
 			map.add("name", "mrnStatus");
 			SettingValue settingValue = rest.postForObject(Constants.url + "/getSettingValue", map, SettingValue.class);
@@ -465,8 +473,11 @@ System.err.println("Inside getPODetailList add Mrn jsp Ajax call ");
 
 			for (GetPODetail detail : poDetailList) {
 
-				if (detail.getReceivedQty() > 0) {
-
+				if (detail.getReceivedQty() > 0) {				
+					batchCode = new String();
+					batchCode = "MF:"+detail.getBtcDate()+"/EXP:"+detail.getExpDate()+"/"+detail.getBtcCode();
+					System.out.println("BatcCode ------ "+batchCode);
+					
 					MrnDetail mrnDetail = new MrnDetail();
 
 					mrnDetail.setIndentQty(detail.getIndedQty());
@@ -483,7 +494,7 @@ System.err.println("Inside getPODetailList add Mrn jsp Ajax call ");
 
 					mrnDetail.setMrnDetailStatus(Integer.parseInt(settingValue.getValue()));
 
-					mrnDetail.setBatchNo("Default Batch KKKK-00456");
+					mrnDetail.setBatchNo(batchCode); //"Default Batch KKKK-00456"
 					mrnDetail.setDelStatus(Constants.delStatus);
 
 					mrnDetail.setPoDetailId(detail.getPoDetailId());

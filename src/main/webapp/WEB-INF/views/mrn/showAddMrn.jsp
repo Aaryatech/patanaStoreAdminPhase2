@@ -381,6 +381,10 @@ body {
 																			<th class="col-md-1" >PO
 																				No</th>
 																			<th class="col-md-1" >Status</th>
+																			
+																			<th class="col-md-1" >Batch Code</th>
+																			<th class="col-md-1" >Manufacture Date</th>
+																			<th class="col-md-1" >Expiry Date</th>
 																		</tr>
 																	</thead>
 																	<tbody>
@@ -436,7 +440,11 @@ body {
 																		QTY</th>
 																	<th class="col-md-1" >PO
 																		No</th>
-																	<th class="col-md-1" >Status</th>
+																	<th class="col-md-1" >Status</th>																	
+																	
+																	<th class="col-md-1" >Batch Code</th>
+																	<th class="col-md-1" >Manufacture Date</th>
+																	<th class="col-md-1" >Expiry Date</th>
 																</tr>
 															</thead>
 
@@ -928,6 +936,51 @@ body {
 																		'<td class="col-md-1"  ></td>')
 																		.html(
 																				status));
+														tr
+														.append($(
+																'<td class="col-md-1"  ></td>')
+																.html(
+																		"<input type=text style='width:200px' class=form-control name=btcCode"
+																				+ itemList.poDetailId
+																				+ ""
+																				+ itemList.itemId
+																				+ " id=btcCode"
+																				+ itemList.poDetailId
+																				+ ""
+																				+ itemList.itemId
+																				+" value="
+																				+ itemList.btcCode
+																				+ " />"));
+														tr
+														.append($(
+																'<td class="col-md-1"  ></td>')
+																.html(
+																		"<input class='form-control date-picker' type='date'  name=btcDate"
+																				+ itemList.poDetailId
+																				+ ""
+																				+ itemList.itemId
+																				+ " id=btcDate"
+																				+ itemList.poDetailId
+																				+ ""
+																				+ itemList.itemId
+																				+" value="
+																				+ itemList.btcDate
+																				+ " />"));
+														tr
+														.append($(
+																'<td class="col-md-1"  ></td>')
+																.html(
+																		"<input class='form-control date-picker' type='date'  name=expDate"
+																				+ itemList.poDetailId
+																				+ ""
+																				+ itemList.itemId
+																				+ " id=expDate"
+																				+ itemList.poDetailId
+																				+ ""
+																				+ itemList.itemId
+																				+" value="
+																				+ itemList.expDate
+																				+ " />"));
 														$('#table_grid1 tbody')
 																.append(tr);
 													})
@@ -958,7 +1011,11 @@ body {
 				var qty = document.getElementById("recQty" + poDId + itemId).value;
 				var chalanQty = document.getElementById("chalanQty" + poDId
 						+ itemId).value;
-
+				
+				var btcDate = document.getElementById("btcDate" + poDId + itemId).value;
+				var btcCode = document.getElementById("btcCode" + poDId + itemId).value;
+				var expDate = document.getElementById("expDate" + poDId + itemId).value;
+				
 				//alert("Qty  " +qty  +"chalan Qty  " +chalanQty);
 				  if (parseInt(qty) > parseInt(pendingQty)) {
 					document.getElementById("recQty" + poDId + itemId).value = 0;
@@ -967,7 +1024,7 @@ body {
 				} else { 
 
 					/* if (chalanQty > 0) { */
-						addMrnQty(qty, poDId, chalanQty);
+						addMrnQty(qty, poDId, chalanQty, btcDate, btcCode, expDate);
 
 					/* } else {
 						document.getElementById("recQty" + poDId + itemId).value = 0;
@@ -1096,7 +1153,54 @@ body {
 																	.append($(
 																			'<td class="col-md-1" ></td>')
 																			.html(
-																					status));
+																					status));															
+															tr
+															.append($(
+																	'<td class="col-md-1"  ></td>')
+																	.html(
+																			"<input type=text style='width:200px' class=form-control name=btcCode"
+																					+ itemList.poDetailId
+																					+ ""
+																					+ itemList.itemId
+																					+ " id=btcCode"
+																					+ itemList.poDetailId
+																					+ ""
+																					+ itemList.itemId
+																					+" value="
+																					+ itemList.btcCode
+																					+ " />"));
+															
+															tr
+															.append($(
+																	'<td class="col-md-1"  ></td>')
+																	.html(
+																			"<input class='form-control date-picker' type='date'  name=btcDate"
+																					+ itemList.poDetailId
+																					+ ""
+																					+ itemList.itemId
+																					+ " id=btcDate"
+																					+ itemList.poDetailId
+																					+ ""
+																					+ itemList.itemId
+																					+" value="
+																					+ itemList.btcDate
+																					+ " />"));
+															tr
+															.append($(
+																	'<td class="col-md-1"  ></td>')
+																	.html(
+																			"<input class='form-control date-picker' type='date'  name=expDate"
+																					+ itemList.poDetailId
+																					+ ""
+																					+ itemList.itemId
+																					+ " id=expDate"
+																					+ itemList.poDetailId
+																					+ ""
+																					+ itemList.itemId
+																					+" value="
+																					+ itemList.expDate
+																					+ " />"));
+															
 															$(
 																	'#table_grid2 tbody')
 																	.append(tr);
@@ -1285,7 +1389,7 @@ body {
 		</script>
 
 		<script type="text/javascript">
-			function addMrnQty(qty, poDId, chalanQty) {
+			function addMrnQty(qty, poDId, chalanQty, btcDate, btcCode, expDate) {
 				var selectedPoIds = $("#po_list").val();
 				$
 						.getJSON(
@@ -1295,6 +1399,9 @@ body {
 									qty : qty,
 									poDId : poDId,
 									chalanQty : chalanQty,
+									btcDate : btcDate,
+									btcCode : btcCode,
+									expDate : expDate,
 									ajax : 'true',
 								},
 								function(data) {
@@ -1447,7 +1554,55 @@ body {
 																.append($(
 																		'<td class="col-md-1" ></td>')
 																		.html(
-																				status));
+																				status));														
+														
+														tr
+														.append($(
+																'<td class="col-md-1"  ></td>')
+																.html(
+																		"<input type=text style='width:200px' class=form-control name=btcCode"
+																				+ itemList.poDetailId
+																				+ ""
+																				+ itemList.itemId
+																				+ " id=btcCode"
+																				+ itemList.poDetailId
+																				+ ""
+																				+ itemList.itemId
+																				+" value="
+																				+ itemList.btcCode
+																				+ " />"));
+														
+														tr
+														.append($(
+																'<td class="col-md-1"  ></td>')
+																.html(
+																		"<input class='form-control date-picker' type='date'  name=btcDate"
+																				+ itemList.poDetailId
+																				+ ""
+																				+ itemList.itemId
+																				+ " id=btcDate"
+																				+ itemList.poDetailId
+																				+ ""
+																				+ itemList.itemId
+																				+" value="
+																				+ itemList.btcDate
+																				+ " />"));
+														tr
+														.append($(
+																'<td class="col-md-1"  ></td>')
+																.html(
+																		"<input class='form-control date-picker' type='date'  name=expDate"
+																				+ itemList.poDetailId
+																				+ ""
+																				+ itemList.itemId
+																				+ " id=expDate"
+																				+ itemList.poDetailId
+																				+ ""
+																				+ itemList.itemId
+																				+" value="
+																				+ itemList.expDate
+																				+ " />"));
+														
 														$('#table_grid1 tbody')
 																.append(tr);
 													})

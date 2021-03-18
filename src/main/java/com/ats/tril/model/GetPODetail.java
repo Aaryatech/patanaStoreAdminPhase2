@@ -73,6 +73,10 @@ public class GetPODetail {
 	private float sgst; 
 	private float igst;
 	
+	private String btcDate;
+	private String expDate;
+	private String btcCode;
+	
 	
 	public int getTempIsDelete() {
 		return tempIsDelete;
@@ -291,6 +295,24 @@ public class GetPODetail {
 	public void setIgst(float igst) {
 		this.igst = igst;
 	}
+	public String getBtcDate() {
+		return btcDate;
+	}
+	public void setBtcDate(String btcDate) {
+		this.btcDate = btcDate;
+	}
+	public String getBtcCode() {
+		return btcCode;
+	}
+	public void setBtcCode(String btcCode) {
+		this.btcCode = btcCode;
+	}
+	public String getExpDate() {
+		return expDate;
+	}
+	public void setExpDate(String expDate) {
+		this.expDate = expDate;
+	}
 	@Override
 	public String toString() {
 		return "GetPODetail [poDetailId=" + poDetailId + ", poId=" + poId + ", indId=" + indId + ", vendId=" + vendId
@@ -303,7 +325,7 @@ public class GetPODetail {
 				+ otherChargesAfter + ", landingCost=" + landingCost + ", itemCode=" + itemCode + ", itemName="
 				+ itemName + ", uom=" + uom + ", poNo=" + poNo + ", receivedQty=" + receivedQty + ", chalanQty="
 				+ chalanQty + ", tempIsDelete=" + tempIsDelete + ", cgst=" + cgst + ", sgst=" + sgst + ", igst=" + igst
-				+ "]";
+				+ ", btcDate=" + btcDate + ", expDate=" + expDate + ", btcCode=" + btcCode + "]";
 	}
 	
 	
