@@ -827,7 +827,7 @@ body {
 																				
 																				tr
 																				.append($(
-																						'<td class="col-md-1"  ></td>')
+																						'<td class="col-md-2"  ></td>')
 																						.html('<div title="'+itemList.itemName+'">'+itemList.itemCode+' ' +itemList.itemName+ '</div>'))
 				
 													/* 							
@@ -884,7 +884,7 @@ body {
 																						+ itemList.itemId
 																						+ ")' value="
 																						+ itemList.chalanQty
-																						+ " /> <input type=text style='text-align:right; width:200px' class=form-control name=recQty"
+																						+ " /> <input type=text style='text-align:right; width:51px' class=form-control name=recQty"
 																						+ itemList.poDetailId
 																						+ ""
 																						+ itemList.itemId
@@ -940,7 +940,7 @@ body {
 														.append($(
 																'<td class="col-md-1"  ></td>')
 																.html(
-																		"<input type=text style='width:200px' class=form-control name=btcCode"
+																		"<input type=text style='width:81px' class=form-control required name=btcCode"
 																				+ itemList.poDetailId
 																				+ ""
 																				+ itemList.itemId
@@ -955,7 +955,7 @@ body {
 														.append($(
 																'<td class="col-md-1"  ></td>')
 																.html(
-																		"<input class='form-control date-picker' type='date'  name=btcDate"
+																		"<input class='form-control date-picker' style='width:165px'  type='date' required name=btcDate"
 																				+ itemList.poDetailId
 																				+ ""
 																				+ itemList.itemId
@@ -968,9 +968,9 @@ body {
 																				+ " />"));
 														tr
 														.append($(
-																'<td class="col-md-1"  ></td>')
+																'<td class="col-md-1"></td>')
 																.html(
-																		"<input class='form-control date-picker' type='date'  name=expDate"
+																		"<input class='form-control date-picker' style='width:165px' type='date' required  name=expDate"
 																				+ itemList.poDetailId
 																				+ ""
 																				+ itemList.itemId
@@ -1021,7 +1021,11 @@ body {
 					document.getElementById("recQty" + poDId + itemId).value = 0;
 					alert("Received Qty can not be greater than Pending Qty");
 
-				} else { 
+				}else if(btcCode=='-'){
+					alert("Enter Batch Code");
+				} 
+				  
+				  else { 
 
 					/* if (chalanQty > 0) { */
 						addMrnQty(qty, poDId, chalanQty, btcDate, btcCode, expDate);
@@ -1158,7 +1162,7 @@ body {
 															.append($(
 																	'<td class="col-md-1"  ></td>')
 																	.html(
-																			"<input type=text style='width:200px' class=form-control name=btcCode"
+																			"<input type=text style='width:81px' class=form-control required readonly name=btcCode"
 																					+ itemList.poDetailId
 																					+ ""
 																					+ itemList.itemId
@@ -1174,7 +1178,7 @@ body {
 															.append($(
 																	'<td class="col-md-1"  ></td>')
 																	.html(
-																			"<input class='form-control date-picker' type='date'  name=btcDate"
+																			"<input class='form-control date-picker' style='width:165px' type='date' required readonly  name=btcDate "
 																					+ itemList.poDetailId
 																					+ ""
 																					+ itemList.itemId
@@ -1189,7 +1193,7 @@ body {
 															.append($(
 																	'<td class="col-md-1"  ></td>')
 																	.html(
-																			"<input class='form-control date-picker' type='date'  name=expDate"
+																			"<input class='form-control date-picker' style='width:165px' type='date' required readonly name=expDate"
 																					+ itemList.poDetailId
 																					+ ""
 																					+ itemList.itemId
@@ -1503,7 +1507,7 @@ body {
 																						+ itemList.itemId
 																						+ ")' value="
 																						+ itemList.chalanQty
-																						+ " /><input type=text style='text-align:right; width:200px' class=form-control name=recQty"
+																						+ " /><input type=text style='text-align:right; width:51px' class=form-control name=recQty"
 																						+ itemList.poDetailId
 																						+ ""
 																						+ itemList.itemId
@@ -1560,7 +1564,7 @@ body {
 														.append($(
 																'<td class="col-md-1"  ></td>')
 																.html(
-																		"<input type=text style='width:200px' class=form-control name=btcCode"
+																		"<input type=text style='width:81px' class=form-control required name=btcCode"
 																				+ itemList.poDetailId
 																				+ ""
 																				+ itemList.itemId
@@ -1576,7 +1580,7 @@ body {
 														.append($(
 																'<td class="col-md-1"  ></td>')
 																.html(
-																		"<input class='form-control date-picker' type='date'  name=btcDate"
+																		"<input class='form-control date-picker' style='width:165px' type='date' required name=btcDate"
 																				+ itemList.poDetailId
 																				+ ""
 																				+ itemList.itemId
@@ -1585,13 +1589,13 @@ body {
 																				+ ""
 																				+ itemList.itemId
 																				+" value="
-																				+ itemList.btcDate
+																				+ itemList.btcDate	
 																				+ " />"));
 														tr
 														.append($(
 																'<td class="col-md-1"  ></td>')
 																.html(
-																		"<input class='form-control date-picker' type='date'  name=expDate"
+																		"<input class='form-control date-picker' style='width:165px' type='date' required name=expDate"
 																				+ itemList.poDetailId
 																				+ ""
 																				+ itemList.itemId

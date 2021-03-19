@@ -255,9 +255,11 @@ System.err.println("Inside getPODetailList add Mrn jsp Ajax call ");
 				}//end of if poDetailList.size>0
 				
 				else {
-					System.err.println("Else new List : First call");
+					System.err.println("Else new List : First call");					
 					poDetailList = new ArrayList<GetPODetail>(Arrays.asList(poDetailRes));	
-					
+					for (int i = 0; i < poDetailList.size(); i++) {
+						poDetailList.get(i).setBtcCode("-");
+					}
 				}
 				
 				//poDetailList = new ArrayList<GetPODetail>(Arrays.asList(poDetailRes));
