@@ -356,7 +356,7 @@ body {
 
 								<div class="col-md-3">
 									<c:choose>
-										<c:when test="${mrnHeader.mrnStatus==4}">
+										<c:when test="${mrnHeader.mrnStatus==0}">
 											<input class="btn btn-info" id="getPoButton"
 												style="text-align: center;" onclick="getPoDetail(0,0)"
 												size="16" type="button" name="getPoButton"
@@ -476,7 +476,7 @@ body {
 															<td class="col-md-1"><c:out value="${status}" /></td>
 															<td class="col-md-1"><c:choose>
 																	<c:when
-																		test="${(mrnDetail.chalanQty==0) && (mrnHeader.mrnStatus==4)}">
+																		test="${(mrnDetail.chalanQty==0) && (mrnHeader.mrnStatus==0)}">
 																		<a
 																			href="${pageContext.request.contextPath}/deleteMrnDetail/${mrnDetail.mrnDetailId}"
 																			title="Delete"><span class="fa fa-trash-o"></span></a>
@@ -556,7 +556,7 @@ body {
 						<div class="col-md-3" align=center>
 
 							<c:choose>
-								<c:when test="${mrnHeader.mrnStatus==4}">
+								<c:when test="${mrnHeader.mrnStatus==0}">
 									<input type="button" onclick="editMrn()" class="btn btn-info"
 										value="Submit">
 								</c:when>

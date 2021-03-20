@@ -10,26 +10,27 @@ body {
 }
 
 #overlay2 {
-    position: fixed;
-    display: none;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(101, 113, 119, 0.5);
-    z-index: 2;
-    cursor: pointer;
+	position: fixed;
+	display: none;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(101, 113, 119, 0.5);
+	z-index: 2;
+	cursor: pointer;
 }
+
 #text2 {
-   position: absolute;
-    top: 50%;
-    left: 50%;
-    font-size: 25px;
-    color: white;
-    transform: translate(-50%,-50%);
-    -ms-transform: translate(-50%,-50%);
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	font-size: 25px;
+	color: white;
+	transform: translate(-50%, -50%);
+	-ms-transform: translate(-50%, -50%);
 }
 
 /* The Modal (background) */
@@ -113,12 +114,12 @@ body {
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/tableSearch.css">
 <body onload="callToInvoice()">
-<div id="overlay2" >  <div id="text2"> Saving MRN....
-
-</div></div>
+	<div id="overlay2">
+		<div id="text2">Saving MRN....</div>
+	</div>
 	<%-- <jsp:include page="/WEB-INF/views/include/logout.jsp"></jsp:include> --%>
 
-<c:url var="exportExcelforMrn" value="/exportExcelforMrn" />
+	<c:url var="exportExcelforMrn" value="/exportExcelforMrn" />
 	<c:url var="getPOHeaderList" value="/getPOHeaderList" />
 	<c:url var="getPODetailList" value="/getPODetailList" />
 	<c:url var="genrateNo" value="/genrateNo" />
@@ -154,7 +155,8 @@ body {
 					</h1>
 
 				</div>
-			</div> --><br>
+			</div> -->
+			<br>
 			<!-- END Page Title -->
 			<!-- BEGIN Main Content -->
 			<div class="row">
@@ -189,34 +191,34 @@ body {
 														<c:choose>
 
 															<c:when test="${poType!=0}">
-															
-															<c:forEach items="${typeList}" var="typeList"> 
-																<c:choose>
-																	<c:when test="${poType==typeList.typeId}">
-																		<option value="${typeList.typeId}" selected>${typeList.typeName}</option>
-																	</c:when>
-																	<c:otherwise>
-																		<option value="${typeList.typeId}" disabled>${typeList.typeName}</option>
-																	</c:otherwise>
-																
-																</c:choose>
-																 
+
+																<c:forEach items="${typeList}" var="typeList">
+																	<c:choose>
+																		<c:when test="${poType==typeList.typeId}">
+																			<option value="${typeList.typeId}" selected>${typeList.typeName}</option>
+																		</c:when>
+																		<c:otherwise>
+																			<option value="${typeList.typeId}" disabled>${typeList.typeName}</option>
+																		</c:otherwise>
+
+																	</c:choose>
+
 																</c:forEach>
- 
+
 															</c:when>
 
 															<c:otherwise>
 																<option value="">Select Indent Type</option>
-																<c:forEach items="${typeList}" var="typeList"> 
-																<option value="${typeList.typeId}">${typeList.typeName}</option>
+																<c:forEach items="${typeList}" var="typeList">
+																	<option value="${typeList.typeId}">${typeList.typeName}</option>
 																</c:forEach>
 															</c:otherwise>
 
 														</c:choose>
 													</select>
 												</div>
-												</div>
-												
+											</div>
+
 
 											<div class="form-group">
 
@@ -235,7 +237,7 @@ body {
 														data-rule-required="true" />
 												</div>
 											</div>
-											
+
 											<div class="form-group">
 												<div class="col-md-2">Vendor</div>
 												<div class="col-md-10">
@@ -243,30 +245,36 @@ body {
 														class="form-control chosen" placeholder="Vendor"
 														data-rule-required="true">
 
-														<option value=""><c:out value="SELECT VENDOR"/></option>
+														<option value=""><c:out value="SELECT VENDOR" /></option>
 														<c:forEach items="${vendorList}" var="vendor"
 															varStatus="count">
 															<c:choose>
 																<c:when test="${vendorId !=0 }">
 																	<c:if test="${vendorId==vendor.vendorId}">
-																		<option selected value="${vendor.vendorId}"><c:out value="${vendor.vendorName}"/></option>
+																		<option selected value="${vendor.vendorId}"><c:out
+																				value="${vendor.vendorName}" /></option>
 																	</c:if>
 																</c:when>
 																<c:otherwise>
-																	<option value="${vendor.vendorId}"><c:out value="${vendor.vendorName}"/></option>
+																	<option value="${vendor.vendorId}"><c:out
+																			value="${vendor.vendorName}" /></option>
 																</c:otherwise>
 															</c:choose>
 														</c:forEach>
 													</select>
 												</div>
 
-											</div><!--end of formgroup  -->
-											
-											<input type="hidden" name="gate_entry_no" id="gate_entry_no" value="1" data-rule-required="true" />
-											<input  id="gate_entry_date"  type="hidden" name="gate_entry_date" value="${date}" required />
-											<input type="hidden" name="chalan_no" id="chalan_no" value="1" data-rule-required="true" />
-											<input id="chalan_date" type="hidden" name="chalan_date" value="${date}" required />
-											
+											</div>
+											<!--end of formgroup  -->
+
+											<input type="hidden" name="gate_entry_no" id="gate_entry_no"
+												value="1" data-rule-required="true" /> <input
+												id="gate_entry_date" type="hidden" name="gate_entry_date"
+												value="${date}" required /> <input type="hidden"
+												name="chalan_no" id="chalan_no" value="1"
+												data-rule-required="true" /> <input id="chalan_date"
+												type="hidden" name="chalan_date" value="${date}" required />
+
 											<%-- <div class="form-group">
 												<div class="col-md-2">Gate Entry No</div>
 
@@ -308,7 +316,7 @@ body {
 														class="form-control" placeholder="Bill No"
 														data-rule-required="true" />
 												</div>
-<div class="col-md-1 "></div>
+												<div class="col-md-1 "></div>
 												<div class="col-md-2">Bill/Chalan Date</div>
 												<div class="col-md-3">
 													<input class="form-control date-picker" id="bill_date"
@@ -317,7 +325,7 @@ body {
 												</div>
 
 											</div>
-											
+
 											<div class="form-group">
 												<div class="col-md-2">Remark</div>
 
@@ -325,9 +333,9 @@ body {
 													<input type="text" name="lorry_remark" id="lorry_remark"
 														class="form-control" placeholder="Lorry Remark" value="NA"
 														data-rule-required="true" />
-												</div> 
+												</div>
 											</div>
-											
+
 											<div class="form-group">
 												<div class="col-md-2">Select from PO List</div>
 												<div class="col-md-3">
@@ -335,14 +343,15 @@ body {
 													<select name="po_list" id="po_list"
 														class="form-control chosen" placeholder="Group"
 														data-rule-required="true" multiple="multiple">
-														
+
 														<c:if test="${poId!=0}">
-														<option selected value="${poId}">${poNo} &nbsp; ${errorMessage.message}</option>
+															<option selected value="${poId}">${poNo}&nbsp;
+																${errorMessage.message}</option>
 														</c:if>
-														
+
 													</select>
 												</div>
-<div class="col-md-1 "></div>
+												<div class="col-md-1 "></div>
 												<div class="col-md-2">
 													<input class="btn btn-info" id="getPoButton"
 														onclick="getPoDetail()" size="16" type="button"
@@ -361,30 +370,25 @@ body {
 														<div class="row">
 															<div
 																style="overflow: scroll; height: 70%; width: 100%; overflow: auto">
-																<table width="100%" border="1" style="width: 100%; font-size: 14px;"
-																	id="table_grid1">
+																<table width="100%" border="1"
+																	style="width: 100%; font-size: 14px;" id="table_grid1">
 																	<thead>
 																		<tr>
 																			<!-- <th class="col-md-1" style="text-align: center;">Select</th> -->
-																			<th  width="2%" >Sr</th>
-																		
-																			<th class="col-md-1" >Item
-																				</th>
-																			<th class="col-md-1" >PO
-																				QTY</th>
+																			<th width="2%">Sr</th>
+
+																			<th class="col-md-1">Item</th>
+																			<th class="col-md-1">PO QTY</th>
 																			<!-- <th class="col-md-1" >Challan
 																				QTY</th> -->
-																			<th class="col-md-1" >Rec
-																				QTY</th>
-																			<th class="col-md-1" >Pend
-																				QTY</th>
-																			<th class="col-md-1" >PO
-																				No</th>
-																			<th class="col-md-1" >Status</th>
-																			
-																			<th class="col-md-1" >Batch Code</th>
-																			<th class="col-md-1" >Manufacture Date</th>
-																			<th class="col-md-1" >Expiry Date</th>
+																			<th class="col-md-1">Rec QTY</th>
+																			<th class="col-md-1">Pend QTY</th>
+																			<th class="col-md-1">PO No</th>
+																			<th class="col-md-1">Status</th>
+
+																			<th class="col-md-1">Batch Code</th>
+																			<th class="col-md-1">Manufacture Date</th>
+																			<th class="col-md-1">Expiry Date</th>
 																		</tr>
 																	</thead>
 																	<tbody>
@@ -398,14 +402,15 @@ body {
 													<br>
 													<div class="box-content">
 														<div class="col-md-12" style="text-align: center">
-															<input type=button class="btn btn-info"
-																value="Submit" onclick="tempSubmit()">
-																
-																  <c:choose>
-						<c:when test="${userInfo.id==1}">
-						<input type="button" class="btn btn-info" value="Import Excel " onclick="exportExcel()">
-						</c:when>
-					</c:choose>  
+															<input type=button class="btn btn-info" value="Submit"
+																onclick="tempSubmit()">
+
+															<c:choose>
+																<c:when test="${userInfo.id==1}">
+																	<input type="button" class="btn btn-info"
+																		value="Import Excel " onclick="exportExcel()">
+																</c:when>
+															</c:choose>
 
 
 														</div>
@@ -426,25 +431,20 @@ body {
 														style="overflow: scroll; height: 35%; width: 100%; overflow: auto">
 														<table width="100%" border="0"
 															class="table table-bordered table-striped fill-head "
-															style="width: 100%;font-size: 14px;" id="table_grid2">
+															style="width: 100%; font-size: 14px;" id="table_grid2">
 															<thead>
 																<tr>
-																	<th  style="text-align: center; width: 2%;">Sr</th>
-																	<th class="col-md-1" >Item
-																		</th>
-																	<th class="col-md-1" >PO
-																		QTY</th>
-																	<th class="col-md-1" >Rec
-																		QTY</th>
-																	<th class="col-md-1" >Pend
-																		QTY</th>
-																	<th class="col-md-1" >PO
-																		No</th>
-																	<th class="col-md-1" >Status</th>																	
-																	
-																	<th class="col-md-1" >Batch Code</th>
-																	<th class="col-md-1" >Manufacture Date</th>
-																	<th class="col-md-1" >Expiry Date</th>
+																	<th style="text-align: center; width: 2%;">Sr</th>
+																	<th class="col-md-1">Item</th>
+																	<th class="col-md-1">PO QTY</th>
+																	<th class="col-md-1">Rec QTY</th>
+																	<th class="col-md-1">Pend QTY</th>
+																	<th class="col-md-1">PO No</th>
+																	<th class="col-md-1">Status</th>
+
+																	<th class="col-md-1">Batch Code</th>
+																	<th class="col-md-1">Manufacture Date</th>
+																	<th class="col-md-1">Expiry Date</th>
 																</tr>
 															</thead>
 
@@ -456,10 +456,12 @@ body {
 													</div>
 												</div>
 											</div>
-											
-											<input type="hidden" name="transport" id="transport" data-rule-required="true" value="-" />
-											<input type="hidden" name="lorry_no" id="lorry_no" data-rule-required="true" value="-" />
-											<input id="lorry_date" type="hidden" name="lorry_date" value="${date}" required />
+
+											<input type="hidden" name="transport" id="transport"
+												data-rule-required="true" value="-" /> <input type="hidden"
+												name="lorry_no" id="lorry_no" data-rule-required="true"
+												value="-" /> <input id="lorry_date" type="hidden"
+												name="lorry_date" value="${date}" required />
 
 											<!-- <div class="form-group">
 												<label class="col-md-2">Transport
@@ -663,7 +665,9 @@ body {
 																											"value",
 																											data[i].poId)
 																									.text(
-																											data[i].poNo +"   "+data[i].otherChargeBeforeRemark));
+																											data[i].poNo
+																													+ "   "
+																													+ data[i].otherChargeBeforeRemark));
 																		}
 
 																		$(
@@ -720,7 +724,9 @@ body {
 																											"value",
 																											data[i].poId)
 																									.text(
-																											data[i].poNo+"   "+data[i].otherChargeBeforeRemark));
+																											data[i].poNo
+																													+ "   "
+																													+ data[i].otherChargeBeforeRemark));
 																		}
 
 																		$(
@@ -813,29 +819,31 @@ body {
 																						+ itemList.itemId
 																						+ " oninput='checkMe(this.value)'  />")); */
 
-														tr
-																.append($(
-																		'<td  ></td>')
-																		.html(
-																				key + 1));
+														tr.append($(
+																'<td  ></td>')
+																.html(key + 1));
 														/* tr
 																.append($(
 																		'<td class="col-sm-1" style="text-align: center;"></td>')
 																		.html(
 																				itemList.itemCode)); */
-																				
-																				
-																				tr
-																				.append($(
-																						'<td class="col-md-2"  ></td>')
-																						.html('<div title="'+itemList.itemName+'">'+itemList.itemCode+' ' +itemList.itemName+ '</div>'))
-				
-													/* 							
+
 														tr
 																.append($(
-																		'<td class="col-md-4" style="text-align: left;"></td>')
+																		'<td class="col-md-2"  ></td>')
 																		.html(
-																				itemList.itemName)); */
+																				'<div title="'+itemList.itemName+'">'
+																						+ itemList.itemCode
+																						+ ' '
+																						+ itemList.itemName
+																						+ '</div>'))
+
+														/* 							
+															tr
+																	.append($(
+																			'<td class="col-md-4" style="text-align: left;"></td>')
+																			.html(
+																					itemList.itemName)); */
 														tr
 																.append($(
 																		'<td class="col-md-1" align="right" ></td>')
@@ -937,50 +945,68 @@ body {
 																		.html(
 																				status));
 														tr
-														.append($(
-																'<td class="col-md-1"  ></td>')
-																.html(
-																		"<input type=text style='width:81px' class=form-control required name=btcCode"
-																				+ itemList.poDetailId
-																				+ ""
-																				+ itemList.itemId
-																				+ " id=btcCode"
-																				+ itemList.poDetailId
-																				+ ""
-																				+ itemList.itemId
-																				+" value="
-																				+ itemList.btcCode
-																				+ " />"));
+																.append($(
+																		'<td class="col-md-1"  ></td>')
+																		.html(
+																				"<input type=text style='width:81px' class=form-control required name=btcCode"
+																						+ itemList.poDetailId
+																						+ ""
+																						+ itemList.itemId
+																						+ " id=btcCode"
+																						+ itemList.poDetailId
+																						+ ""
+																						+ itemList.itemId
+																						+ " value="
+																						+ itemList.btcCode
+																						+ " onchange='callMe(this.value,"
+																						+ itemList.poDetailId
+																						+ ","
+																						+ itemList.pendingQty
+																						+ ","
+																						+ itemList.itemId
+																						+ ")'/>"));
 														tr
-														.append($(
-																'<td class="col-md-1"  ></td>')
-																.html(
-																		"<input class='form-control date-picker' style='width:165px'  type='date' required name=btcDate"
-																				+ itemList.poDetailId
-																				+ ""
-																				+ itemList.itemId
-																				+ " id=btcDate"
-																				+ itemList.poDetailId
-																				+ ""
-																				+ itemList.itemId
-																				+" value="
-																				+ itemList.btcDate
-																				+ " />"));
+																.append($(
+																		'<td class="col-md-1"  ></td>')
+																		.html(
+																				"<input class='form-control date-picker' style='width:165px'  type='date' required name=btcDate"
+																						+ itemList.poDetailId
+																						+ ""
+																						+ itemList.itemId
+																						+ " id=btcDate"
+																						+ itemList.poDetailId
+																						+ ""
+																						+ itemList.itemId
+																						+ " value="
+																						+ itemList.btcDate
+																						+ " onchange='callMe(this.value,"
+																						+ itemList.poDetailId
+																						+ ","
+																						+ itemList.pendingQty
+																						+ ","
+																						+ itemList.itemId
+																						+ ")'/>"));
 														tr
-														.append($(
-																'<td class="col-md-1"></td>')
-																.html(
-																		"<input class='form-control date-picker' style='width:165px' type='date' required  name=expDate"
-																				+ itemList.poDetailId
-																				+ ""
-																				+ itemList.itemId
-																				+ " id=expDate"
-																				+ itemList.poDetailId
-																				+ ""
-																				+ itemList.itemId
-																				+" value="
-																				+ itemList.expDate
-																				+ " />"));
+																.append($(
+																		'<td class="col-md-1"></td>')
+																		.html(
+																				"<input class='form-control date-picker' style='width:165px' type='date' required  name=expDate"
+																						+ itemList.poDetailId
+																						+ ""
+																						+ itemList.itemId
+																						+ " id=expDate"
+																						+ itemList.poDetailId
+																						+ ""
+																						+ itemList.itemId
+																						+ " value="
+																						+ itemList.expDate
+																						+ " onchange='callMe(this.value,"
+																						+ itemList.poDetailId
+																						+ ","
+																						+ itemList.pendingQty
+																						+ ","
+																						+ itemList.itemId
+																						+ ")'/>"));
 														$('#table_grid1 tbody')
 																.append(tr);
 													})
@@ -1011,32 +1037,41 @@ body {
 				var qty = document.getElementById("recQty" + poDId + itemId).value;
 				var chalanQty = document.getElementById("chalanQty" + poDId
 						+ itemId).value;
-				
-				var btcDate = document.getElementById("btcDate" + poDId + itemId).value;
-				var btcCode = document.getElementById("btcCode" + poDId + itemId).value;
-				var expDate = document.getElementById("expDate" + poDId + itemId).value;
-				
-				//alert("Qty  " +qty  +"chalan Qty  " +chalanQty);
-				  if (parseInt(qty) > parseInt(pendingQty)) {
+
+				var btcDate = document.getElementById("btcDate" + poDId
+						+ itemId).value;
+				var btcCode = document.getElementById("btcCode" + poDId
+						+ itemId).value;
+				var expDate = document.getElementById("expDate" + poDId
+						+ itemId).value;
+
+				//alert("btcDate  " + btcDate + " expDate" + expDate);
+				if (parseInt(qty) > parseInt(pendingQty)) {
 					document.getElementById("recQty" + poDId + itemId).value = 0;
 					alert("Received Qty can not be greater than Pending Qty");
 
-				}else if(btcCode=='-'){
+				} else if (btcCode == '-') {
 					alert("Enter Batch Code");
-				} 
-				  
-				  else { 
+					document.getElementById("recQty" + poDId + itemId).value = 0;
+				} else if (btcDate == '') {
+					alert("Enter Manufacture Date.");
+					document.getElementById("recQty" + poDId + itemId).value = 0;
+				} else if (expDate == '') {
+					alert("Enter Expire Date.");
+					document.getElementById("recQty" + poDId + itemId).value = 0;
+				}
+
+				else {
 
 					/* if (chalanQty > 0) { */
-						addMrnQty(qty, poDId, chalanQty, btcDate, btcCode, expDate);
+					addMrnQty(qty, poDId, chalanQty, btcDate, btcCode, expDate);
 
 					/* } else {
 						document.getElementById("recQty" + poDId + itemId).value = 0;
 						alert("Please Enter Valid Chalan Quantity");
 					} */
 					//getPoDetail(qty, poDId);
-
-				 }
+				}
 
 			}
 			function checkMe(checking) {
@@ -1087,15 +1122,20 @@ body {
 															 */
 
 															tr
-															.append($(
-																	'<td class="col-md-2" ></td>')
-																	.html('<div title="'+itemList.itemName+'">'+itemList.itemCode+' '+itemList.itemName+'</div>'))
-
-														/* 	tr
 																	.append($(
-																			'<td class="col-md-4" style="text-align: left;"></td>')
+																			'<td class="col-md-2" ></td>')
 																			.html(
-																					itemList.itemName)); */
+																					'<div title="'+itemList.itemName+'">'
+																							+ itemList.itemCode
+																							+ ' '
+																							+ itemList.itemName
+																							+ '</div>'))
+
+															/* 	tr
+																		.append($(
+																				'<td class="col-md-4" style="text-align: left;"></td>')
+																				.html(
+																						itemList.itemName)); */
 															tr
 																	.append($(
 																			'<td class="col-md-1" align="right"></td>')
@@ -1157,12 +1197,12 @@ body {
 																	.append($(
 																			'<td class="col-md-1" ></td>')
 																			.html(
-																					status));															
+																					status));
 															tr
-															.append($(
-																	'<td class="col-md-1"  ></td>')
-																	.html(
-																			"<input type=text style='width:81px' class=form-control required readonly name=btcCode"
+																	.append($(
+																			'<td class="col-md-1"  ></td>')
+																			.html(
+																					"<input type=text style='width:81px' class=form-control required readonly name=btcCode"
 																					+ itemList.poDetailId
 																					+ ""
 																					+ itemList.itemId
@@ -1173,12 +1213,12 @@ body {
 																					+" value="
 																					+ itemList.btcCode
 																					+ " />"));
-															
+
 															tr
-															.append($(
-																	'<td class="col-md-1"  ></td>')
-																	.html(
-																			"<input class='form-control date-picker' style='width:165px' type='date' required readonly  name=btcDate "
+																	.append($(
+																			'<td class="col-md-1"  ></td>')
+																			.html(
+																					"<input class='form-control date-picker' style='width:165px' type='date' required readonly  name=btcDate "
 																					+ itemList.poDetailId
 																					+ ""
 																					+ itemList.itemId
@@ -1190,10 +1230,10 @@ body {
 																					+ itemList.btcDate
 																					+ " />"));
 															tr
-															.append($(
-																	'<td class="col-md-1"  ></td>')
-																	.html(
-																			"<input class='form-control date-picker' style='width:165px' type='date' required readonly name=expDate"
+																	.append($(
+																			'<td class="col-md-1"  ></td>')
+																			.html(
+																					"<input class='form-control date-picker' style='width:165px' type='date' required readonly name=expDate"
 																					+ itemList.poDetailId
 																					+ ""
 																					+ itemList.itemId
@@ -1204,7 +1244,7 @@ body {
 																					+" value="
 																					+ itemList.expDate
 																					+ " />"));
-															
+
 															$(
 																	'#table_grid2 tbody')
 																	.append(tr);
@@ -1256,8 +1296,7 @@ body {
 				if (grn_type == null || grn_type == "") {
 					alert("Please Select MRN Type");
 					isValid = false;
-				}
-				else if (vendor_id == null || vendor_id == "") {
+				} else if (vendor_id == null || vendor_id == "") {
 					alert("Please Select Vendor Type");
 					isValid = false;
 				}
@@ -1265,8 +1304,7 @@ body {
 				else if (grn_no == null || grn_no == "") {
 					alert("Please Select Grn No");
 					isValid = false;
-				}
-				else if (grn_date == null || grn_date == "") {
+				} else if (grn_date == null || grn_date == "") {
 					alert("Please Select MRN Date");
 					isValid = false;
 				}
@@ -1274,8 +1312,7 @@ body {
 				else if (gate_entry_no == null || gate_entry_no == "") {
 					alert("Please Select Gate Entry No");
 					isValid = false;
-				}
-				else if (gate_entry_date == null || gate_entry_date == "") {
+				} else if (gate_entry_date == null || gate_entry_date == "") {
 					alert("Please Select Gate Entry Date");
 					isValid = false;
 				}
@@ -1288,8 +1325,7 @@ body {
 				else if (chalan_date == null || chalan_date == "") {
 					alert("Please Select Chalan Date");
 					isValid = false;
-				}
-				else if (bill_no == null || bill_no == "") {
+				} else if (bill_no == null || bill_no == "") {
 					alert("Please Select Bill No");
 					isValid = false;
 				}
@@ -1302,8 +1338,7 @@ body {
 				else if (lorry_date == null || lorry_date == "") {
 					alert("Please Select Lorry Date");
 					isValid = false;
-				}
-				else if (lorry_no == null || lorry_no == "") {
+				} else if (lorry_no == null || lorry_no == "") {
 					alert("Please Select Lorry No");
 					isValid = false;
 				}
@@ -1312,8 +1347,7 @@ body {
 				else if (lorry_remark == null || lorry_remark == "") {
 					alert("Please Select Lorry Remark");
 					isValid = false;
-				}
-				else if (transport == null || transport == "") {
+				} else if (transport == null || transport == "") {
 					alert("Please Select Transport");
 					isValid = false;
 				}
@@ -1449,11 +1483,16 @@ body {
 																		.html(
 																				key + 1));
 
-																						tr
-																						.append($(
-																								'<td class="col-md-1" ></td>')
-																								.html('<div title="'+itemList.itemName+'">'+itemList.itemCode+' '+itemList.itemName+'</div>'))
-						
+														tr
+																.append($(
+																		'<td class="col-md-1" ></td>')
+																		.html(
+																				'<div title="'+itemList.itemName+'">'
+																						+ itemList.itemCode
+																						+ ' '
+																						+ itemList.itemName
+																						+ '</div>'))
+
 														/* tr
 																.append($(
 																		'<td class="col-md-4" style="text-align: center;"></td>')
@@ -1558,102 +1597,119 @@ body {
 																.append($(
 																		'<td class="col-md-1" ></td>')
 																		.html(
-																				status));														
-														
+																				status));
+
 														tr
-														.append($(
-																'<td class="col-md-1"  ></td>')
-																.html(
-																		"<input type=text style='width:81px' class=form-control required name=btcCode"
-																				+ itemList.poDetailId
-																				+ ""
-																				+ itemList.itemId
-																				+ " id=btcCode"
-																				+ itemList.poDetailId
-																				+ ""
-																				+ itemList.itemId
-																				+" value="
-																				+ itemList.btcCode
-																				+ " />"));
-														
+																.append($(
+																		'<td class="col-md-1"  ></td>')
+																		.html(
+																				"<input type=text style='width:81px' class=form-control required name=btcCode"
+																						+ itemList.poDetailId
+																						+ ""
+																						+ itemList.itemId
+																						+ " id=btcCode"
+																						+ itemList.poDetailId
+																						+ ""
+																						+ itemList.itemId
+																						+ " value="
+																						+ itemList.btcCode
+																						+ " onchange='callMe(this.value,"
+																						+ itemList.poDetailId
+																						+ ","
+																						+ itemList.pendingQty
+																						+ ","
+																						+ itemList.itemId
+																						+ ")'/>"));
+
 														tr
-														.append($(
-																'<td class="col-md-1"  ></td>')
-																.html(
-																		"<input class='form-control date-picker' style='width:165px' type='date' required name=btcDate"
-																				+ itemList.poDetailId
-																				+ ""
-																				+ itemList.itemId
-																				+ " id=btcDate"
-																				+ itemList.poDetailId
-																				+ ""
-																				+ itemList.itemId
-																				+" value="
-																				+ itemList.btcDate	
-																				+ " />"));
+																.append($(
+																		'<td class="col-md-1"  ></td>')
+																		.html(
+																				"<input class='form-control date-picker' style='width:165px' type='date' required name=btcDate"
+																						+ itemList.poDetailId
+																						+ ""
+																						+ itemList.itemId
+																						+ " id=btcDate"
+																						+ itemList.poDetailId
+																						+ ""
+																						+ itemList.itemId
+																						+ " value="
+																						+ itemList.btcDate
+																						+ " onchange='callMe(this.value,"
+																						+ itemList.poDetailId
+																						+ ","
+																						+ itemList.pendingQty
+																						+ ","
+																						+ itemList.itemId
+																						+ ")'/>"));
 														tr
-														.append($(
-																'<td class="col-md-1"  ></td>')
-																.html(
-																		"<input class='form-control date-picker' style='width:165px' type='date' required name=expDate"
-																				+ itemList.poDetailId
-																				+ ""
-																				+ itemList.itemId
-																				+ " id=expDate"
-																				+ itemList.poDetailId
-																				+ ""
-																				+ itemList.itemId
-																				+" value="
-																				+ itemList.expDate
-																				+ " />"));
-														
+																.append($(
+																		'<td class="col-md-1"  ></td>')
+																		.html(
+																				"<input class='form-control date-picker' style='width:165px' type='date' required name=expDate"
+																						+ itemList.poDetailId
+																						+ ""
+																						+ itemList.itemId
+																						+ " id=expDate"
+																						+ itemList.poDetailId
+																						+ ""
+																						+ itemList.itemId
+																						+ " value="
+																						+ itemList.expDate
+																						+ " onchange='callMe(this.value,"
+																						+ itemList.poDetailId
+																						+ ","
+																						+ itemList.pendingQty
+																						+ ","
+																						+ itemList.itemId
+																						+ ")'/>"));
+
 														$('#table_grid1 tbody')
 																.append(tr);
 													})
 								});
 			}
 		</script>
-		
+
 		<script type="text/javascript">
-		function callToInvoice() {
-			var poType=${poType};
-			//alert(poType);
-			if(poType!=0){
-				getInvoiceNo();
+			function callToInvoice() {
+				var poType = $
+				{
+					poType
+				}
+				;
+				//alert(poType);
+				if (poType != 0) {
+					getInvoiceNo();
+				}
 			}
-		}
 		</script>
 		<script>
-function on() {
-    document.getElementById("overlay2").style.display = "block";
-}
+			function on() {
+				document.getElementById("overlay2").style.display = "block";
+			}
 
-function off() {
-    document.getElementById("overlay2").style.display = "none";
-}
+			function off() {
+				document.getElementById("overlay2").style.display = "none";
+			}
 
-function exportExcel()
-{
-	  
-	  $
-		.getJSON(
-				'${exportExcelforMrn}',
+			function exportExcel() {
+
+				$.getJSON('${exportExcelforMrn}',
 
 				{
-					 
-					 
+
 					ajax : 'true'
 
-				},
-				function(data) {
-					 //alert("adf");
-					  if (data == "") {
+				}, function(data) {
+					//alert("adf");
+					if (data == "") {
 						alert("No records found !!");
 
 					}
-					 
-					  addMrnQty(0, 0, 0);
-				  /* $.each(
+
+					addMrnQty(0, 0, 0);
+					/* $.each(
 								data,
 								function(key, itemList) {
 								//alert(itemList.indDetailId);
@@ -1671,18 +1727,16 @@ function exportExcel()
 									}
 								  	
 								})   */
-								
-							 
-					
-				});
-}
 
-$(document).keypress(function (e) {
-    if (e.which == 13) {
-    	insertMrn();
-    }
-});
-</script>
+				});
+			}
+
+			$(document).keypress(function(e) {
+				if (e.which == 13) {
+					insertMrn();
+				}
+			});
+		</script>
 </body>
 </html>
 
