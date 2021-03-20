@@ -572,11 +572,7 @@ System.err.println("Inside getPODetailList add Mrn jsp Ajax call ");
 				fromDate = request.getParameter("from_date");
 				toDate = request.getParameter("to_date");
 				int grnType=Integer.parseInt(request.getParameter("grn_type"));
-				System.out.println("inside Else ");
-
-				System.out.println("fromDate " + fromDate);
-
-				System.out.println("toDate " + toDate);
+				 
 
 				map.add("fromDate", DateConvertor.convertToYMD(fromDate));
 				map.add("toDate", DateConvertor.convertToYMD(toDate));
@@ -592,7 +588,7 @@ System.err.println("Inside getPODetailList add Mrn jsp Ajax call ");
 
 			mrnHeaderList = new ArrayList<GetMrnHeader>(Arrays.asList(mrnHead));
 
-			System.out.println("mrnHeaderList List using /getMrnHeaderByDate   " + mrnHeaderList.toString());
+			//System.out.println("mrnHeaderList List using /getMrnHeaderByDate   " + mrnHeaderList.toString());
 
 			model.addObject("mrnHeaderList", mrnHeaderList);
 			model.addObject("fromDate", fromDate);
