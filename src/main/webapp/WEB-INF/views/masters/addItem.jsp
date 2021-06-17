@@ -631,6 +631,33 @@
 
 								<div class="box-content">
 
+									<div class="col-md-2">Show In Acc Leve</div>
+									<div class="col-md-3">
+										<select class="form-control chosen" title="Please Select"
+											name="createdIn" id=""createdIn"" required>
+
+
+											<c:choose>
+												<c:when test="${editItem.createdIn==0}">
+													<option value="0" selected>YES</option>
+													<option value="1">NO</option>
+												</c:when>
+												<c:when test="${editItem.createdIn==1}">
+													<option value="0">YES</option>
+													<option value="1" selected>NO</option>
+												</c:when>
+												<c:otherwise>
+													<option value="0">YES</option>
+													<option value="1">NO</option>
+												</c:otherwise>
+
+											</c:choose>
+
+										</select>
+									</div>
+
+									<div class="col-md-1"></div>
+									
 									<div class="col-md-2">Is Active*</div>
 									<div class="col-md-3">
 										<select class="form-control chosen" title="Please Select"
@@ -655,8 +682,6 @@
 
 										</select>
 									</div>
-
-									<div class="col-md-1"></div>
 
 								</div>
 

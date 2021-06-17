@@ -1,15 +1,26 @@
 package com.ats.tril.controller;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.codehaus.jackson.JsonGenerationException;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
@@ -26,6 +37,7 @@ import com.ats.tril.common.DateConvertor;
 import com.ats.tril.model.AccLevelItemModel;
 import com.ats.tril.model.Info;
 import com.ats.tril.model.SettingValue;
+import com.ats.tril.model.TallyPurchaseGroupByInvoices;
 import com.ats.tril.model.Vendor;
 import com.ats.tril.model.billbook.BillBookDetail;
 import com.ats.tril.model.billbook.BillBookHeader;
@@ -34,6 +46,7 @@ import com.ats.tril.model.doc.DocumentBean;
 import com.ats.tril.model.mrn.GetMrnHeaderWithAmt;
 import com.ats.tril.model.mrn.MrnDetailForBillBook;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
@@ -481,7 +494,90 @@ public class BillBookController {
 
 		return model;
 	}
+	
+	// --------------------------------------------------------------------------------------------------
 
+	@RequestMapping(value = "/getTallyFileDownload", method = RequestMethod.GET)
+	public @ResponseBody Info getTallyFileDownload(HttpServletRequest request,
+			HttpServletResponse response) {
+		System.err.println("In  getTallyFileDownload ");
+		Info info=new Info();
+		RestTemplate restTemplate=new RestTemplate();
+		String fromDate=request.getParameter("fromDate");
+		String toDate=request.getParameter("toDate");
+		
+	String	dispFromDate=fromDate;
+	String	dispToDate=toDate;
+		
+		TallyPurchaseGroupByInvoices res = restTemplate.getForObject(
+				Constants.url + "getPurchaseTallySyncGroupBy?fromDate=" + fromDate + "&toDate=" + toDate,
+				TallyPurchaseGroupByInvoices.class);
+
+		ObjectMapper Obj = new ObjectMapper();
+		String json = "";
+		try {
+			json = Obj.writeValueAsString(res);
+			System.err.println("Json Obj-->"+json);
+		} catch (JsonMappingException e1) {
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		// System.out.println("RESULT - " + json);
+
+		if (json != null) {
+
+			try {
+				Writer output = null;
+				File file = new File(
+						Constants.TALLY_SAVE + "Purchase_" + dispFromDate + "-" + dispToDate + ".json");
+				output = new BufferedWriter(new FileWriter(file));
+				output.write(json.toString());
+				output.close();
+
+				String data = Constants.TALLY_VIEW + "Purchase_" + dispFromDate + "-" + dispToDate + ".zip";
+
+				String fileName = Constants.TALLY_SAVE + "Purchase_" + dispFromDate + "-" + dispToDate + ".zip";
+
+				String sourceFile = Constants.TALLY_SAVE + "Purchase_" + dispFromDate + "-" + dispToDate
+						+ ".json";
+				FileOutputStream fos = new FileOutputStream(fileName);
+				ZipOutputStream zipOut = new ZipOutputStream(fos);
+				File fileToZip = new File(sourceFile);
+				FileInputStream fis = new FileInputStream(fileToZip);
+				ZipEntry zipEntry = new ZipEntry(fileToZip.getName());
+
+				// System.err.println(fileToZip.getName());
+
+				zipOut.putNextEntry(zipEntry);
+				byte[] bytes = new byte[1024];
+				int length;
+				while ((length = fis.read(bytes)) >= 0) {
+					zipOut.write(bytes, 0, length);
+				}
+				zipOut.close();
+				fis.close();
+				fos.close();
+
+				info.setError(false);
+				info.setMessage(data);
+
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+				info.setError(true);
+				info.setMessage("Download Failed!");
+
+			} catch (Exception e) {
+				e.printStackTrace();
+
+				info.setError(true);
+				info.setMessage("Download Failed!");
+			}
+
+		}
+		return info;
+	}
+	
 	// --------------------------------------------------------------------------------------------------
 
 	BillBookHeader billHeader = new BillBookHeader();

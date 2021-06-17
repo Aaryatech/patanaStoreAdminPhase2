@@ -700,7 +700,10 @@ public class MastersController {
 
 			String vendorItem = request.getParameter("vendorItem");
 			String vendorDate = request.getParameter("vendorDate");
-			int active = Integer.parseInt(request.getParameter("active"));
+			
+			int creditDays = Integer.parseInt(request.getParameter("crditDays"));
+			
+//			int active = Integer.parseInt(request.getParameter("active"));
 			Vendor vendor = new Vendor();
 			if (vendorId == "" || vendorId == null)
 				vendor.setVendorId(0);
@@ -733,7 +736,7 @@ public class MastersController {
 			vendor.setVendorApprvBy("113");
 			vendor.setVendorType(Integer.parseInt(vendorType));
 			vendor.setIsUsed(1);
-			vendor.setCreatedIn(active);
+			vendor.setCreatedIn(creditDays);
 			vendor.setDeletedIn(0);
 			vendor.setVendorApprvBy(approvedBy);
 

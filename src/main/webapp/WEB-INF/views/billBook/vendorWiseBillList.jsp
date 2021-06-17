@@ -159,7 +159,7 @@ body {
 				<form id="submitForm" onsubmit="return check()"
 					action="${pageContext.request.contextPath}/submitBillReceipt"
 					method="post">
-
+	<input type="hidden" id="pendAmt" name="pendAmt"> 
 					<div class="box-content">
 
 						<div class="col-md-1">Vendor</div>
@@ -555,7 +555,7 @@ body {
 						billList.days));
 
 				var pendingAmt = billList.totalValue - billList.paidAmt;
-
+				 
 				tr.append($('<td style="text-align:right;" class="pending-amt"></td>').html(
 						parseFloat(pendingAmt).toFixed(2)));
 

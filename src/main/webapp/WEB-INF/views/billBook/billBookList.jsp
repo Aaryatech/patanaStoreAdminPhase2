@@ -124,7 +124,7 @@ body {
 <body>
 
 	<c:url var="getSettledBillsByBillId" value="/getSettledBillsByBillId"></c:url>
-
+	<c:url value="/getTallyFileDownload" var="getTallyFileDownload" ></c:url>
 
 	<div class="container" id="main-container">
 
@@ -201,6 +201,7 @@ body {
 								<div class="form-group">
 									<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-5">
 										<input type="submit" class="btn btn-primary" value="Submit">
+										<input type="button" class="btn btn-primary" value="TallyFile" onclick="getTallyFile()">
 									</div>
 								</div>
 								<br>
@@ -395,6 +396,24 @@ body {
 				modal.style.display = "none";
 			}
 		}
+	</script>
+	<script type="text/javascript">
+	function getTallyFile() {
+	//	alert($('#fromDate').val())
+	var toDate=$('#toDate').val();	
+		var fromDate=$('#fromDate').val();	
+		$.getJSON('${getTallyFileDownload}', {
+			fromDate : fromDate,
+			toDate	: toDate,
+			ajax : 'true'
+		}, function(data) {
+			//alert(JSON.stringify(data))
+			window.reload();
+			
+		});
+		
+	}
+	
 	</script>
 
 	<script type="text/javascript">

@@ -77,7 +77,7 @@
 								action="${pageContext.request.contextPath}/insertVendor"
 								onsubmit="return confirm('Do you really want to submit the form?');" method="post" >
 
-								<div class="box-content">
+								<%-- <div class="box-content">
 
 									<div class="col-md-2">Vendor Code*</div>
 									<div class="col-md-3">
@@ -105,10 +105,10 @@
 									</div>
 									<div class="col-md-1"></div>
 									 
-								</div>
+								</div> --%>
 								<br> 
 								
-								<div class="box-content">
+								<%-- <div class="box-content">
 
 									<div class="col-md-2">  Name*</div>
 									<div class="col-md-10">
@@ -117,17 +117,17 @@
 									name="vendorName" type="text" value="${editVendor.vendorName}"
 									required>
 									</div>
-								</div><br>
+								</div> --%><br>
 								
 								<div class="box-content">
 
 									<div class="col-md-2">  Address*</div>
 									<div class="col-md-10">
 									<textarea class="form-control" name="vendorAdd1" placeholder="Vendor Add 1" style="text-align: left;" required>${editVendor.vendorAdd1}</textarea>
-										<%-- <input id="vendorAdd1" class="form-control"
+										<input id="vendorAdd1" class="form-control"
 									placeholder="Vendor Add 1" style="text-align: left;"
 									name="vendorAdd1" value="${editVendor.vendorAdd1}" type="text"
-									required> --%>
+									required>
 
 									</div><br><br>
 									 
@@ -397,8 +397,8 @@
 								</div>
 								<br> 
 								<div class="box-content"> 
-								  
-									<div class="col-md-2">Rating*</div>
+								
+									<%-- <div class="col-md-2">Rating*</div>
 									<div class="col-md-3">
 										<select class="form-control chosen" data-live-search="true"
 									  name="vendorAdd2" id="vendorAdd2"
@@ -551,10 +551,10 @@
 									</c:choose>
 									
 								</select>
-									</div>
+									</div> --%>
 									
 									<div class="col-md-1"></div>
-									<div class="col-md-2">Is Active*</div>
+									<%-- <div class="col-md-2">Is Active*</div>
 									<div class="col-md-3">
 										<select class="form-control chosen"   name="active" id="active"
 									required>
@@ -571,11 +571,29 @@
 									</c:choose>
 									
 								</select>
-									</div>
+									</div> --%>
 									 
 								</div>
 								<br>   
 								<br>  
+								
+								<div class="box-content" >
+								<div class="col-md-2">  Credit Days*</div>
+									<div class="col-md-3">
+										<input id="crditDays" class="form-control"
+									placeholder="Vendor Credit Days" style="text-align: left;"
+									name="crditDays" value="${editVendor.createdIn}"  type=text
+									required>
+
+
+									</div>
+								
+								</div>
+								
+								
+								<br>   
+								<br>  
+								
 								
 								
 

@@ -866,6 +866,9 @@ public class MasterController {
 			int grpId = Integer.parseInt(request.getParameter("grpId"));
 			int subGrpId = Integer.parseInt(request.getParameter("subGrpId"));
 			String imageName = request.getParameter("imageName");
+			
+			int createdIn = Integer.parseInt(request.getParameter("createdIn"));
+			
 
 			VpsImageUpload upload = new VpsImageUpload();
 			String docFile = null;
@@ -924,7 +927,7 @@ public class MasterController {
 			insert.setItemIsCritical(isCritical);
 			insert.setItemIsCapital(isCapital);
 			insert.setIsUsed(1);
-			insert.setCreatedIn(1);
+			insert.setCreatedIn(createdIn);
 			insert.setItemIsCons(itemCon);
 			insert.setCatId(catId);
 			insert.setGrpId(grpId);
