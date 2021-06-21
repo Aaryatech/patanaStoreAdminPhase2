@@ -892,7 +892,7 @@ body {
 																						+ itemList.itemId
 																						+ ")' value="
 																						+ itemList.chalanQty
-																						+ " /> <input type=text style='text-align:right; width:51px' class=form-control name=recQty"
+																						+ " /> <input type=text style='text-align:right; width:80px' class=form-control name=recQty"
 																						+ itemList.poDetailId
 																						+ ""
 																						+ itemList.itemId
@@ -1034,6 +1034,8 @@ body {
 				}
 			}
 			function callMe(qty, poDId, pendingQty, itemId) {
+				
+				var flag = 0;
 				var qty = document.getElementById("recQty" + poDId + itemId).value;
 				var chalanQty = document.getElementById("chalanQty" + poDId
 						+ itemId).value;
@@ -1044,27 +1046,34 @@ body {
 						+ itemId).value;
 				var expDate = document.getElementById("expDate" + poDId
 						+ itemId).value;
-
 				//alert("btcDate  " + btcDate + " expDate" + expDate);
 				if (parseInt(qty) > parseInt(pendingQty)) {
+					flag = 1;
 					document.getElementById("recQty" + poDId + itemId).value = 0;
 					alert("Received Qty can not be greater than Pending Qty");
 
-				} else if (btcCode == '-') {
-					alert("Enter Batch Code");
-					document.getElementById("recQty" + poDId + itemId).value = 0;
-				} else if (btcDate == '') {
-					alert("Enter Manufacture Date.");
-					document.getElementById("recQty" + poDId + itemId).value = 0;
-				} else if (expDate == '') {
-					alert("Enter Expire Date.");
-					document.getElementById("recQty" + poDId + itemId).value = 0;
 				}
-
-				else {
+				else if (btcCode == '-') {
+					flag = 1;
+					alert("Enter Batch Code");
+					//document.getElementById("recQty" + poDId + itemId).value = 0;
+				} 
+				
+				else if (btcDate == '') {
+					flag = 1;
+					alert("Enter Manufacture Date.");
+					//document.getElementById("recQty" + poDId + itemId).value = 0;
+				} 
+				else if (expDate == '') {
+					 flag = 1;
+					alert("Enter Expire Date.");
+					//document.getElementById("recQty" + poDId + itemId).value = 0;
+				}
+			
+				if(flag == 0) {
 
 					/* if (chalanQty > 0) { */
-					addMrnQty(qty, poDId, chalanQty, btcDate, btcCode, expDate);
+					addMrnQty(qty, poDId, chalanQty, btcDate, btcCode, expDate); 
 
 					/* } else {
 						document.getElementById("recQty" + poDId + itemId).value = 0;
@@ -1154,7 +1163,7 @@ body {
 																							+ itemList.poDetailId
 																							+ ""
 																							+ itemList.itemId
-																							+ " onchange='callMe(this.value,"
+																							+ "onchange='callMe(this.value,"
 																							+ itemList.poDetailId
 																							+ ","
 																							+ itemList.pendingQty
@@ -1546,7 +1555,7 @@ body {
 																						+ itemList.itemId
 																						+ ")' value="
 																						+ itemList.chalanQty
-																						+ " /><input type=text style='text-align:right; width:51px' class=form-control name=recQty"
+																						+ " /><input type=text style='text-align:right; width:80px' class=form-control name=recQty"
 																						+ itemList.poDetailId
 																						+ ""
 																						+ itemList.itemId
