@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -45,6 +46,9 @@ import com.ats.tril.model.TaxForm;
 import com.ats.tril.model.Type;
 import com.ats.tril.model.Uom;
 import com.ats.tril.model.UomConversion;
+import com.ats.tril.model.adm.RawMaterialDetails;
+import com.ats.tril.model.adm.RawMaterialUom;
+import com.ats.tril.model.adm.RmItemCategory;
 import com.ats.tril.model.login.User;
 
 @Controller
@@ -94,6 +98,73 @@ public class MasterController {
 
 	@RequestMapping(value = "/insertCategory", method = RequestMethod.POST)
 	public String insertCategory(HttpServletRequest request, HttpServletResponse response) {
+
+		// ModelAndView model = new ModelAndView("masters/addEmployee");
+		try {
+
+			String catId = request.getParameter("catId");
+			String catDesc = request.getParameter("catDesc");
+			String catPrefix = request.getParameter("catPrefix");
+			int monthlyLimit = Integer.parseInt(request.getParameter("monthlyLimit"));
+			int yearlyLimit = Integer.parseInt(request.getParameter("yearlyLimit"));
+
+			Category category = new Category();
+
+			if (catId == "" || catId == null)
+				category.setCatId(0);
+			else
+				category.setCatId(Integer.parseInt(catId));
+			category.setCatDesc(catDesc);
+			category.setCatPrefix(catPrefix);
+			category.setMonthlyLimit(monthlyLimit);
+			category.setYearlyLimit(yearlyLimit);
+			category.setIsUsed(1);
+			category.setCreatedIn(1);
+
+			System.out.println("category" + category);
+
+			Category res = rest.postForObject(Constants.url + "/saveCategory", category, Category.class);
+
+			System.out.println("res " + res);
+			try {
+				if(Constants.IS_RM_DATA_ADMIN) {
+
+				RmItemCategory rmItemCategory = new RmItemCategory();
+							
+					try {
+							rmItemCategory.setCatId(res.getCatId());
+					}catch (Exception e) {
+						rmItemCategory.setCatId(0);
+					}
+							rmItemCategory.setCatName(catDesc);
+							rmItemCategory.setCatDesc(catDesc+"-"+catPrefix);
+							rmItemCategory.setGrpId(0);
+							rmItemCategory.setDelStatus(0);
+
+							RestTemplate restTemplate = new RestTemplate();
+							try {	
+							ErrorMessage errorMessage = restTemplate.postForObject(Constants.ADMIN_API_URL + "/rawMaterial/saveRmItemCategory",
+									rmItemCategory, ErrorMessage.class);
+							}catch (HttpClientErrorException e) {
+								System.err.println("EE " +e.getResponseBodyAsString());
+							} 
+				}
+				} catch (Exception e) {
+							e.printStackTrace();
+				}	
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+
+		return "redirect:/addCategory";
+	}
+
+
+	
+	@RequestMapping(value = "/insertCategory_OLD", method = RequestMethod.POST)
+	public String insertCategory_OLD(HttpServletRequest request, HttpServletResponse response) {
 
 		// ModelAndView model = new ModelAndView("masters/addEmployee");
 		try {
@@ -828,9 +899,183 @@ public class MasterController {
 
 		return getItemSubGrpList;
 	}
-
 	@RequestMapping(value = "/insertItem", method = RequestMethod.POST)
 	public String insertItem(@RequestParam("documentFile") List<MultipartFile> documentFile, HttpServletRequest request,
+			HttpServletResponse response) {
+
+		// ModelAndView model = new ModelAndView("masters/addEmployee");
+		try {
+			String itemId = request.getParameter("itemId");
+			String itemCode = request.getParameter("itemCode");
+			String itemDesc = request.getParameter("itemDesc");
+			String uom = request.getParameter("uom");
+			/*
+			 * String uom2 = request.getParameter("uom2"); float uomratio =
+			 * Float.parseFloat(request.getParameter("uomratio")); float uom2ratio =
+			 * Float.parseFloat(request.getParameter("uom2ratio"));
+			 */
+
+			String itemDate = request.getParameter("itemDate");
+			float opQty = Float.parseFloat(request.getParameter("opQty"));
+			float opRate = Float.parseFloat(request.getParameter("opRate"));
+			float clQty = Float.parseFloat(request.getParameter("clQty"));
+			float clRate = Float.parseFloat(request.getParameter("clRate"));
+			float minLevel = Float.parseFloat(request.getParameter("minLevel"));
+			float maxLevel = Float.parseFloat(request.getParameter("maxLevel"));
+			float rodLevel = Float.parseFloat(request.getParameter("rodLevel"));
+			float itemWeight = Float.parseFloat(request.getParameter("itemWeight"));
+			String itemLocation = request.getParameter("itemLocation");
+			String itemAbc = request.getParameter("itemAbc");
+			String itemLife = request.getParameter("itemLife");
+			String itemSchd = request.getParameter("itemSchd");
+			int isCritical = Integer.parseInt(request.getParameter("isCritical"));
+			int isCapital = Integer.parseInt(request.getParameter("isCapital"));
+			int itemCon = Integer.parseInt(request.getParameter("itemCon"));
+
+			int catId = Integer.parseInt(request.getParameter("catId"));
+			int grpId = Integer.parseInt(request.getParameter("grpId"));
+			int subGrpId = Integer.parseInt(request.getParameter("subGrpId"));
+			String imageName = request.getParameter("imageName");
+
+			VpsImageUpload upload = new VpsImageUpload();
+			String docFile = null;
+			try {
+				docFile = documentFile.get(0).getOriginalFilename();
+
+				upload.saveUploadedFiles(documentFile, Constants.ItemImage, documentFile.get(0).getOriginalFilename());
+
+				System.out.println("upload method called for image Upload " + documentFile.toString());
+
+			} catch (IOException e) {
+
+				System.out.println("Exce in File Upload In GATE ENTRY  Insert " + e.getMessage());
+				e.printStackTrace();
+			}
+
+			Item insert = new Item();
+
+			if (itemId.equalsIgnoreCase("") || itemId.equalsIgnoreCase(null) || itemId.equalsIgnoreCase("0"))
+				insert.setItemId(0);
+			else
+				insert.setItemId(Integer.parseInt(itemId));
+			insert.setItemCode(itemCode);
+			insert.setItemDesc(itemDesc);
+			insert.setItemDate(DateConvertor.convertToYMD(itemDate));
+
+			for (int i = 0; i < uomConversionList.size(); i++) {
+				if (Integer.parseInt(uom) == uomConversionList.get(i).getConvertId()) {
+					insert.setItemUom2(String.valueOf(uomConversionList.get(i).getUom1()));
+					insert.setUom2(uomConversionList.get(i).getUom2());
+					insert.setUomRatio(uomConversionList.get(i).getConvertId());
+					insert.setUomRatio2(uomConversionList.get(i).getRation2());
+					break;
+				}
+			}
+
+			for (int i = 0; i < uomList.size(); i++) {
+				if (Integer.parseInt(insert.getItemUom2()) == uomList.get(i).getUomId()) {
+					insert.setItemUom(uomList.get(i).getUom());
+					break;
+				}
+			}
+
+			insert.setItemOpQty(opQty);
+			insert.setItemOpRate(opRate);
+			insert.setItemClQty(clQty);
+			insert.setItemClRate(clRate);
+			insert.setItemMinLevel(minLevel);
+			insert.setItemMaxLevel(maxLevel);
+			insert.setItemRodLevel(rodLevel);
+			insert.setItemWt(itemWeight);
+			insert.setItemLocation(itemLocation);
+			insert.setItemAbc(itemAbc);
+			insert.setItemLife(itemLife);
+			insert.setItemSchd(itemSchd);
+			insert.setItemIsCritical(isCritical);
+			insert.setItemIsCapital(isCapital);
+			insert.setIsUsed(1);
+			insert.setCreatedIn(1);
+			insert.setItemIsCons(itemCon);
+			insert.setCatId(catId);
+			insert.setGrpId(grpId);
+			insert.setSubGrpId(subGrpId);
+			/*
+			 * insert.setUom2(Integer.parseInt(uom2)); insert.setUomRatio(uomratio);
+			 * insert.setUomRatio2(uom2ratio);
+			 */
+			if (docFile.equalsIgnoreCase("") || docFile.equalsIgnoreCase(null)) {
+				insert.setItemDesc3(imageName);
+			} else {
+				insert.setItemDesc3(docFile);
+			}
+
+			System.out.println("insert" + insert);
+
+			Item res = rest.postForObject(Constants.url + "/saveItem", insert, Item.class);
+
+			System.out.println("res " + res);
+			
+			if(Constants.IS_RM_DATA_ADMIN) {
+				try {
+				
+					RawMaterialDetails rawMaterialDetails = new RawMaterialDetails();
+
+					if (itemId != null) {
+						int rm_Id = Integer.parseInt(itemId);
+						rawMaterialDetails.setRmId(rm_Id);
+						// strReturn=new String("redirect:/showRawMaterial");
+						// model = new ModelAndView("masters/supplierDetails");
+						// model.addObject("supplierList", supplierDetailsList);
+					}
+					rawMaterialDetails.setRmId(res.getItemId());
+					rawMaterialDetails.setRmName(itemDesc);
+					rawMaterialDetails.setRmCloQty(0);
+					rawMaterialDetails.setRmCode(itemCode);
+					rawMaterialDetails.setRmTaxId(0);
+					// rawMaterialDetails.setRmIcon(rmIcon);
+
+					rawMaterialDetails.setRmIcon(insert.getItemDesc3());
+
+					rawMaterialDetails.setRmIsCritical(0);
+					rawMaterialDetails.setRmIssQty(0);
+					rawMaterialDetails.setRmMaxQty(0);
+					rawMaterialDetails.setRmMinQty(0);
+					rawMaterialDetails.setRmOpQty(0);
+					rawMaterialDetails.setRmSpecification("NULL");
+					rawMaterialDetails.setRmWeight(0);
+					rawMaterialDetails.setRmUomId(res.getUom2());
+					rawMaterialDetails.setRmRolQty(0);
+
+					rawMaterialDetails.setRmRejQty(0);
+					rawMaterialDetails.setRmReceivedQty(0);
+					rawMaterialDetails.setRmRate(0);
+					rawMaterialDetails.setRmPackQty(0);
+
+					rawMaterialDetails.setRmOpRate(0);
+					rawMaterialDetails.setGrpId(res.getGrpId());
+					rawMaterialDetails.setCatId(res.getCatId());
+					rawMaterialDetails.setSubCatId(res.getSubGrpId());
+					rawMaterialDetails.setIsTallySync(0);
+					rawMaterialDetails.setDelStatus(0);
+
+					System.out.println("Data input ADMIN RM ITEM : " + rawMaterialDetails.toString());
+					RestTemplate rest = new RestTemplate();
+					RawMaterialDetails info = rest.postForObject(Constants.ADMIN_API_URL + "/rawMaterial/addRawMaterial", rawMaterialDetails,
+							RawMaterialDetails.class);
+					
+				}catch (Exception e) {
+				
+				}
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "redirect:/getItemList";
+	}
+	@RequestMapping(value = "/insertItem_OLD", method = RequestMethod.POST)
+	public String insertItem_OLD(@RequestParam("documentFile") List<MultipartFile> documentFile, HttpServletRequest request,
 			HttpServletResponse response) {
 
 		// ModelAndView model = new ModelAndView("masters/addEmployee");
@@ -1130,9 +1375,53 @@ public class MasterController {
 
 		return model;
 	}
-
 	@RequestMapping(value = "/insertUom", method = RequestMethod.POST)
 	public String insertUom(HttpServletRequest request, HttpServletResponse response) {
+
+		// ModelAndView model = new ModelAndView("masters/addEmployee");
+		try {
+			String uomId = request.getParameter("uomId");
+			String uom = request.getParameter("uom");
+
+			Uom insert = new Uom();
+
+			if (uomId == "" || uomId == null)
+				insert.setUomId(0);
+			else
+				insert.setUomId(Integer.parseInt(uomId));
+			insert.setUom(uom);
+			insert.setIsUsed(1);
+
+			System.out.println("Uom  " + insert);
+
+			Uom res = rest.postForObject(Constants.url + "/saveUom", insert, Uom.class);
+
+			System.out.println("res " + res);
+			
+			try {
+				if(Constants.IS_RM_DATA_ADMIN) {
+					RawMaterialUom rmUom=new RawMaterialUom();
+					rmUom.setDelStatus(0);
+					rmUom.setUomId(res.getUomId());
+					rmUom.setUom(res.getUom());
+					
+					Info info= rest.postForObject(Constants.ADMIN_API_URL + "rawMaterial/insertRmUom", rmUom, Info.class);
+
+				}
+
+				}catch (Exception e) {
+					// TODO: handle exception
+				}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "redirect:/addUom";
+	}
+
+	@RequestMapping(value = "/insertUom_OLD", method = RequestMethod.POST)
+	public String insertUom_OLD(HttpServletRequest request, HttpServletResponse response) {
 
 		// ModelAndView model = new ModelAndView("masters/addEmployee");
 		try {

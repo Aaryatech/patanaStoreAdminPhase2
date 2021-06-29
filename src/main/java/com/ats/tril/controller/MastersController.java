@@ -50,6 +50,8 @@ import com.ats.tril.model.SettingValue;
 import com.ats.tril.model.State;
 import com.ats.tril.model.TaxForm;
 import com.ats.tril.model.Vendor;
+import com.ats.tril.model.adm.RmItemGroup;
+import com.ats.tril.model.adm.RmItemSubCategory;
 import com.ats.tril.model.doc.DocumentBean;
 import com.ats.tril.model.doc.IndentReport;
 import com.itextpdf.text.BaseColor;
@@ -392,9 +394,67 @@ public class MastersController {
 
 		return exist;
 	}
-
 	@RequestMapping(value = "/insertItemGroup", method = RequestMethod.POST)
 	public String insertItemGroup(HttpServletRequest request, HttpServletResponse response) {
+
+		try {
+			String grpId = request.getParameter("grpId");
+
+			System.out.println("grpId" + grpId);
+
+			String catId = request.getParameter("catId");
+			String grpCode = request.getParameter("grpCode");
+			String grpDesc = request.getParameter("grpDesc");
+
+			String grpValueyn = request.getParameter("grpValueyn");
+
+			ItemGroup itemGroup = new ItemGroup();
+			if (grpId == "" || grpId == null)
+				itemGroup.setGrpId(0);
+			else
+				itemGroup.setGrpId(Integer.parseInt(grpId));
+			itemGroup.setCatId(Integer.parseInt(catId));
+			itemGroup.setGrpCode(grpCode);
+			itemGroup.setGrpValueyn(grpValueyn);
+			itemGroup.setGrpDesc(grpDesc);
+			itemGroup.setIsUsed(1);
+			itemGroup.setCreatedIn(1);
+			itemGroup.setDeletedIn(0);
+
+			ItemGroup res = rest.postForObject(Constants.url + "/saveItemGroup", itemGroup, ItemGroup.class);
+
+			System.out.println("res " + res);
+			
+			try {
+				if(Constants.IS_RM_DATA_ADMIN) {
+
+					RmItemGroup rmGroup = new RmItemGroup();
+					rmGroup.setExInt1(Integer.parseInt(catId));
+					rmGroup.setDelStatus(0);
+						try {	 
+					rmGroup.setGrpId(res.getGrpId());
+						}catch (Exception e) {
+							rmGroup.setGrpId(0);
+						}
+						rmGroup.setGrpName(grpDesc);
+						System.out.println("rmGroup input  " + rmGroup);
+							RestTemplate restTemplate = new RestTemplate();
+
+							ErrorMessage errorMessage = restTemplate.postForObject(Constants.ADMIN_API_URL + "/rawMaterial/saveRMGroup",
+									rmGroup, ErrorMessage.class);
+				}
+				} catch (Exception e) {
+							e.printStackTrace();
+				}	
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "redirect:/addItemGroup";
+	}
+	@RequestMapping(value = "/insertItemGroup_OLD", method = RequestMethod.POST)
+	public String insertItemGroup_OLD(HttpServletRequest request, HttpServletResponse response) {
 
 		try {
 			String grpId = request.getParameter("grpId");
@@ -497,9 +557,69 @@ public class MastersController {
 
 		return model;
 	}
-
 	@RequestMapping(value = "/insertItemSubGroup", method = RequestMethod.POST)
 	public String insertItemSubGroup(HttpServletRequest request, HttpServletResponse response) {
+		String subgrpId = request.getParameter("subgrpId");
+
+		System.out.println("subgrpId" + subgrpId);
+
+		String subGrpDesc = request.getParameter("subGrpDesc");
+		String grpId = request.getParameter("grpId");
+		try {
+			
+
+			ItemSubGroup itemSubGroup = new ItemSubGroup();
+
+			if (subgrpId == "" || subgrpId == null)
+				itemSubGroup.setSubgrpId(0);
+			else
+				itemSubGroup.setSubgrpId(Integer.parseInt(subgrpId));
+
+			itemSubGroup.setSubgrpDesc(subGrpDesc);
+			itemSubGroup.setGrpId(Integer.parseInt(grpId));
+			itemSubGroup.setIsUsed(1);
+			itemSubGroup.setCreatedIn(1);
+			itemSubGroup.setDeletedIn(0);
+
+			ItemSubGroup res = rest.postForObject(Constants.url + "/saveItemSubGroup", itemSubGroup,
+					ItemSubGroup.class);
+
+			System.out.println("res " + res);
+
+		
+		if(Constants.IS_RM_DATA_ADMIN) {
+		try {
+			RmItemSubCategory rmItemSubCategory = new RmItemSubCategory();
+			try {
+						rmItemSubCategory.setCatId(res.getSubgrpId());
+			}catch (Exception e) {
+				rmItemSubCategory.setCatId(0);
+			}
+			try {
+						rmItemSubCategory.setSubCatId(Integer.parseInt(subgrpId));
+			}catch (Exception e) {
+				rmItemSubCategory.setSubCatId(0);
+			}
+						rmItemSubCategory.setSubCatName(subGrpDesc);
+						rmItemSubCategory.setSubCatDesc(subGrpDesc);
+						rmItemSubCategory.setDelStatus(0);
+
+						RestTemplate restTemplate = new RestTemplate();
+
+						ErrorMessage errorMessage = restTemplate.postForObject(Constants.ADMIN_API_URL + "/rawMaterial/saveRmItemSubCategory",
+								rmItemSubCategory, ErrorMessage.class);
+
+			} catch (Exception e) {
+						e.printStackTrace();
+					}
+		}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "redirect:/addItemSubGroup";
+	}
+	@RequestMapping(value = "/insertItemSubGroup_OLD", method = RequestMethod.POST)
+	public String insertItemSubGroup_OLD(HttpServletRequest request, HttpServletResponse response) {
 
 		try {
 			String subgrpId = request.getParameter("subgrpId");
